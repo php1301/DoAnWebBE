@@ -98,6 +98,7 @@ class CongTyController extends Controller
             return compact('chiTietCongTy', 'khuVuc', 'khuVucPagination', 'nganhNghePagination', 'nganhNghe', 'ngayHienTai', 'homQua', 'toanThoiGian', 'banThoiGian', 'lamTheoGio', 'thucTapSinh', 'viecLamCongTy', 'count_ngayHienTai', 'count_homQua', 'count_toanThoiGian', 'count_banThoiGian', 'count_lamTheoGio', 'count_thucTapSinh', 'count_viecLamCongTy');
         }
     }
+
     /**
      * Update the specified resource in storage.
      *
