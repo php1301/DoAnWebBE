@@ -66,13 +66,13 @@ class AdminController extends Controller
         $nganhNghePaginationCount = NganhNghe::paginate(4);
         $toanBoKhuVuc = KhuVuc::all();
         $chuyenMon = NganhNghe::all();
-        return view('admin.quanlivieclam.xem', compact('chiTietViecLam', 'nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon'));
+        return compact('chiTietViecLam', 'nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon');
     }
     //quản lý user của admin
     public function quanLyUser()
     {
         $user = User::paginate(10);
-        return view('admin.quanliuser.index', compact('user'));
+        return compact('user');
     }
     //quản lý user ứng viên
     public function quanLyUngVien($id)

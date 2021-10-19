@@ -293,7 +293,7 @@ class NhaTuyenDungController extends Controller
         $nhaTuyenDung->save();
 
 
-        return redirect()->back()->with('success', 'Đã cập nhập hồ sơ');
+        return response("Cập nhật hồ sơ nhà tuyển dụng thành công", 200);
     }
     //trang việc làm đã đăng
     public function viecLamDaDangNhaTuyenDung()

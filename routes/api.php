@@ -38,13 +38,13 @@ Route::group([
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
 });
 
-
+// -- PHẦN NHÀ TUYỂN DỤNG -- //
 
 //--PHẦN ADMIN--//
 //duyệt bài việc làm
 Route::get('/admin/quan-ly-viec-lam/duyet/{id}', [
     AdminController::class, 'duyetViecLamNhaTuyenDung'
-])->middleware('authorization:admin');;
+])->middleware('authorization:3');
 
 //trang việc làm admin
 Route::get('/admin/quan-ly-viec-lam', [
@@ -53,10 +53,8 @@ Route::get('/admin/quan-ly-viec-lam', [
 
 //trang xem chi tiết việc làm của admin
 Route::get('/admin/quan-ly-viec-lam/chi-tiet/{id_vl}', [
-    'middleware' => 'authorization',
-    'as' => 'xemViecLamAdmin',
-    'uses' => 'AdminController@xemViecLamAdmin'
-]);
+    AdminController::class, 'xemViecLamAdmin'
+])->middleware('authorization:3');
 //trang user của admin
 Route::get('/admin/quan-ly-user', [
     'middleware' => 'authorization',
