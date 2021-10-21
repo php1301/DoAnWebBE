@@ -21,9 +21,7 @@ Route::middleware('json')->middleware('auth')->get('/user', function (Request $r
 });
 
 // Route::middleware("auth")->get('/cong-ty', [CongTyController::class, 'index']);
-Route::middleware("auth")->get('/cong-ty', [CongTyController::class, 'index']);
-Route::get('/cong-ty/{id}', [CongTyController::class, 'show']);
-Route::get('/cong-ty/viec-lam/{id}', [CongTyController::class, 'viecLamCongTy']);
+
 // Route::resource('cong-ty', CongTyController::class);
 
 Route::group([
@@ -38,9 +36,191 @@ Route::group([
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
 });
 
+// -- Frontend -- //
+//trang việc làm
+Route::get('/viec-lam',[
+	'as'=>'vieclam',
+	'uses'=>'QuanlytimvieclamController@vieclam'
+]);
+
+//trang chi tiết việc làm
+Route::get('/viec-lam/chi-tiet/{id}',[
+	'as'=>'chitietvieclam',
+	'uses'=>'QuanlytimvieclamController@chitietvieclam'
+]);
+
+//trang việc làm hôm nay
+Route::get('/viec-lam/viec-lam-hom-nay',[
+	'as'=>'vieclamhomnay',
+	'uses'=>'QuanlytimvieclamController@vieclamhomnay'
+]);
+//trang việc làm hôm qua
+Route::get('/viec-lam/viec-lam-hom-qua',[
+	'as'=>'vieclamhomqua',
+	'uses'=>'QuanlytimvieclamController@vieclamhomqua'
+]);
+//trang việc làm toàn thời gian
+Route::get('/viec-lam/viec-lam-toan-thoi-gian',[
+	'as'=>'vieclamtoanthoigian',
+	'uses'=>'QuanlytimvieclamController@vieclamtoanthoigian'
+]);
+//trang việc làm bán thời gian
+Route::get('/viec-lam/viec-lam-ban-thoi-gian',[
+	'as'=>'vieclambanthoigian',
+	'uses'=>'QuanlytimvieclamController@vieclambanthoigian'
+]);
+//trang việc làm theo giờ
+Route::get('/viec-lam/viec-lam-theo-gio',[
+	'as'=>'vieclamtheogio',
+	'uses'=>'QuanlytimvieclamController@vieclamtheogio'
+]);
+//trang việc làm thực tập sinh
+Route::get('/viec-lam/viec-lam-thuc-tap-sinh',[
+	'as'=>'vieclamthuctapsinh',
+	'uses'=>'QuanlytimvieclamController@vieclamthuctapsinh'
+]);
+// trang các công ty
+Route::get('/cong-ty', [CongTyController::class, 'index']);
+// trang chi tiết công ty
+Route::get('/cong-ty/{id}', [CongTyController::class, 'show']);
+//trang việc làm công ty
+Route::get('/cong-ty/viec-lam/{id}', [CongTyController::class, 'viecLamCongTy']);
+//trang việc làm khu vực
+Route::get('/viec-lam/viec-lam-khu-vuc/{id}',[
+	'as'=>'vieclamkhuvuc',
+	'uses'=>'QuanlytimvieclamController@vieclamkhuvuc'
+]);
+//trang việc làm ngành nghề
+Route::get('/viec-lam/viec-lam-nganh-nghe/{id}',[
+	'as'=>'vieclamnganhnghe',
+	'uses'=>'QuanlytimvieclamController@vieclamnganhnghe'
+]);
+
+//ứng tuyển việc làm
+
+Route::post('/viec-lam/chi-tiet-viec-lam/ung-tuyen',[
+	'as'=>'ungtuyen',
+	'uses'=>'QuanlytimvieclamController@postungtuyen'
+]);
+//lưu việc làm
+
+Route::post('/viec-lam/chi-tiet-viec-lam/luu',[
+	'as'=>'luu',
+	'uses'=>'QuanlytimvieclamController@postluu'
+]);
+
+
+
+// -- PHẦN ỨNG VIÊN --  //
+//cập nhập hồ sơ ứng viên
+Route::post('/ho-so-cua-toi/cap-nhap-ho-so',[
+	'middleware'=>'uvcheckout',
+	'as'=>'capnhaphosoungvien',
+	'uses'=>'QuanlytimvieclamController@capnhaphosoungvien'
+]);
+//trang việc làm đã ứng tuyển
+Route::get('/ho-so-cua-toi/viec-lam-da-ung-tuyen',[
+	'middleware'=>'uvcheckout',
+	'as'=>'vieclamdaungtuyen',
+	'uses'=>'QuanlytimvieclamController@vieclamdaungtuyen'
+]);
+//trang việc làm đã lưu
+Route::get('/ho-so-cua-toi/viec-lam-da-luu',[
+	'middleware'=>'uvcheckout',
+	'as'=>'vieclamdaluu',
+	'uses'=>'QuanlytimvieclamController@vieclamdaluu'
+]);
+//xóa việc đã ứng tuyển
+Route::post('/ho-so-cua-toi/viec-lam-da-ung-tuyen/xoa/{id}',[
+	'middleware'=>'uvcheckout',
+	'as'=>'XoaViecUngTuyen',
+	'uses'=>'QuanlytimvieclamController@XoaViecUngTuyen'
+]);
+//xóa việc đã lưu
+Route::post('/ho-so-cua-toi/viec-lam-da-luu/xoa/{id}',[
+	'middleware'=>'uvcheckout',
+	'as'=>'XoaViecLuu',
+	'uses'=>'QuanlytimvieclamController@XoaViecLuu'
+]);
+
+
+
 // -- PHẦN NHÀ TUYỂN DỤNG -- //
 
-//--PHẦN ADMIN--//
+
+//cập nhập hồ sơ nhà tuyển dụng
+Route::post('/nha-tuyen-dung/cap-nhap-ho-so',[
+	'middleware'=>'ntdcheckout',
+	'as'=>'capnhaphosoNTD',
+	'uses'=>'QuanlytimvieclamController@capnhaphosoNTD'
+]);
+//đăng bài mới của nhà tuyển dụng
+Route::post('/nha-tuyen-dung/dang-bai-moi',[
+	'middleware'=>'ntdcheckout',
+	'as'=>'dangbaimoiNTD',
+	'uses'=>'QuanlytimvieclamController@dangbaimoiNTD'
+]);
+//trang việc làm đã đăng của nhà tuyển dụng
+Route::get('/nha-tuyen-dung/viec-lam-da-dang',[
+	'middleware'=>'ntdcheckout',
+	'as'=>'vieclamdadang',
+	'uses'=>'QuanlytimvieclamController@vieclamdadang'
+]);
+//trang xem chi tiết việc làm đã đăng của nhà tuyển dụng
+Route::get('/nha-tuyen-dung/viec-lam-da-dang/chi-tiet/{id_vl}',[
+	'middleware'=>'ntdcheckout',
+	'as'=>'xemVL',
+	'uses'=>'QuanlytimvieclamController@xemVL'
+]);
+//trang sửa việc làm đã đăng của nhà tuyển dụng
+Route::get('/nha-tuyen-dung/viec-lam-da-dang/cap-nhap/{id_vl}',[
+	'middleware'=>'ntdcheckout',
+	'as'=>'suaVL',
+	'uses'=>'QuanlytimvieclamController@suaVL'
+]);
+//trang sửa việc làm đã đăng của nhà tuyển dụng
+Route::post('/nha-tuyen-dung/viec-lam-da-dang/cap-nhap/{id_vl}',[
+	'middleware'=>'ntdcheckout',
+	'as'=>'suaVL',
+	'uses'=>'QuanlytimvieclamController@postsuaVL'
+]);
+//trang xóa việc làm đã đăng của nhà tuyển dụng
+Route::post('/nha-tuyen-dung/viec-lam-da-dang/xoa/{id_vl}',[
+	'middleware'=>'ntdcheckout',
+	'as'=>'xoaVL',
+	'uses'=>'QuanlytimvieclamController@xoaVL'
+]);
+//thêm hình ảnh
+Route::get('/nha-tuyen-dung/them-hinh/{id}',[
+	'middleware'=>'ntdcheckout',
+	'as'=>'themhinh',
+	'uses'=>'QuanlytimvieclamController@themhinh'
+]);
+Route::post('/nha-tuyen-dung/them-hinh/{id}',[
+	'middleware'=>'ntdcheckout',
+	'as'=>'themhinh',
+	'uses'=>'QuanlytimvieclamController@postthemhinh'
+]);
+//trang hồ sơ ứng viên
+Route::get('/nha-tuyen-dung/ho-so-ung-vien',[
+	'middleware'=>'ntdcheckout',
+	'as'=>'hosoungvien',
+	'uses'=>'QuanlytimvieclamController@hosoungvien'
+]);
+//duyệt hồ sơ ứng viên
+Route::get('/nha-tuyen-dung/ho-so-ung-vien/duyet/{id}',[
+	'middleware'=>'ntdcheckout',
+	'as'=>'duyethosoungvien',
+	'uses'=>'QuanlytimvieclamController@duyethosoungvien'
+]);
+//chi tiết hồ chơ ứng viên
+Route::get('/nha-tuyen-dung/ho-so-ung-vien/chi-tiet/{id}',[
+	'middleware'=>'ntdcheckout',
+	'as'=>'chitiethosoungvien',
+	'uses'=>'QuanlytimvieclamController@chitiethosoungvien'
+]);
+
+// -- PHẦN ADMIN -- //
 //duyệt bài việc làm
 Route::get('/admin/quan-ly-viec-lam/duyet/{id}', [
     AdminController::class, 'duyetViecLamNhaTuyenDung'
