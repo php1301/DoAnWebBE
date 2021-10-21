@@ -78,13 +78,13 @@ class AdminController extends Controller
     public function quanLyUngVien($id)
     {
         $ungvien = UngVien::find($id);
-        return view('admin.quanliuser.ungvien', compact('ungvien'));
+        return compact('ungvien');
     }
     //quản lý user nhà tuyển dụng
     public function quanLyNhaTuyenDung($id)
     {
         $nhaTuyenDung = Nhatuyendung::find($id);
-        return view('admin.quanliuser.nhaTuyenDung', compact('nhaTuyenDung'));
+        return compact('nhaTuyenDung');
     }
     //xóa user ungvien
     public function xoaUngVien($id)
@@ -96,9 +96,9 @@ class AdminController extends Controller
         if ($ungTuyen !=  null) {
             $xoa_uv->delete();
             $xoa_user->delete();
-            return redirect()->back()->with('success', 'Đã xóa.');
+            return  response('Đã xóa ứng viên này');
         } else {
-            return redirect()->back()->with('success', 'Không thể xóa tài khoản này.');
+            return response('Không thể xóa ứng viên này');
         }
     }
     //xóa user nhà tuyen dung
@@ -113,16 +113,16 @@ class AdminController extends Controller
             $xoa_ntd->delete();
             $xoa_cti->delete();
             $xoa_user->delete();
-            return redirect()->back()->with('success', 'Đã xóa.');
+            return response('Đã xóa nhà tuyen dụng này');
         } else {
-            return redirect()->back()->with('success', 'Không thể xóa tài khoản này.');
+            return response('Không thể xóa nhà tuyen dụng này');
         }
     }
     //duyệt bài việc làm 
     public function duyetViecLamNhaTuyenDung($id)
     {
         ViecLam::where('id', $id)->update(['trangThai' => 1]);
-        return redirect()->back()->with('success', 'Đã duyệt');
+        return response('Đã duyệt');
     }
 
     //trang danh sách khu vực
@@ -131,7 +131,8 @@ class AdminController extends Controller
 
         $toanBoKhuVuc = KhuVuc::paginate(10);
 
-        return view('admin.quanlikhuvuc.index', compact('toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'countkv'));
+        return compact('toanBoKhuVuc');
+        // , 'khuVucPaginationCount', 'nganhNghePaginationCount', 'countkv'
     }
     //thêm khu vực
     public function themKhuVuc(Request $req)
@@ -149,13 +150,14 @@ class AdminController extends Controller
         $toanBoKhuVuc = new KhuVuc();
         $toanBoKhuVuc->tenKhuVuc = $req->tenKhuVuc;
         $toanBoKhuVuc->save();
-        return redirect()->back()->with('success', 'Đã thêm');
+        return  response('Đã them khu vực này');
     }
     //sửa khu vực
     public function chiTietKhuVuc($id_kv)
     {
         $toanBoKhuVuc = KhuVuc::where('id_kv', $id_kv)->get();
-        return view('admin.quanlikhuvuc.sua', compact('toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount'));
+        return compact('toanBoKhuVuc');
+        // , 'khuVucPaginationCount', 'nganhNghePaginationCount'
     }
     public function suaKhuVuc(Request $req, $id_kv)
     {
@@ -171,7 +173,7 @@ class AdminController extends Controller
             ]
         );
         $toanBoKhuVuc = KhuVuc::where('id_kv', $id_kv)->update(['tenKhuVuc' => $req->tenKhuVuc]);
-        return redirect()->back()->with('success', 'Đã cập nhập');
+        return response('Đã cập nhập khu vực này');
     }
     //xóa khu vực
     public function xoaKhuVuc($id_kv)
@@ -182,9 +184,9 @@ class AdminController extends Controller
         $countkvcti = count($kvcti);
         if ($countkvvl == 0 and $countkvcti == 0) {
             $xoa = KhuVuc::where('id_kv', $id_kv)->delete();
-            return redirect()->back()->with('success', 'Đã xóa.');
+            return response('Đã xóa khu vực này');
         } else {
-            return redirect()->back()->with('success', 'Không thể xóa khu vực này.');
+            return response('Không thể xóa khu vực này');
         }
     }
 
@@ -192,7 +194,7 @@ class AdminController extends Controller
     public function quanLyNganhNghe()
     {
         $nganhNghe = NganhNghe::paginate(10);
-        return view('admin.quanlinganhnghe.index', compact('nganhNghe'));
+        return compact('nganhNghe');
     }
     //thêm ngành nghề
     public function themNganhNghe(Request $req)
@@ -210,12 +212,12 @@ class AdminController extends Controller
         $nganhNghe = new NganhNghe();
         $nganhNghe->tenNganhNghe = $req->tenNganhNghe;
         $nganhNghe->save();
-        return redirect()->back()->with('success', 'Đã thêm');
+        return response('Đã thêm ngành nghề này');
     }
     public function chiTietNganhNghe($id_nn)
     {
         $nganhNghe = NganhNghe::where('id_nn', $id_nn)->get();
-        return view('admin.quanlinganhnghe.sua', compact('nganhNghe'));
+        return compact('nganhNghe');
     }
     //sửa khu vực
     public function suaNganhNghe(Request $req, $id_nn)
@@ -231,7 +233,7 @@ class AdminController extends Controller
             ]
         );
         $nganhNghe = NganhNghe::where('id_nn', $id_nn)->update(['tenNganhNghe' => $req->tenNganhNghe]);
-        return redirect()->back()->with('success', 'Đã cập nhập');
+        return response('Đã cập nhật ngành nghề này');
     }
     //xóa khu vực
     public function xoaNganhNghe($id_nn)
@@ -240,9 +242,9 @@ class AdminController extends Controller
         $count_nnvl = count($nnvl);
         if ($count_nnvl == 0) {
             $xoa = NganhNghe::where('id_nn', $id_nn)->delete();
-            return redirect()->back()->with('success', 'Đã xóa.');
+            return response('Đã xóa ngành nghề này');
         } else {
-            return redirect()->back()->with('success', 'Không thể xóa ngành nghề này.');
+            return response('Không thể cập nhật ngành nghề này');
         }
     }
 }

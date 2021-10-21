@@ -57,91 +57,61 @@ Route::get('/admin/quan-ly-viec-lam/chi-tiet/{id_vl}', [
 ])->middleware('authorization:3');
 //trang user của admin
 Route::get('/admin/quan-ly-user', [
-    'middleware' => 'authorization',
-    'as' => 'quanLyUser',
-    'uses' => 'AdminController@quanLyUser'
-]);
+    AdminController::class, 'quanLyUser'
+])->middleware('authorization:3');
 //trang user ứng viên của admin
 Route::get('/admin/quan-ly-user/ung-vien/{id}', [
-    'middleware' => 'authorization',
-    'as' => 'quanLyUngVien',
-    'uses' => 'AdminController@quanLyUngVien'
-]);
+    AdminController::class, 'quanLyUngVien'
+])->middleware('authorization:3');
 //trang user nhà tuyển dụng của admin
 Route::get('/admin/quan-ly-user/nha-tuyen-dung/{id}', [
-    'middleware' => 'authorization',
-    'as' => 'quanLyNhaTuyenDung',
-    'uses' => 'AdminController@quanLyNhaTuyenDung'
-]);
+    AdminController::class, 'quanLyNhaTuyenDung'
+])->middleware('authorization:3');
 //trang xóa user ứng viên
 Route::post('/admin/quan-ly-user/xoa-ung-vien/{id}', [
-    'middleware' => 'authorization',
-    'as' => 'xoaUngVien',
-    'uses' => 'AdminController@xoaUngVien'
-]);
+    AdminController::class, 'xoaUngVien'
+])->middleware('authorization:3');
 //trang xóa user của admin
 Route::post('/admin/quan-ly-user/xoa-nha-tuyen-dung/{id}', [
-    'middleware' => 'authorization',
-    'as' => 'xoaNhaTuyenDung',
-    'uses' => 'AdminController@xoaNhaTuyenDung'
-]);
+    AdminController::class, 'xoaNhaTuyenDung'
+])->middleware('authorization:3');
 
 //trang danh sách khu vực
 Route::get('/admin/quan-ly-khu-vuc/', [
-    'middleware' => 'authorization',
-    'as' => 'quanLyKhuVuc',
-    'uses' => 'AdminController@quanLyKhuVuc'
-]);
+    AdminController::class, 'quanLyKhuVuc'
+])->middleware('authorization:3');
 //trang thêm khu vực
 Route::post('/admin/quan-ly-khu-vuc/them', [
-    'middleware' => 'authorization',
-    'as' => 'themKhuVuc',
-    'uses' => 'AdminController@themKhuVuc'
-]);
+    AdminController::class, 'themKhuVuc'
+])->middleware('authorization:3');
 //trang sửa khu vực
 Route::get('/admin/quan-ly-khu-vuc/cap-nhap/{id_kv}', [
-    'middleware' => 'authorization',
-    'as' => 'chiTietKhuVuc',
-    'uses' => 'AdminController@chiTietKhuVuc'
-]);
+    AdminController::class, 'chiTietKhuVuc'
+])->middleware('authorization:3');
 Route::post('/admin/quan-ly-khu-vuc/cap-nhap/{id_kv}', [
-    'middleware' => 'authorization',
-    'as' => 'suaKhuVuc',
-    'uses' => 'AdminController@suaKhuVuc'
-]);
+    AdminController::class, 'suaKhuVuc'
+])->middleware('authorization:3');
 //xóa khu vực
 Route::get('/admin/quan-ly-khu-vuc/xoa/{id_kv}', [
-    'middleware' => 'authorization',
-    'as' => 'xoaKhuVuc',
-    'uses' => 'AdminController@xoaKhuVuc'
-]);
+    AdminController::class, 'xoaKhuVuc'
+])->middleware('authorization:3');
 
-//trang danh sách ngành nghề
+//trang danh sách ngành nghề----
 Route::get('/admin/quan-ly-nganh-nghe/', [
-    'middleware' => 'authorization',
-    'as' => 'quanLyNganhNghe',
-    'uses' => 'AdminController@quanLyNganhNghe'
-]);
-//trang thêm ngành nghề
+    AdminController::class, 'quanLyNganhNghe'
+])->middleware('authorization:3');
+//trang thêm   ngành nghề
 Route::post('/admin/quan-ly-nganh-nghe/them', [
-    'middleware' => 'authorization',
-    'as' => 'themNganhNghe',
-    'uses' => 'AdminController@themNganhNghe'
-]);
+    AdminController::class, 'themNganhNghe'
+])->middleware('authorization:3');
 //trang sửa ngành nghề
 Route::get('/admin/quan-ly-nganh-nghe/cap-nhap/{id_nn}', [
-    'middleware' => 'authorization',
-    'as' => 'chiTietNganhNghe',
-    'uses' => 'AdminController@chiTietNganhNghe'
-]);
+    AdminController::class, 'chiTietNganhNghe'
+])->middleware('authorization:3');
 Route::post('/admin/quan-ly-nganh-nghe/cap-nhap/{id_nn}', [
-    'middleware' => 'authorization',
-    'as' => 'suaNganhNghe',
-    'uses' => 'AdminController@suaNganhNghe'
-]);
+    AdminController::class, 'suaNganhNghe'
+])->middleware('authorization:3');
 //xóa ngành nghề
 Route::get('/admin/quan-ly-nganh-nghe/xoa/{id_nn}', [
-    'middleware' => 'authorization',
-    'as' => 'xoaNganhNghe',
-    'uses' => 'AdminController@xoaNganhNghe'
-]);
+    AdminController::class, 'xoaNganhNghe'
+])->middleware('authorization:3');
