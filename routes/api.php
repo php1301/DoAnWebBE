@@ -48,48 +48,12 @@ Route::get('/viec-lam/chi-tiet/{id}',[
 	'as'=>'chitietvieclam',
 	'uses'=>'QuanlytimvieclamController@chitietvieclam'
 ]);
-
-//trang việc làm hôm nay
-Route::get('/viec-lam/viec-lam-hom-nay',[
-	'as'=>'vieclamhomnay',
-	'uses'=>'QuanlytimvieclamController@vieclamhomnay'
-]);
-//trang việc làm hôm qua
-Route::get('/viec-lam/viec-lam-hom-qua',[
-	'as'=>'vieclamhomqua',
-	'uses'=>'QuanlytimvieclamController@vieclamhomqua'
-]);
-//trang việc làm toàn thời gian
-Route::get('/viec-lam/viec-lam-toan-thoi-gian',[
-	'as'=>'vieclamtoanthoigian',
-	'uses'=>'QuanlytimvieclamController@vieclamtoanthoigian'
-]);
-//trang việc làm bán thời gian
-Route::get('/viec-lam/viec-lam-ban-thoi-gian',[
-	'as'=>'vieclambanthoigian',
-	'uses'=>'QuanlytimvieclamController@vieclambanthoigian'
-]);
-//trang việc làm theo giờ
-Route::get('/viec-lam/viec-lam-theo-gio',[
-	'as'=>'vieclamtheogio',
-	'uses'=>'QuanlytimvieclamController@vieclamtheogio'
-]);
-//trang việc làm thực tập sinh
-Route::get('/viec-lam/viec-lam-thuc-tap-sinh',[
-	'as'=>'vieclamthuctapsinh',
-	'uses'=>'QuanlytimvieclamController@vieclamthuctapsinh'
-]);
 // trang các công ty
 Route::get('/cong-ty', [CongTyController::class, 'index']);
 // trang chi tiết công ty
 Route::get('/cong-ty/{id}', [CongTyController::class, 'show']);
 //trang việc làm công ty
 Route::get('/cong-ty/viec-lam/{id}', [CongTyController::class, 'viecLamCongTy']);
-//trang việc làm khu vực
-Route::get('/viec-lam/viec-lam-khu-vuc/{id}',[
-	'as'=>'vieclamkhuvuc',
-	'uses'=>'QuanlytimvieclamController@vieclamkhuvuc'
-]);
 //trang việc làm ngành nghề
 Route::get('/viec-lam/viec-lam-nganh-nghe/{id}',[
 	'as'=>'vieclamnganhnghe',

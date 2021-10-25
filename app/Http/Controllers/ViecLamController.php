@@ -53,7 +53,7 @@ class ViecLamController extends Controller
     }
 
     // Chi tiết việc làm
-    public function chitietvieclam($id)
+    public function chiTietViecLam($id)
     {
 
         if (Auth::check()) {
@@ -107,7 +107,44 @@ class ViecLamController extends Controller
         return response('Đã lưu', 200);
     }
 
+      //việc làm ngành nghề
+      public function viecLamNganhNghe($id)
+      {
+          $congTy = CongTy::all();
+          $khuVucPaginationCount = KhuVuc::paginate(4);
+          $nganhNghePaginationCount = NganhNghe::paginate(4);
+          $toanBoKhuVuc = KhuVuc::all();
+          $nganhNghe = NganhNghe::all();
+          //việc làm ngày hiện tại
+          $ngayHienTai = Carbon::now('Asia/Ho_Chi_Minh');
+          $ngayHienTai = ViecLam::whereDate('ngayDang', $ngayHienTai)->where('trangThai', 1)->orderByDesc('id')->paginate(10);
 
+          //việc làm ngày hôm qua
+          $homQua = Carbon::yesterday('Asia/Ho_Chi_Minh');
+          $homQua = ViecLam::whereDate('ngayDang', $homQua)->where('trangThai', 1)->orderByDesc('id')->paginate(10);
+
+          $toanThoiGian = ViecLam::where('tinhChat', 'Toàn thời gian')->where('trangThai', 1)->orderByDesc('id')->paginate(10);
+          $banThoiGian = ViecLam::where('tinhChat', 'Bán thời gian')->where('trangThai', 1)->orderByDesc('id')->paginate(10);
+          $lamTheoGio = ViecLam::where('tinhChat', 'Làm theo giờ')->where('trangThai', 1)->orderByDesc('id')->paginate(10);
+          $thucTapSinh = ViecLam::where('tinhChat', 'Thực tập sinh')->where('trangThai', 1)->orderByDesc('id')->paginate(10);
+          $vlnganhnghe = ViecLam::where('id_nn', $id)->where('trangThai', 1)->orderByDesc('id')->paginate(10);
+
+          $vlkv = ViecLam::where('id_kv', $id)->where('trangThai', 1)->orderByDesc('id')->paginate(10);
+
+          //count
+          $count_ngayHienTai = Carbon::now('Asia/Ho_Chi_Minh');
+          $count_ngayHienTai = ViecLam::whereDate('ngayDang', $count_ngayHienTai)->where('trangThai', 1)->get();
+          //ngày hôm qua
+          $count_homQua = Carbon::yesterday('Asia/Ho_Chi_Minh');
+          $count_homQua = ViecLam::whereDate('ngayDang', $count_homQua)->where('trangThai', 1)->get();
+
+          $count_toanThoiGian = ViecLam::where('tinhChat', 'Toàn thời gian')->where('trangThai', 1)->get();
+          $count_banThoiGian = ViecLam::where('tinhChat', 'Bán thời gian')->where('trangThai', 1)->get();
+          $count_lamTheoGio = ViecLam::where('tinhChat', 'Làm theo giờ')->where('trangThai', 1)->get();
+          $count_thucTapSinh = ViecLam::where('tinhChat', 'Thực tập sinh')->where('trangThai', 1)->get();
+          $count_vlnganhnghe = ViecLam::where('id_nn', $id)->where('trangThai', 1)->get();
+          return view('chiTietViecLam.vieclamnganhnghe', compact('chiTietViecLam', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'nganhNghe', 'congTy', 'dt', 'ngayHienTai', 'homQua', 'toanThoiGian', 'banThoiGian', 'lamTheoGio', 'thucTapSinh', 'countcty', 'vlkv', 'id', 'vlnganhnghe', 'nn', 'count_ngayHienTai', 'count_homQua', 'count_toanThoiGian', 'count_banThoiGian', 'count_lamTheoGio', 'count_thucTapSinh', 'count_vlnganhnghe'));
+      }
     //tìm kiếm 
     public function timKiemViecLam(Request $req)
     {
