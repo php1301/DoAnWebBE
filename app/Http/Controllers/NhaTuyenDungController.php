@@ -76,7 +76,7 @@ class NhaTuyenDungController extends Controller
         $chiTietViecLam->gioiTinh = $req->input('gioiTinh');
         $chiTietViecLam->tuoi = $req->input('tuoi');
         $chiTietViecLam->save();
-        return redirect()->back()->with('success', 'Đã đăng bài, chờ phê duyệt');
+        return response('Đã đăng bài, chờ phê duyệt');
     }
     //trang của nhà tuyển dụng sau khi đăng nhập
     public function indexNhaTuyenDung()
@@ -92,7 +92,7 @@ class NhaTuyenDungController extends Controller
         $chiTietCongTy = CongTy::find($id);
         $chiTietViecLam = ViecLam::where('id_cty', $id)->get();
         $ungTuyen = Ungtuyen::where('id_ntd', $id)->get();
-        return view('nhaTuyenDung.index', compact('nhaTuyenDung', 'congTy', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'congTyPagination', 'chiTietCongTy', 'chiTietViecLam', 'ungTuyen'));
+        return compact('nhaTuyenDung', 'congTy', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'congTyPagination', 'chiTietCongTy', 'chiTietViecLam', 'ungTuyen');
     }
     //cập nhập hồ sơ nhà tuyển dụng
     public function capNhatHoSoNhaTuyenDung(Request $req)
@@ -179,7 +179,7 @@ class NhaTuyenDungController extends Controller
         $chuyenMon = NganhNghe::all();
         $chiTietViecLam = ViecLam::where('id_cty', $id)->orderByDesc('id')->get();
         $chiTietCongTy = CongTy::find($id);
-        return view('nhaTuyenDung.chiTietViecLam.vieclamdadang', compact('nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'chiTietViecLam', 'chiTietCongTy'));
+        return  compact('nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'chiTietViecLam', 'chiTietCongTy');
     }
     //xem chi tiết việc làm đã đăng
     public function xemChiTietViecLamDaDang($id)
@@ -194,7 +194,7 @@ class NhaTuyenDungController extends Controller
         $toanBoKhuVuc = KhuVuc::all();
         $chuyenMon = NganhNghe::all();
         $chiTietCongTy = CongTy::find(Auth::user()->id);
-        return view('nhaTuyenDung.chiTietViecLam.xem', compact('chiTietViecLam', 'nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'chiTietCongTy'));
+        return compact('chiTietViecLam', 'nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'chiTietCongTy');
     }
     //sửa việc làm đã đăng
     public function chiTietViecLamNhaTuyenDung($id)
@@ -209,7 +209,7 @@ class NhaTuyenDungController extends Controller
         $toanBoKhuVuc = KhuVuc::all();
         $chuyenMon = NganhNghe::all();
         $chiTietCongTy = CongTy::find(Auth::user()->id);
-        return view('nhaTuyenDung.chiTietViecLam.sua', compact('chiTietViecLam', 'nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'chiTietCongTy'));
+        return compact('chiTietViecLam', 'nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'chiTietCongTy');
     }
     public function suaViecLamNhaTuyenDung(Request $req, $id)
     {
@@ -279,15 +279,18 @@ class NhaTuyenDungController extends Controller
         $chiTietViecLam->gioiTinh = $req->gioiTinh;
         $chiTietViecLam->tuoi = $req->tuoi;
         $chiTietViecLam->save();
-        return redirect()->route('vieclamdadang')->with('success', 'Đã cập nhập');
+        return response( 'Đã cập nhập',200);
     }
 
     //xóa việc làm
     public function xoaViecLamNhaTuyenDung($id)
     {
         $xoa = ViecLam::find($id);
-        $xoa->delete();
-        return redirect()->back()->with('success', 'Đã xóa.');
+        if ($xoa !=  null) { 
+            $xoa->delete();
+            return response('Đã xóa',200);
+            }
+            return response('Không thể xóa',400);
     }
 
     //thêm hình ảnh
@@ -303,7 +306,7 @@ class NhaTuyenDungController extends Controller
         $toanBoKhuVuc = KhuVuc::all();
         $chuyenMon = NganhNghe::all();
         $chiTietCongTy = CongTy::find(Auth::user()->id);
-        return view('nhaTuyenDung.themhinh', compact('hinh', 'nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'chiTietCongTy'));
+        return compact('hinh', 'nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'chiTietCongTy');
     }
     public function themHinhViecLam(Request $req, $id)
     {
@@ -359,7 +362,7 @@ class NhaTuyenDungController extends Controller
         $congTy->logo = $hinhanh1;
         $congTy->banner = $hinhAnh;
         $congTy->save();
-        return redirect()->route('indexNTD')->with('success', 'Đã cập nhập.');
+        return response('Đã cập nhập.',200);
     }
 
     //trang hồ sơ ứng viên
@@ -377,14 +380,14 @@ class NhaTuyenDungController extends Controller
         $id_ntd = Auth::user()->id;
         $hoso = Ungtuyen::where('id_ntd', $id_ntd)->get();
         $chiTietCongTy = CongTy::find(Auth::user()->id);
-        return view('nhaTuyenDung.chiTietViecLam.hosoungvien', compact('stt', 'hoso', 'nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'chiTietViecLam', 'chiTietCongTy'));
+        return compact('stt', 'hoso', 'nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'chiTietViecLam', 'chiTietCongTy');
     }
 
     //duyệt hồ sơ ứng viên
     public function duyetHoSoUngVien($id)
     {
         Ungtuyen::where('id', $id)->update(['trangThai' => 1]);
-        return redirect()->back()->with('success', 'Đã duyệt');
+        return response('Đã duyệt',200);
     }
 
     public function chiTietHoSoUngVien($id)
@@ -399,6 +402,6 @@ class NhaTuyenDungController extends Controller
         $chiTietViecLam = ViecLam::all();
         $chiTietCongTy = CongTy::find(Auth::user()->id);
         $chitiet = Ungvien::find($id);
-        return view('nhaTuyenDung.chiTietViecLam.chitiethosoungvien', compact('chitiet', 'nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'chiTietViecLam', 'chiTietCongTy'));
+        return compact('chitiet', 'nhaTuyenDung', 'congTy', 'congTyPagination', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'chiTietViecLam', 'chiTietCongTy');
     }
 }

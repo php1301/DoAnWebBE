@@ -96,9 +96,9 @@ class AdminController extends Controller
         if ($ungTuyen !=  null) {
             $xoa_uv->delete();
             $xoa_user->delete();
-            return  response('Đã xóa ứng viên này');
+            return  response('Đã xóa ứng viên này',200);
         } else {
-            return response('Không thể xóa ứng viên này');
+            return response('Không thể xóa ứng viên này',400);
         }
     }
     //xóa user nhà tuyen dung
@@ -113,9 +113,9 @@ class AdminController extends Controller
             $xoa_ntd->delete();
             $xoa_cti->delete();
             $xoa_user->delete();
-            return response('Đã xóa nhà tuyen dụng này');
+            return response('Đã xóa nhà tuyen dụng này',200);
         } else {
-            return response('Không thể xóa nhà tuyen dụng này');
+            return response('Không thể xóa nhà tuyen dụng này',400);
         }
     }
     //duyệt bài việc làm 
@@ -173,7 +173,7 @@ class AdminController extends Controller
             ]
         );
         $toanBoKhuVuc = KhuVuc::where('id_kv', $id_kv)->update(['tenKhuVuc' => $req->tenKhuVuc]);
-        return response('Đã cập nhập khu vực này');
+        return response('Đã cập nhập khu vực này',200);
     }
     //xóa khu vực
     public function xoaKhuVuc($id_kv)
@@ -184,9 +184,9 @@ class AdminController extends Controller
         $countkvcti = count($kvcti);
         if ($countkvvl == 0 and $countkvcti == 0) {
             $xoa = KhuVuc::where('id_kv', $id_kv)->delete();
-            return response('Đã xóa khu vực này');
+            return response('Đã xóa khu vực này',200);
         } else {
-            return response('Không thể xóa khu vực này');
+            return response('Không thể xóa khu vực này',400);
         }
     }
 
@@ -212,7 +212,7 @@ class AdminController extends Controller
         $nganhNghe = new NganhNghe();
         $nganhNghe->tenNganhNghe = $req->tenNganhNghe;
         $nganhNghe->save();
-        return response('Đã thêm ngành nghề này');
+        return response('Đã thêm ngành nghề này',200);
     }
     public function chiTietNganhNghe($id_nn)
     {
@@ -233,7 +233,7 @@ class AdminController extends Controller
             ]
         );
         $nganhNghe = NganhNghe::where('id_nn', $id_nn)->update(['tenNganhNghe' => $req->tenNganhNghe]);
-        return response('Đã cập nhật ngành nghề này');
+        return response('Đã cập nhật ngành nghề này',200);
     }
     //xóa khu vực
     public function xoaNganhNghe($id_nn)
@@ -242,9 +242,9 @@ class AdminController extends Controller
         $count_nnvl = count($nnvl);
         if ($count_nnvl == 0) {
             $xoa = NganhNghe::where('id_nn', $id_nn)->delete();
-            return response('Đã xóa ngành nghề này');
+            return response('Đã xóa ngành nghề này',200);
         } else {
-            return response('Không thể cập nhật ngành nghề này');
+            return response('Không thể cập nhật ngành nghề này',400);
         }
     }
 }

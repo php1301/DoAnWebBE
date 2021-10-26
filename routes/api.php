@@ -5,7 +5,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CongTyController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\NhaTuyenDungController;
+use App\Http\Controllers\ViecLamController;
 /*
+
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -56,27 +59,25 @@ Route::get('/cong-ty/{id}', [CongTyController::class, 'show']);
 Route::get('/cong-ty/viec-lam/{id}', [CongTyController::class, 'viecLamCongTy']);
 //trang việc làm ngành nghề
 Route::get('/viec-lam/viec-lam-nganh-nghe/{id}',[
-	'as'=>'vieclamnganhnghe',
-	'uses'=>'QuanlytimvieclamController@vieclamnganhnghe'
+	ViecLamController::class, 'viecLamNganhNghe'
 ]);
 
 //ứng tuyển việc làm
 
 Route::post('/viec-lam/chi-tiet-viec-lam/ung-tuyen',[
-	'as'=>'ungtuyen',
-	'uses'=>'QuanlytimvieclamController@postungtuyen'
-]);
+		ViecLamController::class, 'ungTuyenViecLam'
+]);// Ứng tuyển bị lỗi biến $id_user
+
 //lưu việc làm
 
 Route::post('/viec-lam/chi-tiet-viec-lam/luu',[
-	'as'=>'luu',
-	'uses'=>'QuanlytimvieclamController@postluu'
-]);
+	ViecLamController::class, 'luuViecLam'
+]);//Lưu việc làm bị lỗi biến $id_user
 
 
 
 // -- PHẦN ỨNG VIÊN --  //
-//cập nhập hồ sơ ứng viên
+//cập nhập hồ sơ ứng viên// chưa có controller
 Route::post('/ho-so-cua-toi/cap-nhap-ho-so',[
 	'middleware'=>'uvcheckout',
 	'as'=>'capnhaphosoungvien',
@@ -114,75 +115,44 @@ Route::post('/ho-so-cua-toi/viec-lam-da-luu/xoa/{id}',[
 
 //cập nhập hồ sơ nhà tuyển dụng
 Route::post('/nha-tuyen-dung/cap-nhap-ho-so',[
-	'middleware'=>'ntdcheckout',
-	'as'=>'capnhaphosoNTD',
-	'uses'=>'QuanlytimvieclamController@capnhaphosoNTD'
-]);
+	NhaTuyenDungController::class, 'capNhatHoSoNhaTuyenDung'
+])->middleware('authorization:2');
 //đăng bài mới của nhà tuyển dụng
 Route::post('/nha-tuyen-dung/dang-bai-moi',[
-	'middleware'=>'ntdcheckout',
-	'as'=>'dangbaimoiNTD',
-	'uses'=>'QuanlytimvieclamController@dangbaimoiNTD'
-]);
+	NhaTuyenDungController::class, 'dangBaiTuyenDung'
+])->middleware('authorization:2');
 //trang việc làm đã đăng của nhà tuyển dụng
 Route::get('/nha-tuyen-dung/viec-lam-da-dang',[
-	'middleware'=>'ntdcheckout',
-	'as'=>'vieclamdadang',
-	'uses'=>'QuanlytimvieclamController@vieclamdadang'
-]);
+	NhaTuyenDungController::class, 'viecLamDaDangNhaTuyenDung'
+])->middleware('authorization:2');
 //trang xem chi tiết việc làm đã đăng của nhà tuyển dụng
 Route::get('/nha-tuyen-dung/viec-lam-da-dang/chi-tiet/{id_vl}',[
-	'middleware'=>'ntdcheckout',
-	'as'=>'xemVL',
-	'uses'=>'QuanlytimvieclamController@xemVL'
-]);
-//trang sửa việc làm đã đăng của nhà tuyển dụng
-Route::get('/nha-tuyen-dung/viec-lam-da-dang/cap-nhap/{id_vl}',[
-	'middleware'=>'ntdcheckout',
-	'as'=>'suaVL',
-	'uses'=>'QuanlytimvieclamController@suaVL'
-]);
-//trang sửa việc làm đã đăng của nhà tuyển dụng
+	NhaTuyenDungController::class, 'xemChiTietViecLamDaDang'
+])->middleware('authorization:2');
+//trang sửa việc làm đã đăng của nhà tuyển dụng 
 Route::post('/nha-tuyen-dung/viec-lam-da-dang/cap-nhap/{id_vl}',[
-	'middleware'=>'ntdcheckout',
-	'as'=>'suaVL',
-	'uses'=>'QuanlytimvieclamController@postsuaVL'
-]);
+	NhaTuyenDungController::class, 'suaViecLamNhaTuyenDung'
+])->middleware('authorization:2');
 //trang xóa việc làm đã đăng của nhà tuyển dụng
 Route::post('/nha-tuyen-dung/viec-lam-da-dang/xoa/{id_vl}',[
-	'middleware'=>'ntdcheckout',
-	'as'=>'xoaVL',
-	'uses'=>'QuanlytimvieclamController@xoaVL'
-]);
+	NhaTuyenDungController::class, 'xoaViecLamNhaTuyenDung'
+])->middleware('authorization:2');
 //thêm hình ảnh
-Route::get('/nha-tuyen-dung/them-hinh/{id}',[
-	'middleware'=>'ntdcheckout',
-	'as'=>'themhinh',
-	'uses'=>'QuanlytimvieclamController@themhinh'
-]);
 Route::post('/nha-tuyen-dung/them-hinh/{id}',[
-	'middleware'=>'ntdcheckout',
-	'as'=>'themhinh',
-	'uses'=>'QuanlytimvieclamController@postthemhinh'
-]);
+	NhaTuyenDungController::class, 'themHinhViecLamPage'
+])->middleware('authorization:2');
 //trang hồ sơ ứng viên
 Route::get('/nha-tuyen-dung/ho-so-ung-vien',[
-	'middleware'=>'ntdcheckout',
-	'as'=>'hosoungvien',
-	'uses'=>'QuanlytimvieclamController@hosoungvien'
-]);
+	NhaTuyenDungController::class, 'hoSoUngVienNhaTuyenDung'
+])->middleware('authorization:2');
 //duyệt hồ sơ ứng viên
 Route::get('/nha-tuyen-dung/ho-so-ung-vien/duyet/{id}',[
-	'middleware'=>'ntdcheckout',
-	'as'=>'duyethosoungvien',
-	'uses'=>'QuanlytimvieclamController@duyethosoungvien'
-]);
+	NhaTuyenDungController::class, 'duyetHoSoUngVien'
+])->middleware('authorization:2');
 //chi tiết hồ chơ ứng viên
 Route::get('/nha-tuyen-dung/ho-so-ung-vien/chi-tiet/{id}',[
-	'middleware'=>'ntdcheckout',
-	'as'=>'chitiethosoungvien',
-	'uses'=>'QuanlytimvieclamController@chitiethosoungvien'
-]);
+	NhaTuyenDungController::class, 'chiTietHoSoUngVien'
+])->middleware('authorization:2');
 
 // -- PHẦN ADMIN -- //
 //duyệt bài việc làm

@@ -49,7 +49,7 @@ class ViecLamController extends Controller
         $count_lamTheoGio = ViecLam::where('tinhChat', 'Làm theo giờ')->where('trangThai', 1)->get();
         $count_thucTapSinh = ViecLam::where('tinhChat', 'Thực tập sinh')->where('trangThai', 1)->get();
 
-        return view('chiTietViecLam.chiTietViecLam', compact('chiTietViecLam', 'count_vieclam', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'khuVucPagination', 'nganhNghe', 'congTy', 'congTyPagination', 'dt', 'ngayHienTai', 'homQua', 'toanThoiGian', 'banThoiGian', 'lamTheoGio', 'thucTapSinh', 'count_ngayHienTai', 'count_homQua', 'count_toanThoiGian', 'count_banThoiGian', 'count_lamTheoGio', 'count_thucTapSinh'));
+        return compact('chiTietViecLam', 'count_vieclam', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'khuVucPagination', 'nganhNghe', 'congTy', 'congTyPagination', 'dt', 'ngayHienTai', 'homQua', 'toanThoiGian', 'banThoiGian', 'lamTheoGio', 'thucTapSinh', 'count_ngayHienTai', 'count_homQua', 'count_toanThoiGian', 'count_banThoiGian', 'count_lamTheoGio', 'count_thucTapSinh');
     }
 
     // Chi tiết việc làm
@@ -87,7 +87,7 @@ class ViecLamController extends Controller
 
     //ứng tuyển việc làm
     public function ungTuyenViecLam(Request $req)
-    {
+    {   
         $id_user =  Auth::user()->id;
         $ungTuyen = new UngTuyen();
         $ungTuyen->id_user = $id_user;
@@ -99,7 +99,7 @@ class ViecLamController extends Controller
     //lưu việc làm
     public function luuViecLam(Request $req)
     {
-        $id_user =  Auth::user()->id;
+        $id_user = Auth::user()->id;
         $luu = new Luu();
         $luu->id_user = $id_user;
         $luu->id_vl = $req->id_vl;
@@ -143,7 +143,8 @@ class ViecLamController extends Controller
           $count_lamTheoGio = ViecLam::where('tinhChat', 'Làm theo giờ')->where('trangThai', 1)->get();
           $count_thucTapSinh = ViecLam::where('tinhChat', 'Thực tập sinh')->where('trangThai', 1)->get();
           $count_vlnganhnghe = ViecLam::where('id_nn', $id)->where('trangThai', 1)->get();
-          return view('chiTietViecLam.vieclamnganhnghe', compact('chiTietViecLam', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'nganhNghe', 'congTy', 'dt', 'ngayHienTai', 'homQua', 'toanThoiGian', 'banThoiGian', 'lamTheoGio', 'thucTapSinh', 'countcty', 'vlkv', 'id', 'vlnganhnghe', 'nn', 'count_ngayHienTai', 'count_homQua', 'count_toanThoiGian', 'count_banThoiGian', 'count_lamTheoGio', 'count_thucTapSinh', 'count_vlnganhnghe'));
+          return compact( 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'nganhNghe', 'congTy', 'ngayHienTai', 'homQua', 'toanThoiGian', 'banThoiGian', 'lamTheoGio', 'thucTapSinh', 'vlkv', 'id', 'vlnganhnghe', 'count_ngayHienTai', 'count_homQua', 'count_toanThoiGian', 'count_banThoiGian', 'count_lamTheoGio', 'count_thucTapSinh', 'count_vlnganhnghe');
+          //'chiTietViecLam','dt', 'countcty','nn' // biến này bị lỗi
       }
     //tìm kiếm 
     public function timKiemViecLam(Request $req)
