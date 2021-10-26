@@ -78,6 +78,11 @@ Route::post('/viec-lam/chi-tiet-viec-lam/luu',[
 
 // -- PHẦN ỨNG VIÊN --  //
 //cập nhập hồ sơ ứng viên// chưa có controller
+Route::get('/ho-so-cua-toi',[
+	'middleware'=>'uvcheckout',
+	'as'=>'vieclamdaungtuyen',
+	'uses'=>'QuanlytimvieclamController@index'
+]);
 Route::post('/ho-so-cua-toi/cap-nhap-ho-so',[
 	'middleware'=>'uvcheckout',
 	'as'=>'capnhaphosoungvien',
