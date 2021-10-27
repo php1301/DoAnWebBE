@@ -10,6 +10,7 @@ use App\Models\UngVien;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UngVienController extends Controller
 {
@@ -29,9 +30,9 @@ class UngVienController extends Controller
         return compact('ungvien', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'vl_ut', 'luu');
     }
     public function capNhatHoSoUngVien(Request $req)
-    { 
-        $this->validate(
-            $req,
+    {
+        $validator = Validator::make(
+            $req->all(),
             [
                 'name' => 'required|regex:/(^[\pL0-9 ]+$)/u',
                 'ngaySinh' => 'required|date|before:today',
@@ -53,7 +54,9 @@ class UngVienController extends Controller
                 'diaChi.regex' => 'Không được nhập ký tự đặc biệt.'
             ]
         );
-
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
 
         $id_user = Auth::user()->id;
         $user = User::find($id_user);
@@ -75,7 +78,7 @@ class UngVienController extends Controller
         $ungvien->toanBoKhuVuc = $req->toanBoKhuVuc;
         $ungvien->ghichu = $req->ghichu;
         $ungvien->save();
-        return response('Đã cập nhập hồ sơ',200);
+        return response('Đã cập nhập hồ sơ', 200);
     }
 
     //trang việc làm đã ứng tuyển của ứng viên
@@ -107,24 +110,22 @@ class UngVienController extends Controller
     public function xoaViecDaUngTuyen($id)
     {
         $xoa = Ungtuyen::find($id);
-        if($xoa)
-        {
-               $xoa->delete();
-               return response('Đã xóa.',200);
+        if ($xoa) {
+            $xoa->delete();
+            return response('Đã xóa.', 200);
         }
-     
-        return response('Không thể xóa.',400);
+
+        return response('Không thể xóa.', 400);
     }
     // xóa việc đã lưu
     public function xoaViecDaLuu($id)
     {
         $xoa = Luu::find($id);
-        if($xoa)
-        {
-               $xoa->delete();
-               return response('Đã xóa.',200);
+        if ($xoa) {
+            $xoa->delete();
+            return response('Đã xóa.', 200);
         }
-     
-        return response('Không thể xóa.',400);
+
+        return response('Không thể xóa.', 400);
     }
 }

@@ -41,66 +41,59 @@ Route::group([
 });
 
 // -- Frontend -- //
-//trang việc làm
-Route::get('/viec-lam',[
-	'as'=>'vieclam',
-	'uses'=>'QuanlytimvieclamController@vieclam'
-]);
-
-//trang chi tiết việc làm
-Route::get('/viec-lam/chi-tiet/{id}',[
-	'as'=>'chitietvieclam',
-	'uses'=>'QuanlytimvieclamController@chitietvieclam'
-]);
 // trang các công ty
 Route::get('/cong-ty', [CongTyController::class, 'index']);
 // trang chi tiết công ty
 Route::get('/cong-ty/{id}', [CongTyController::class, 'show']);
 //trang việc làm công ty
 Route::get('/cong-ty/viec-lam/{id}', [CongTyController::class, 'viecLamCongTy']);
+//trang việc làm
+Route::get('/viec-lam', [ViecLamController::class, 'index']);
+//trang lọc việc làm
+Route::get('/viec-lam/loc', [ViecLamController::class, 'locViecLam']);
+//trang tìm kiếm tên việc làm
+Route::get('/viec-lam/tim-kiem', [ViecLamController::class, 'timKiemViecLam']);
+//trang chi tiết việc làm
+Route::get('/viec-lam/chi-tiet/{id}', [ViecLamController::class, 'chiTietViecLam']);
 //trang việc làm ngành nghề
-Route::get('/viec-lam/viec-lam-nganh-nghe/{id}',[
-	ViecLamController::class, 'viecLamNganhNghe'
+Route::get('/viec-lam/viec-lam-nganh-nghe/{id}', [
+    ViecLamController::class, 'viecLamNganhNghe'
 ]);
-
 //ứng tuyển việc làm
-
-Route::post('/viec-lam/chi-tiet-viec-lam/ung-tuyen',[
-		ViecLamController::class, 'ungTuyenViecLam'
-]);// Ứng tuyển bị lỗi biến $id_user
-
+Route::post('/viec-lam/chi-tiet-viec-lam/ung-tuyen', [
+    ViecLamController::class, 'ungTuyenViecLam'
+]);
 //lưu việc làm
-
-Route::post('/viec-lam/chi-tiet-viec-lam/luu',[
-	ViecLamController::class, 'luuViecLam'
-]);//Lưu việc làm bị lỗi biến $id_user
+Route::post('/viec-lam/chi-tiet-viec-lam/luu', [
+    ViecLamController::class, 'luuViecLam'
+]); //Lưu việc làm bị lỗi biến $id_user
 
 
 
 // -- PHẦN ỨNG VIÊN --  //
 //hồ sơ ứng viên
-Route::get('/ho-so-cua-toi',[
-	UngVienController::class, 'index'
+Route::get('/ho-so-cua-toi', [
+    UngVienController::class, 'index'
 ])->middleware('authorization:1');
 //cập nhập hồ sơ ứng viên
-Route::post('/ho-so-cua-toi/cap-nhap-ho-so',[
-	UngVienController::class, 'capNhatHoSoUngVien'
+Route::post('/ho-so-cua-toi/cap-nhap-ho-so', [
+    UngVienController::class, 'capNhatHoSoUngVien'
 ])->middleware('authorization:1');
 //trang việc làm đã ứng tuyển
-Route::get('/ho-so-cua-toi/viec-lam-da-ung-tuyen',[
-	UngVienController::class, 'viecLamDaUngTUyen'
+Route::get('/ho-so-cua-toi/viec-lam-da-ung-tuyen', [
+    UngVienController::class, 'viecLamDaUngTUyen'
 ])->middleware('authorization:1');
 //trang việc làm đã lưu
-Route::get('/ho-so-cua-toi/viec-lam-da-luu',[
-	UngVienController::class, 'viecLamDaLuu'
+Route::get('/ho-so-cua-toi/viec-lam-da-luu', [
+    UngVienController::class, 'viecLamDaLuu'
 ])->middleware('authorization:1');
 //xóa việc đã ứng tuyển
-Route::post('/ho-so-cua-toi/viec-lam-da-ung-tuyen/xoa/{id}',[
-	UngVienController::class, 'xoaViecDaUngTuyen'
+Route::post('/ho-so-cua-toi/viec-lam-da-ung-tuyen/xoa/{id}', [
+    UngVienController::class, 'xoaViecDaUngTuyen'
 ])->middleware('authorization:1');
 //xóa việc đã lưu
-Route::post('/ho-so-cua-toi/viec-lam-da-luu/xoa/{id}',[
-	UngVienController::class, 'xoaViecDaLuu'
+Route::post('/ho-so-cua-toi/viec-lam-da-luu/xoa/{id}', [
+    UngVienController::class, 'xoaViecDaLuu'
 ])->middleware('authorization:1');
 
 
@@ -108,45 +101,48 @@ Route::post('/ho-so-cua-toi/viec-lam-da-luu/xoa/{id}',[
 // -- PHẦN NHÀ TUYỂN DỤNG -- //
 
 
-//cập nhập hồ sơ nhà tuyển dụng
-Route::post('/nha-tuyen-dung/cap-nhap-ho-so',[
-	NhaTuyenDungController::class, 'capNhatHoSoNhaTuyenDung'
+//Thông tin nhà tuyển dụng
+Route::get('/nha-tuyen-dung', [
+    NhaTuyenDungController::class, 'index'
+])->middleware('authorization:2');
+Route::post('/nha-tuyen-dung/cap-nhap-ho-so', [
+    NhaTuyenDungController::class, 'capNhatHoSoNhaTuyenDung'
 ])->middleware('authorization:2');
 //đăng bài mới của nhà tuyển dụng
-Route::post('/nha-tuyen-dung/dang-bai-moi',[
-	NhaTuyenDungController::class, 'dangBaiTuyenDung'
+Route::post('/nha-tuyen-dung/dang-bai-moi', [
+    NhaTuyenDungController::class, 'dangBaiTuyenDung'
 ])->middleware('authorization:2');
 //trang việc làm đã đăng của nhà tuyển dụng
-Route::get('/nha-tuyen-dung/viec-lam-da-dang',[
-	NhaTuyenDungController::class, 'viecLamDaDangNhaTuyenDung'
+Route::get('/nha-tuyen-dung/viec-lam-da-dang', [
+    NhaTuyenDungController::class, 'viecLamDaDangNhaTuyenDung'
 ])->middleware('authorization:2');
 //trang xem chi tiết việc làm đã đăng của nhà tuyển dụng
-Route::get('/nha-tuyen-dung/viec-lam-da-dang/chi-tiet/{id_vl}',[
-	NhaTuyenDungController::class, 'xemChiTietViecLamDaDang'
+Route::get('/nha-tuyen-dung/viec-lam-da-dang/chi-tiet/{id_vl}', [
+    NhaTuyenDungController::class, 'xemChiTietViecLamDaDang'
 ])->middleware('authorization:2');
 //trang sửa việc làm đã đăng của nhà tuyển dụng 
-Route::post('/nha-tuyen-dung/viec-lam-da-dang/cap-nhap/{id_vl}',[
-	NhaTuyenDungController::class, 'suaViecLamNhaTuyenDung'
+Route::post('/nha-tuyen-dung/viec-lam-da-dang/cap-nhap/{id_vl}', [
+    NhaTuyenDungController::class, 'suaViecLamNhaTuyenDung'
 ])->middleware('authorization:2');
 //trang xóa việc làm đã đăng của nhà tuyển dụng
-Route::post('/nha-tuyen-dung/viec-lam-da-dang/xoa/{id_vl}',[
-	NhaTuyenDungController::class, 'xoaViecLamNhaTuyenDung'
+Route::post('/nha-tuyen-dung/viec-lam-da-dang/xoa/{id_vl}', [
+    NhaTuyenDungController::class, 'xoaViecLamNhaTuyenDung'
 ])->middleware('authorization:2');
 //thêm hình ảnh
-Route::post('/nha-tuyen-dung/them-hinh/{id}',[
-	NhaTuyenDungController::class, 'themHinhViecLamPage'
+Route::post('/nha-tuyen-dung/them-hinh/{id}', [
+    NhaTuyenDungController::class, 'themHinhViecLamPage'
 ])->middleware('authorization:2');
 //trang hồ sơ ứng viên
-Route::get('/nha-tuyen-dung/ho-so-ung-vien',[
-	NhaTuyenDungController::class, 'hoSoUngVienNhaTuyenDung'
+Route::get('/nha-tuyen-dung/ho-so-ung-vien', [
+    NhaTuyenDungController::class, 'hoSoUngVienNhaTuyenDung'
 ])->middleware('authorization:2');
 //duyệt hồ sơ ứng viên
-Route::get('/nha-tuyen-dung/ho-so-ung-vien/duyet/{id}',[
-	NhaTuyenDungController::class, 'duyetHoSoUngVien'
+Route::get('/nha-tuyen-dung/ho-so-ung-vien/duyet/{id}', [
+    NhaTuyenDungController::class, 'duyetHoSoUngVien'
 ])->middleware('authorization:2');
 //chi tiết hồ chơ ứng viên
-Route::get('/nha-tuyen-dung/ho-so-ung-vien/chi-tiet/{id}',[
-	NhaTuyenDungController::class, 'chiTietHoSoUngVien'
+Route::get('/nha-tuyen-dung/ho-so-ung-vien/chi-tiet/{id}', [
+    NhaTuyenDungController::class, 'chiTietHoSoUngVien'
 ])->middleware('authorization:2');
 
 // -- PHẦN ADMIN -- //

@@ -13,14 +13,31 @@ use App\Models\ViecLam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class NhaTuyenDungController extends Controller
 {
+    //trang của nhà tuyển dụng sau khi đăng nhập
+    public function index()
+    {
+        $id = Auth::user()->id;
+        $nhaTuyenDung = Nhatuyendung::where('id_user', $id)->get();
+        $congTy = CongTy::all();
+        $congTyPagination = CongTy::all();
+        $khuVucPaginationCount = KhuVuc::paginate(4);
+        $nganhNghePaginationCount = NganhNghe::paginate(4);
+        $toanBoKhuVuc = KhuVuc::all();
+        $chuyenMon = NganhNghe::all();
+        $chiTietCongTy = CongTy::find($id);
+        $chiTietViecLam = ViecLam::where('id_cty', $id)->get();
+        $ungTuyen = Ungtuyen::where('id_ntd', $id)->get();
+        return compact('id', 'nhaTuyenDung', 'congTy', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'congTyPagination', 'chiTietCongTy', 'chiTietViecLam', 'ungTuyen');
+    }
     //đăng bài mới của nhà tuyển dụng
     public function dangBaiTuyenDung(Request $req)
     {
-        $this->validate(
-            $req,
+        $validator = Validator::make(
+            $req->all(),
             [
                 'tenVIecLam' => 'required|regex:/(^[\pL0-9 ]+$)/u',
                 'moTa' => 'required',
@@ -54,7 +71,9 @@ class NhaTuyenDungController extends Controller
             ]
         );
 
-
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
         $id_cty = Auth::user()->id;
 
         $chiTietViecLam = new ViecLam();
@@ -78,27 +97,11 @@ class NhaTuyenDungController extends Controller
         $chiTietViecLam->save();
         return response('Đã đăng bài, chờ phê duyệt');
     }
-    //trang của nhà tuyển dụng sau khi đăng nhập
-    public function indexNhaTuyenDung()
-    {
-        $id = Auth::user()->id;
-        $nhaTuyenDung = Nhatuyendung::where('id_user', $id)->get();
-        $congTy = CongTy::all();
-        $congTyPagination = CongTy::all();
-        $khuVucPaginationCount = KhuVuc::paginate(4);
-        $nganhNghePaginationCount = NganhNghe::paginate(4);
-        $toanBoKhuVuc = KhuVuc::all();
-        $chuyenMon = NganhNghe::all();
-        $chiTietCongTy = CongTy::find($id);
-        $chiTietViecLam = ViecLam::where('id_cty', $id)->get();
-        $ungTuyen = Ungtuyen::where('id_ntd', $id)->get();
-        return compact('nhaTuyenDung', 'congTy', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'chuyenMon', 'congTyPagination', 'chiTietCongTy', 'chiTietViecLam', 'ungTuyen');
-    }
     //cập nhập hồ sơ nhà tuyển dụng
     public function capNhatHoSoNhaTuyenDung(Request $req)
     {
-        $this->validate(
-            $req,
+        $validator = Validator::make(
+            $req->all(),
             [
 
                 'tenCongTy' => 'required|regex:/(^[\pL0-9 , -]+$)/u',
@@ -135,7 +138,9 @@ class NhaTuyenDungController extends Controller
                 'emailCongTy.email' => 'Không đúng định dạng email',
             ]
         );
-
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
         $id_cty = Auth::user()->id;
 
         $congTy = CongTy::find($id_cty);
@@ -214,8 +219,8 @@ class NhaTuyenDungController extends Controller
     public function suaViecLamNhaTuyenDung(Request $req, $id)
     {
 
-        $this->validate(
-            $req,
+        $validator = Validator::make(
+            $req->all(),
             [
                 'tenVIecLam' => 'required|regex:/(^[\pL0-9 , ]+$)/u',
                 'moTa' => 'required',
@@ -256,7 +261,9 @@ class NhaTuyenDungController extends Controller
 
             ]
         );
-
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
         $id_cty = Auth::user()->id;
 
         $chiTietViecLam = ViecLam::find($id);
@@ -279,18 +286,18 @@ class NhaTuyenDungController extends Controller
         $chiTietViecLam->gioiTinh = $req->gioiTinh;
         $chiTietViecLam->tuoi = $req->tuoi;
         $chiTietViecLam->save();
-        return response( 'Đã cập nhập',200);
+        return response('Đã cập nhập', 200);
     }
 
     //xóa việc làm
     public function xoaViecLamNhaTuyenDung($id)
     {
         $xoa = ViecLam::find($id);
-        if ($xoa !=  null) { 
+        if ($xoa !=  null) {
             $xoa->delete();
-            return response('Đã xóa',200);
-            }
-            return response('Không thể xóa',400);
+            return response('Đã xóa', 200);
+        }
+        return response('Không thể xóa', 400);
     }
 
     //thêm hình ảnh
@@ -362,7 +369,7 @@ class NhaTuyenDungController extends Controller
         $congTy->logo = $hinhanh1;
         $congTy->banner = $hinhAnh;
         $congTy->save();
-        return response('Đã cập nhập.',200);
+        return response('Đã cập nhập.', 200);
     }
 
     //trang hồ sơ ứng viên
@@ -387,7 +394,7 @@ class NhaTuyenDungController extends Controller
     public function duyetHoSoUngVien($id)
     {
         Ungtuyen::where('id', $id)->update(['trangThai' => 1]);
-        return response('Đã duyệt',200);
+        return response('Đã duyệt', 200);
     }
 
     public function chiTietHoSoUngVien($id)
