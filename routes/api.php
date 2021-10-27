@@ -7,6 +7,7 @@ use App\Http\Controllers\CongTyController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NhaTuyenDungController;
 use App\Http\Controllers\ViecLamController;
+use App\Http\Controllers\UngVienController;
 /*
 
 |--------------------------------------------------------------------------
@@ -77,41 +78,30 @@ Route::post('/viec-lam/chi-tiet-viec-lam/luu',[
 
 
 // -- PHẦN ỨNG VIÊN --  //
-//cập nhập hồ sơ ứng viên// chưa có controller
+//hồ sơ ứng viên
 Route::get('/ho-so-cua-toi',[
-	'middleware'=>'uvcheckout',
-	'as'=>'vieclamdaungtuyen',
-	'uses'=>'QuanlytimvieclamController@index'
-]);
+	UngVienController::class, 'index'
+])->middleware('authorization:1');
+//cập nhập hồ sơ ứng viên
 Route::post('/ho-so-cua-toi/cap-nhap-ho-so',[
-	'middleware'=>'uvcheckout',
-	'as'=>'capnhaphosoungvien',
-	'uses'=>'QuanlytimvieclamController@capnhaphosoungvien'
-]);
+	UngVienController::class, 'capNhatHoSoUngVien'
+])->middleware('authorization:1');
 //trang việc làm đã ứng tuyển
 Route::get('/ho-so-cua-toi/viec-lam-da-ung-tuyen',[
-	'middleware'=>'uvcheckout',
-	'as'=>'vieclamdaungtuyen',
-	'uses'=>'QuanlytimvieclamController@vieclamdaungtuyen'
-]);
+	UngVienController::class, 'viecLamDaUngTUyen'
+])->middleware('authorization:1');
 //trang việc làm đã lưu
 Route::get('/ho-so-cua-toi/viec-lam-da-luu',[
-	'middleware'=>'uvcheckout',
-	'as'=>'vieclamdaluu',
-	'uses'=>'QuanlytimvieclamController@vieclamdaluu'
-]);
+	UngVienController::class, 'viecLamDaLuu'
+])->middleware('authorization:1');
 //xóa việc đã ứng tuyển
 Route::post('/ho-so-cua-toi/viec-lam-da-ung-tuyen/xoa/{id}',[
-	'middleware'=>'uvcheckout',
-	'as'=>'XoaViecUngTuyen',
-	'uses'=>'QuanlytimvieclamController@XoaViecUngTuyen'
-]);
+	UngVienController::class, 'xoaViecDaUngTuyen'
+])->middleware('authorization:1');
 //xóa việc đã lưu
 Route::post('/ho-so-cua-toi/viec-lam-da-luu/xoa/{id}',[
-	'middleware'=>'uvcheckout',
-	'as'=>'XoaViecLuu',
-	'uses'=>'QuanlytimvieclamController@XoaViecLuu'
-]);
+	UngVienController::class, 'xoaViecDaLuu'
+])->middleware('authorization:1');
 
 
 

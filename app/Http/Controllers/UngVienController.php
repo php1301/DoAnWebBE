@@ -26,10 +26,10 @@ class UngVienController extends Controller
         $vl_ut = UngTuyen::where('id_user', Auth::user()->id)->get();
         $luu = Luu::where('id_user', Auth::user()->id)->get();
 
-        return view('hosocuatoi.index', compact('ungvien', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'vl_ut', 'luu'));
+        return compact('ungvien', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount', 'vl_ut', 'luu');
     }
     public function capNhatHoSoUngVien(Request $req)
-    {
+    { 
         $this->validate(
             $req,
             [
@@ -75,7 +75,7 @@ class UngVienController extends Controller
         $ungvien->toanBoKhuVuc = $req->toanBoKhuVuc;
         $ungvien->ghichu = $req->ghichu;
         $ungvien->save();
-        return redirect()->back()->with('success', 'Đã cập nhập hồ sơ');
+        return response('Đã cập nhập hồ sơ',200);
     }
 
     //trang việc làm đã ứng tuyển của ứng viên
@@ -88,7 +88,7 @@ class UngVienController extends Controller
         $toanBoKhuVuc = KhuVuc::all();
         $id_uv = Auth::user()->id;
         $daungtuyen = Ungtuyen::where('id_user', $id_uv)->get();
-        return view('hosocuatoi.vieclamdaungtuyen', compact('stt', 'daungtuyen', 'ungvien', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount'));
+        return  compact('stt', 'daungtuyen', 'ungvien', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount');
     }
 
     //trang việc làm đã lưu
@@ -101,20 +101,30 @@ class UngVienController extends Controller
         $toanBoKhuVuc = KhuVuc::all();
         $id_uv = Auth::user()->id;
         $daluu = Luu::where('id_user', $id_uv)->get();
-        return view('hosocuatoi.vieclamdaluu', compact('stt', 'daluu', 'ungvien', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount'));
+        return compact('stt', 'daluu', 'ungvien', 'toanBoKhuVuc', 'khuVucPaginationCount', 'nganhNghePaginationCount');
     }
     // xóa việc đã ứng tuyển
     public function xoaViecDaUngTuyen($id)
     {
         $xoa = Ungtuyen::find($id);
-        $xoa->delete();
-        return redirect()->back()->with('success', 'Đã xóa.');
+        if($xoa)
+        {
+               $xoa->delete();
+               return response('Đã xóa.',200);
+        }
+     
+        return response('Không thể xóa.',400);
     }
     // xóa việc đã lưu
     public function xoaViecDaLuu($id)
     {
         $xoa = Luu::find($id);
-        $xoa->delete();
-        return redirect()->back()->with('success', 'Đã xóa.');
+        if($xoa)
+        {
+               $xoa->delete();
+               return response('Đã xóa.',200);
+        }
+     
+        return response('Không thể xóa.',400);
     }
 }
