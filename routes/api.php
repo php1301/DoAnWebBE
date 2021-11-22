@@ -49,10 +49,12 @@ Route::get('/cong-ty/{id}', [CongTyController::class, 'show']);
 Route::get('/cong-ty/viec-lam/{id}', [CongTyController::class, 'viecLamCongTy']);
 //trang việc làm
 Route::get('/viec-lam', [ViecLamController::class, 'index']);
+//trang việc làm mới
+Route::get('/viec-lam/moi', [ViecLamController::class, 'viecLamMoi']);
 //trang lọc việc làm
 Route::get('/viec-lam/loc', [ViecLamController::class, 'locViecLam']);
 //trang tìm kiếm tên việc làm
-Route::get('/viec-lam/tim-kiem', [ViecLamController::class, 'timKiemViecLam']);
+Route::post('/viec-lam/tim-kiem', [ViecLamController::class, 'timKiemViecLam']);
 //trang chi tiết việc làm
 Route::get('/viec-lam/chi-tiet/{id}', [ViecLamController::class, 'chiTietViecLam']);
 //trang việc làm ngành nghề
