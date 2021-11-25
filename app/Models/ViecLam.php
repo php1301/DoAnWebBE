@@ -15,7 +15,7 @@ class ViecLam extends Model
     public function CongTys()
     {
         # code...
-        return $this->belongsTo('App\Models\CongTy', 'id_cty', 'id');
+        return $this->belongsTo(CongTy::class, 'id_cty', 'id');
     }
 
     public function ThongTinViecLams()

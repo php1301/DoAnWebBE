@@ -36,6 +36,8 @@ Route::group([
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/register-ntd', [AuthController::class, 'registerNTD']);
+    Route::post('/set-logo-ntd', [AuthController::class, 'setLogoNTD']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
 });

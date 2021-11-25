@@ -20,9 +20,9 @@ class CongTy extends Model
     {
         return $this->belongsTo('App\Models\KhuVuc', 'id_kv', 'id_kv');
     }
-    public function vieclams()
+    public function ViecLams()
     {
-        return $this->hasMany('App\Models\ViecLam', 'id_cty', 'id');
+        return $this->hasMany(ViecLam::class, 'id_cty', 'id');
     }
     public function users()
     {

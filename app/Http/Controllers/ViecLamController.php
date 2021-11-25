@@ -54,7 +54,8 @@ class ViecLamController extends Controller
 
     public function viecLamMoi()
     {
-        $viecLamList = ViecLam::where('trangThai', 1)->orderByDesc('id')->paginate(6);
+        $viecLamList = ViecLam::where('trangThai', 1)->orderByDesc('id')->with('CongTys')
+            ->paginate(6);
         // $count_vieclam = ViecLam::where('trangThai', 1)->get();
         return compact('viecLamList');
     }
@@ -85,6 +86,7 @@ class ViecLamController extends Controller
         $toanBoKhuVuc = KhuVuc::all();
         $nganhNghe = NganhNghe::all();
         $chiTietViecLam = ViecLam::find($id);
+        $congTy = ViecLam::find($id)->CongTys;
 
         $ngayHienTai = Carbon::now('Asia/Ho_Chi_Minh');
         $hethang = ViecLam::where('id', $id)
@@ -92,7 +94,7 @@ class ViecLamController extends Controller
             ->first();
 
 
-        return compact('chiTietViecLam', 'ungTuyen', 'luu', 'hethang');
+        return compact('chiTietViecLam', 'ungTuyen', 'luu', 'hethang', 'congTy');
     }
 
     //ứng tuyển việc làm
@@ -116,7 +118,6 @@ class ViecLamController extends Controller
         $luu->save();
         return response('Đã lưu', 200);
     }
-
     //việc làm ngành nghề
     public function viecLamNganhNghe($id)
     {
@@ -192,11 +193,21 @@ class ViecLamController extends Controller
         $count_vieclam = ViecLam::orwhere('tenVIecLam', 'like', '%' . $req->tenViecLam . '%')
             ->where('trangThai', 1)
             ->get();
-        $chiTietViecLam = ViecLam::orwhere('tenVIecLam', 'like', '%' . $req->tenViecLam . '%')
+        $chiTietViecLam = ViecLam::orwhere([['tenVIecLam', 'like', '%' . $req->tenViecLam . '%'], ['id_kv', $req->id_kv]])
             ->where('trangThai', 1)
+            ->with('CongTys')
             ->paginate(10);
+        if ($req->id_kv == null && $req->tenViecLam == null) {
+            $chiTietViecLam = ViecLam::with('CongTys')
+                ->where('id_nn', 5)
+                ->where('trangThai', 1)
+                ->paginate(10);
+        }
+        // ->with("CongTys")
+        // ->get()
 
         $loc = ViecLam::where('id_kv', $req->id_kv)
+            ->with('CongTys')
             ->where('id_nn', $req->id_nn)
             ->where('trangThai', 1)
             ->get();

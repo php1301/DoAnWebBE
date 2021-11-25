@@ -42,30 +42,23 @@ class NhaTuyenDungController extends Controller
                 'tenVIecLam' => 'required|regex:/(^[\pL0-9 ]+$)/u',
                 'moTa' => 'required',
                 'yeuCau' => 'required',
-                'diaChi' => 'required|regex:/(^[\pL0-9 ,]+$)/u',
-                'soLuong' => 'required|integer',
+                'diaChi' => 'required',
                 'mucLuong' => 'required|integer',
-                'ngayhethang' => 'required|date|after:today',
-                'tuoi' => 'required|regex:/[0-9]/',
                 'id_kv' => 'required',
                 'id_nn' => 'required',
                 'tinhChat' => 'required',
                 'bangCap' => 'required',
                 'chucVu' => 'required',
-                'gioiTinh' => 'required',
                 'viTri' => 'required',
                 'kinhNghiem' => 'required'
             ],
             [
                 'tenVIecLam.regex' => 'Tên không được nhập ký tự đặc biệt.',
-                'diaChi.regex' => 'Địa chỉ không được nhập ký tự đặc biệt.',
-                'tuoi.regex' => 'Định dạng không hợp lệ.',
                 'id_kv.required' => 'Vui lòng chọn.',
                 'id_nn.required' => 'Vui lòng chọn.',
                 'tinhChat.required' => 'Vui lòng chọn.',
                 'bangCap.required' => 'Vui lòng chọn.',
                 'chucVu.required' => 'Vui lòng chọn.',
-                'gioiTinh.required' => 'Vui lòng chọn.',
                 'viTri.required' => 'Vui lòng chọn.',
                 'kinhNghiem.required' => 'Vui lòng chọn.'
             ]
@@ -81,19 +74,20 @@ class NhaTuyenDungController extends Controller
         $chiTietViecLam->id_cty = $id_cty;
         $chiTietViecLam->id_nn = $req->input('id_nn');
         $chiTietViecLam->id_kv = $req->input('id_kv');
-        $chiTietViecLam->ngayhethang = $req->input('ngayhethang');
+        // $chiTietViecLam->ngayhethang = $req->input('ngayhethang');
         $chiTietViecLam->mucLuong = $req->input('mucLuong');
         $chiTietViecLam->tinhChat = $req->input('tinhChat');
         $chiTietViecLam->moTa = $req->input('moTa');
         $chiTietViecLam->yeuCau = $req->input('yeuCau');
-        $chiTietViecLam->soLuong = $req->input('soLuong');
+        $chiTietViecLam->soLuong = 99;
         $chiTietViecLam->diaChi = $req->input('diaChi');
         $chiTietViecLam->bangCap = $req->input('bangCap');
         $chiTietViecLam->kinhNghiem = $req->input('kinhNghiem');
         $chiTietViecLam->viTri = $req->input('viTri');
         $chiTietViecLam->chucVu = $req->input('chucVu');
-        $chiTietViecLam->gioiTinh = $req->input('gioiTinh');
-        $chiTietViecLam->tuoi = $req->input('tuoi');
+        // $chiTietViecLam->gioiTinh = $req->input('gioiTinh');
+        // $chiTietViecLam->tuoi = $req->input('tuoi');
+        $chiTietViecLam->trangThai = 1;
         $chiTietViecLam->save();
         return response('Đã đăng bài, chờ phê duyệt');
     }
