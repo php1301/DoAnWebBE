@@ -39,15 +39,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 col-xl-3 animated">
-                                    <div class="card shadow-none m-0 border-left">
-                                        <div class="card-body text-center">
-                                            <i class="dripicons-graph-line text-muted" style="font-size: 24px;"></i>
-                                            <h3><span><?php echo e($totalClients); ?></span></h3>
-                                            <p class="text-muted font-15 mb-0"><?php echo e(__('Clients')); ?></p>
-                                        </div>
-                                    </div>
-                                </div>
+                              
 
                             </div> <!-- end row -->
                         </div>

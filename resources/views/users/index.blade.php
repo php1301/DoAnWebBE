@@ -39,10 +39,7 @@
                                     <div class="profile-widget-item-label">{{ __('Number of Users')}}</div>
                                     <div class="profile-widget-item-value">{{$user->countUsers(($currantWorkspace)?$currantWorkspace->id:'')}}</div>
                                 </div>
-                                <div class="profile-widget-item">
-                                    <div class="profile-widget-item-label">{{ __('Number of Clients')}}</div>
-                                    <div class="profile-widget-item-value">{{$user->countClients(($currantWorkspace)?$currantWorkspace->id:'')}}</div>
-                                </div>
+                              
                             @endif
                             <div class="profile-widget-item">
                                 <div class="profile-widget-item-label">{{ __('Number of Projects')}}</div>
