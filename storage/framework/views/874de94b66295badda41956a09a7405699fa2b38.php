@@ -41,10 +41,7 @@
                                         <div class="profile-widget-item-label"><?php echo e(__('Number of Users')); ?></div>
                                         <div class="profile-widget-item-value"><?php echo e($user->countUsers(($currantWorkspace) ? $currantWorkspace->id : '')); ?></div>
                                     </div>
-                                    <div class="profile-widget-item">
-                                        <div class="profile-widget-item-label"><?php echo e(__('Number of Clients')); ?></div>
-                                        <div class="profile-widget-item-value"><?php echo e($user->countClients(($currantWorkspace) ? $currantWorkspace->id : '')); ?></div>
-                                    </div>
+                                  
                                 <?php endif; ?>
                                 <div class="profile-widget-item">
                                     <div class="profile-widget-item-label"><?php echo e(__('Number of Projects')); ?></div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ClientWorkspace;
+
 use App\User;
 use App\Utility;
 use App\UserProject;
@@ -35,7 +35,7 @@ class HomeController extends Controller
         if($currantWorkspace) {
             $userObj = Auth::user();
             $totalProject = UserProject::join("projects","projects.id","=","user_projects.project_id")->where("user_id","=",$userObj->id)->where('projects.workspace','=',$currantWorkspace->id)->count();
-            $totalClients = ClientWorkspace::where("workspace_id","=",$currantWorkspace->id)->count();
+           
             if($currantWorkspace->permission == 'Owner') {
                 $totalTask = UserProject::join("tasks", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currantWorkspace->id)->count();
                 $completeTask = UserProject::join("tasks", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('tasks.status', '=', 'done')->count();
@@ -69,7 +69,7 @@ class HomeController extends Controller
 
             $chartData = app('App\Http\Controllers\ProjectController')->getProjectChart(['workspace_id'=>$currantWorkspace->id,'duration'=>'week']);
 
-            return view('home', compact('currantWorkspace','totalProject','totalClients','totalTask','totalMembers','arrProcessLable','arrProcessPer','arrProcessClass','completeTask','tasks','todos','chartData'));
+            return view('home', compact('currantWorkspace','totalProject','totalTask','totalMembers','arrProcessLable','arrProcessPer','arrProcessClass','completeTask','tasks','todos','chartData'));
         }
         else{
             return view('home', compact('currantWorkspace'));

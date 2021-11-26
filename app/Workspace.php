@@ -28,9 +28,7 @@ class Workspace extends Model
             return $this->belongsToMany('App\User', 'user_workspaces', 'workspace_id', 'user_id');
         }
     }
-    public function clients(){
-        return $this->belongsToMany('App\Client', 'client_workspaces', 'workspace_id', 'client_id');
-    }
+   
 
     public function projects(){
         return $this->hasMany('App\Project','workspace','id');
