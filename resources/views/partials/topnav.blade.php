@@ -30,9 +30,7 @@
           </a>
         @endif
       @endforeach
-      <a href="{{route('lang_workspace',[$currantWorkspace->slug,$currantWorkspace->lang])}}" class="dropdown-item notify-item">
-        <span class="align-middle">{{ __('Create & Customize') }}</span>
-      </a>
+     
     </div>
   </li>
   @endif

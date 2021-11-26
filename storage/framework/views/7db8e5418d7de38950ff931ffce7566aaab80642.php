@@ -30,9 +30,7 @@
           </a>
         <?php endif; ?>
       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-      <a href="<?php echo e(route('lang_workspace',[$currantWorkspace->slug,$currantWorkspace->lang])); ?>" class="dropdown-item notify-item">
-        <span class="align-middle"><?php echo e(__('Create & Customize')); ?></span>
-      </a>
+     
     </div>
   </li>
   <?php endif; ?>
