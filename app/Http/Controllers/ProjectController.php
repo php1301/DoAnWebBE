@@ -298,37 +298,9 @@ class ProjectController extends Controller
         $objUser = Auth::user();
         $currantWorkspace = Utility::getWorkspaceBySlug($slug);
         $project = Project::select('projects.*')->join('user_projects','projects.id','=','user_projects.project_id')->where('user_projects.user_id','=',$objUser->id)->where('projects.workspace','=',$currantWorkspace->id)->where('projects.id','=',$projectID)->first();
-        return view('projects.share',compact('currantWorkspace','project','clients'));
+        return view('projects.share',compact('currantWorkspace','project'));
     }
 
-    public function share($slug,$projectID,Request $request)
-    {
-        $project = Project::find($projectID);
-        foreach ($request->clients as $client){
-            if(ClientProject::where('client_id','=',$client)->where('project_id','=',$projectID)->count() == 0){
-                ClientProject::create(['client_id'=>$client,'project_id'=>$projectID]);
-            }
-
-            $client = Client::find($client);
-
-            try {
-                Mail::to($client->email)->send(new ShareProjectToClient($client, $project));
-            }catch (\Exception $e){
-                $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
-            }
-
-            ActivityLog::create([
-                'user_id' => \Auth::user()->id,
-                'project_id' => $project->id,
-                'log_type' => 'Share with Client',
-                'remark' => \Auth::user()->name.__(' Share Project with Client ').'<b>'.$client->name.'</b>'
-            ]);
-
-        }
-
-        return redirect()->back()
-            ->with('success',__('Project Share Successfully!').((isset($smtp_error))?' <br> <span class="text-danger">'.$smtp_error.'</span>':''));
-    }
     /**
      * Update the specified resource in storage.
      *

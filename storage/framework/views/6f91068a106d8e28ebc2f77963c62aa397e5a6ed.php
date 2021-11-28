@@ -33,7 +33,7 @@
                                             <?php echo method_field('DELETE'); ?>
                                         </form>
                                         <a href="#" class="dropdown-item" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="<?php echo e(__('Invite Users')); ?>" data-url="<?php echo e(route('projects.invite.popup', [$currantWorkspace->slug, $project->id])); ?>"><i class="mdi mdi-email-outline mr-1"></i><?php echo e(__('Invite')); ?></a>
-                                        <a href="#" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="<?php echo e(__('Share to Clients')); ?>" data-url="<?php echo e(route('projects.share.popup', [$currantWorkspace->slug, $project->id])); ?>"><i class="mdi mdi-email-outline mr-1"></i><?php echo e(__('Share')); ?></a>
+                                     
                                     <?php else : ?>
                                         <a href="#" onclick="(confirm('Are you sure ?')?document.getElementById('leave-form-<?php echo e($project->id); ?>').submit(): '');" class="dropdown-item"><i class="mdi mdi-exit-to-app mr-1"></i><?php echo e(__('Leave')); ?></a>
                                         <form id="leave-form-<?php echo e($project->id); ?>" action="<?php echo e(route('projects.leave', [$currantWorkspace->slug, $project->id])); ?>" method="POST" style="display: none;">

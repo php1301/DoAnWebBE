@@ -17,7 +17,7 @@ class NoteController extends Controller
     public function index($slug)
     {
         $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $notes = Note::select(['id','title','text','color'])->where('workspace','=',$currantWorkspace->id)->where('created_by','=',Auth::user()->id)->get();
+        $notes = Note::select(['id','title','text','color'])->where('workspace','=',$currantWorkspace->id)->get();
         return view('notes.index',compact('currantWorkspace','notes'));
     }
 

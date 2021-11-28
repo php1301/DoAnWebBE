@@ -26,14 +26,7 @@
                   <span> {{ __('Users') }} </span>
               </a>
           </li>
-          @if($currantWorkspace->creater->id == Auth::user()->id)
-              <li class="{{ (Request::route()->getName() == 'clients.index') ? ' active' : '' }}">
-                  <a href="{{ route('clients.index',$currantWorkspace->slug) }}">
-                      <i class="dripicons-user"></i>
-                      <span> {{ __('Clients') }} </span>
-                  </a>
-              </li>
-          @endif
+    
           <li class="{{ (Request::route()->getName() == 'calender.index') ? ' active' : '' }}">
               <a href="{{route('calender.index',$currantWorkspace->slug)}}">
                   <i class="dripicons-calendar"></i>
