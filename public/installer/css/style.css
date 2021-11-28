@@ -2421,7 +2421,7 @@ template {
 a {
   background-color: transparent;
   text-decoration: none;
-  color: #1d73a2;
+  color: #085820;
   -webkit-transition: all .2s;
   transition: all .2s;
   margin: 0;
@@ -2431,7 +2431,7 @@ a {
     outline: 0; }
   a:hover {
     outline: 0;
-    color: #175c82; }
+    color: #126e2e; }
 
 abbr[title] {
   border-bottom: 1px dotted; }

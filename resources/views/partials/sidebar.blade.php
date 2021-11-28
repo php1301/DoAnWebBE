@@ -1,11 +1,11 @@
 <aside id="sidebar-wrapper">
   <div class="sidebar-brand">
     <a href="{{ route('home') }}">
-        <img src="{{asset(Storage::url('logo/logo-full.png'))}}" alt="{{ env('APP_NAME') }}" height="35">
+        <img src="{{ asset('assets/img/logobl.png') }}" alt="{{ env('APP_NAME') }}" style="border-radius: 10px;"height="35">
     </a>
   </div>
   <div class="sidebar-brand sidebar-brand-sm">
-    <a href="{{ route('home') }}"><img src="{{asset(Storage::url('logo/logo.png'))}}" alt="{{ env('APP_NAME') }}" height="25"></a>
+    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logobl.png') }}" alt="{{ env('APP_NAME') }}" style="border-radius: 10px;" height="25"></a>
   </div>
   <ul class="sidebar-menu">
       <li class="{{ (Request::route()->getName() == 'home' || Request::route()->getName() == NULL) ? ' active' : '' }}">

@@ -40,7 +40,7 @@
                         </div>
                     <?php endif; ?>
                     <?php echo $__env->yieldContent('content'); ?>
-                   
+                    
                 </div>
             </div>
         </div>
@@ -67,4 +67,4 @@
 <!-- Page Specific JS File -->
 </body>
 </html>
-<?php /**PATH D:\PersonalPJ\Projects\DoAnWebBE\BE\resources\views/layouts/auth.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\Phat trien ung dung web\DoAnWebBE\resources\views/layouts/auth.blade.php ENDPATH**/ ?>
