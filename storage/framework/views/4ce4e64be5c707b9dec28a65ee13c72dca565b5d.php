@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="text-sm-right">
-                    <button type="button" class="btn btn-primary btn-rounded mt-4" data-ajax-popup="true" data-size="lg" data-title="<?php echo e(__('Create New Note')); ?>" data-url="<?php echo e(route('notes.create', $currantWorkspace->slug)); ?>">
+                    <button type="button" class="btn btn-primary btn-rounded mt-4" style="border-color: green data-ajax-popup="true" data-size="lg" data-title="<?php echo e(__('Create New Note')); ?>" data-url="<?php echo e(route('notes.create', $currantWorkspace->slug)); ?>">
                         <i class="mdi mdi-plus"></i> <?php echo e(__('Create Note')); ?>
 
                     </button>

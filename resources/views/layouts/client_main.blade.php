@@ -36,9 +36,6 @@
             <div class="main-content" style="padding-left: 30px;padding-top: 20px;">
                 @yield('content')
             </div>
-            <footer class="main-footer">
-                @include('partials.footer')
-            </footer>
         </div>
     </div>
 </div>

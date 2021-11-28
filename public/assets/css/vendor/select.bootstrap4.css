@@ -1,16 +1,16 @@
 table.dataTable tbody > tr.selected,
 table.dataTable tbody > tr > .selected {
-  background-color: #0275d8;
+  background-color: #0c8520;
 }
 table.dataTable.stripe tbody > tr.odd.selected,
 table.dataTable.stripe tbody > tr.odd > .selected, table.dataTable.display tbody > tr.odd.selected,
 table.dataTable.display tbody > tr.odd > .selected {
-  background-color: #0172d2;
+  background-color: #0c8520;
 }
 table.dataTable.hover tbody > tr.selected:hover,
 table.dataTable.hover tbody > tr > .selected:hover, table.dataTable.display tbody > tr.selected:hover,
 table.dataTable.display tbody > tr > .selected:hover {
-  background-color: #0170d0;
+  background-color: #0c8520;
 }
 table.dataTable.order-column tbody > tr.selected > .sorting_1,
 table.dataTable.order-column tbody > tr.selected > .sorting_2,
@@ -19,45 +19,45 @@ table.dataTable.order-column tbody > tr > .selected, table.dataTable.display tbo
 table.dataTable.display tbody > tr.selected > .sorting_2,
 table.dataTable.display tbody > tr.selected > .sorting_3,
 table.dataTable.display tbody > tr > .selected {
-  background-color: #0172d3;
+  background-color: #0c8520;
 }
 table.dataTable.display tbody > tr.odd.selected > .sorting_1, table.dataTable.order-column.stripe tbody > tr.odd.selected > .sorting_1 {
-  background-color: #016ecc;
+  background-color: #0c8520;
 }
 table.dataTable.display tbody > tr.odd.selected > .sorting_2, table.dataTable.order-column.stripe tbody > tr.odd.selected > .sorting_2 {
-  background-color: #016fcd;
+  background-color: #0c8520;
 }
 table.dataTable.display tbody > tr.odd.selected > .sorting_3, table.dataTable.order-column.stripe tbody > tr.odd.selected > .sorting_3 {
-  background-color: #0170cf;
+  background-color: #0c8520;
 }
 table.dataTable.display tbody > tr.even.selected > .sorting_1, table.dataTable.order-column.stripe tbody > tr.even.selected > .sorting_1 {
-  background-color: #0172d3;
+  background-color: #0c8520;
 }
 table.dataTable.display tbody > tr.even.selected > .sorting_2, table.dataTable.order-column.stripe tbody > tr.even.selected > .sorting_2 {
-  background-color: #0173d5;
+  background-color: #0c8520;
 }
 table.dataTable.display tbody > tr.even.selected > .sorting_3, table.dataTable.order-column.stripe tbody > tr.even.selected > .sorting_3 {
-  background-color: #0174d7;
+  background-color: #0c8520;
 }
 table.dataTable.display tbody > tr.odd > .selected, table.dataTable.order-column.stripe tbody > tr.odd > .selected {
-  background-color: #016ecc;
+  background-color: #0c8520;
 }
 table.dataTable.display tbody > tr.even > .selected, table.dataTable.order-column.stripe tbody > tr.even > .selected {
-  background-color: #0172d3;
+  background-color: #0c8520;
 }
 table.dataTable.display tbody > tr.selected:hover > .sorting_1, table.dataTable.order-column.hover tbody > tr.selected:hover > .sorting_1 {
-  background-color: #016bc6;
+  background-color: #0c8520;
 }
 table.dataTable.display tbody > tr.selected:hover > .sorting_2, table.dataTable.order-column.hover tbody > tr.selected:hover > .sorting_2 {
-  background-color: #016cc7;
+  background-color: #0c8520;
 }
 table.dataTable.display tbody > tr.selected:hover > .sorting_3, table.dataTable.order-column.hover tbody > tr.selected:hover > .sorting_3 {
-  background-color: #016dca;
+  background-color: #0c8520;
 }
 table.dataTable.display tbody > tr:hover > .selected,
 table.dataTable.display tbody > tr > .selected:hover, table.dataTable.order-column.hover tbody > tr:hover > .selected,
 table.dataTable.order-column.hover tbody > tr > .selected:hover {
-  background-color: #016bc6;
+  background-color: #0c8520;
 }
 table.dataTable tbody td.select-checkbox,
 table.dataTable tbody th.select-checkbox {
@@ -111,5 +111,5 @@ table.dataTable tbody td.selected {
 table.dataTable tbody tr.selected a,
 table.dataTable tbody th.selected a,
 table.dataTable tbody td.selected a {
-  color: #a2d4ed;
+  color: #70e476;
 }
