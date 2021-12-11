@@ -92,6 +92,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="http://127.0.0.1:8000/js/app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
 
 <script src="{{ asset('assets/js/iziToast.min.js') }}"></script>
@@ -102,7 +103,6 @@
 
 @if(isset($currantWorkspace) && $currantWorkspace)
 <script src="{{ asset('assets/js/jquery.easy-autocomplete.min.js') }}"></script>
-
 <script>
     var options = {
         url: function(phrase) {

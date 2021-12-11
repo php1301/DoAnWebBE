@@ -10,11 +10,12 @@ use App\Mail\ShareProjectToClient;
 use App\Milestone;
 use App\SubTask;
 use App\UserWorkspace;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Project;
 use App\ProjectFile;
 use App\Task;
 use App\Comment;
+use App\Events\FetchTaskBoard;
 use App\TaskFile;
 use App\Utility;
 use App\User;
@@ -171,10 +172,10 @@ class ProjectController extends Controller
                 $this->inviteUser($registerUsers,$objProject,$permission);
             }
             ActivityLog::create([
-                'user_id' => \Auth::user()->id,
+                'user_id' => Auth::user()->id,
                 'project_id' => $objProject->id,
                 'log_type' => 'Invite User',
-                'remark' => \Auth::user()->name.__(' Invite new User ').'<b>'.$registerUsers->name.'</b>'
+                'remark' => Auth::user()->name.__(' Invite new User ').'<b>'.$registerUsers->name.'</b>'
             ]);
 
         }
@@ -191,9 +192,8 @@ class ProjectController extends Controller
      */
     public function show($slug,$projectID)
     {
-        $objUser = Auth::user();
         $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $project = Project::select('projects.*')->join('user_projects','projects.id','=','user_projects.project_id')->where('user_projects.user_id','=',$objUser->id)->where('projects.workspace','=',$currantWorkspace->id)->where('projects.id','=',$projectID)->first();
+        $project = Project::select('projects.*')->join('user_projects','projects.id','=','user_projects.project_id')->where('projects.workspace','=',$currantWorkspace->id)->where('projects.id','=',$projectID)->first();
         $chartData = $this->getProjectChart(['project_id'=>$projectID,'duration'=>'week']);
         return view('projects.show',compact('currantWorkspace','project','chartData'));
     }
@@ -378,7 +378,7 @@ class ProjectController extends Controller
         }
         else{
             $objUser = Auth::user();
-            $project = Project::select('projects.*')->join('user_projects','projects.id','=','user_projects.project_id')->where('user_projects.user_id','=',$objUser->id)->where('projects.workspace','=',$currantWorkspace->id)->where('projects.id','=',$projectID)->first();
+            $project = Project::select('projects.*')->join('user_projects','projects.id','=','user_projects.project_id')->where('projects.workspace','=',$currantWorkspace->id)->where('projects.id','=',$projectID)->first();
         }
 
         $arrStatus = ['todo','in progress','review','done'];
@@ -387,11 +387,6 @@ class ProjectController extends Controller
         foreach ($arrStatus as $status){
             $statusClass[] = 'task-list-'.str_replace(' ','_',$status);
             $task = Task::where('project_id','=',$projectID);
-            if($currantWorkspace->permission != 'Owner'){
-                if(isset($objUser) && $objUser) {
-                    $task->where('assign_to', '=', $objUser->id);
-                }
-            }
             $task->orderBy('order');
 
             $tasks[$status] = $task->where('status','=',$status)->get();
@@ -431,14 +426,16 @@ class ProjectController extends Controller
             $post = $request->all();
             $task = Task::create($post);
             ActivityLog::create([
-                'user_id' => \Auth::user()->id,
+                'user_id' => Auth::user()->id,
                 'project_id' => $projectID,
                 'log_type' => 'Create Task',
-                'remark' => \Auth::user()->name.' '.__('Create new Task')." <b>".$task->title."</b>"
+                'remark' => Auth::user()->name.' '.__('Create new Task')." <b>".$task->title."</b>"
             ]);
+            event(new FetchTaskBoard());
             return redirect()->route('projects.task.board',[$currantWorkspace->slug,$request->project_id])->with('success',__('Task Create Successfully!'));
         }
         else{
+            event(new FetchTaskBoard());
             return redirect()->route('projects.task.board',[$currantWorkspace->slug,$request->project_id])->with('error',__('You can \'t Add Task!'));
         }
     }
@@ -457,15 +454,8 @@ class ProjectController extends Controller
             $task = Task::find($request->id);
             $task->status = $request->new_status;
             $task->save();
-
-            if(isset($request->client_id) && !empty($request->client_id)){
-                $client = Client::find($request->client_id);
-                $name = $client->name." <b>(".__('Client').")</b>";
-                $id = 0;
-            }else{
-                $name = \Auth::user()->name;
-                $id = \Auth::user()->id;
-            }
+            $name = Auth::user()->name;
+            $id = Auth::user()->id;
 
             ActivityLog::create([
                 'user_id' => $id,
@@ -473,7 +463,7 @@ class ProjectController extends Controller
                 'log_type' => 'Move',
                 'remark' => $name." ".__('Move Task')." <b>".$task->title."</b> ".__('from')." ".ucwords($request->old_status)." ".__('to')." ".ucwords($request->new_status)
             ]);
-
+            event(new FetchTaskBoard());
             return $task->toJson();
         }
     }
@@ -650,10 +640,10 @@ class ProjectController extends Controller
         $milestone->save();
 
         ActivityLog::create([
-            'user_id' => \Auth::user()->id,
+            'user_id' => Auth::user()->id,
             'project_id' => $project->id,
             'log_type' => 'Create Milestone',
-            'remark' => \Auth::user()->name." ".__('Create new Milestone')." <b>".$milestone->title."</b>"
+            'remark' => Auth::user()->name." ".__('Create new Milestone')." <b>".$milestone->title."</b>"
         ]);
 
         return redirect()->back()->with('success',__('Milestone Created Successfully!'));
@@ -753,10 +743,10 @@ class ProjectController extends Controller
         $return['delete'] = route('projects.file.delete',[$slug,$project->id,$file->id]);
 
         ActivityLog::create([
-            'user_id' => \Auth::user()->id,
+            'user_id' => Auth::user()->id,
             'project_id' => $project->id,
             'log_type' => 'Upload File',
-            'remark' => \Auth::user()->name.' '.__('Upload new file').' <b>'.$file_name.'</b>'
+            'remark' => Auth::user()->name.' '.__('Upload new file').' <b>'.$file_name.'</b>'
         ]);
 
         return response()->json($return);

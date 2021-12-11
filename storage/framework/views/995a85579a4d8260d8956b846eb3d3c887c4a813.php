@@ -9,7 +9,7 @@
                     <div class="card widget-inline">
                         <div class="card-body p-0">
                             <div class="row no-gutters">
-                                <div class="col-sm-6 col-xl-3 animated">
+                                <div class="col-sm-4  animated">
                                     <div class="card shadow-none m-0">
                                         <div class="card-body text-center">
                                             <i class="dripicons-briefcase text-muted" style="font-size: 24px;"></i>
@@ -19,7 +19,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 col-xl-3 animated">
+                                <div class="col-sm-4 animated">
                                     <div class="card shadow-none m-0 border-left">
                                         <div class="card-body text-center">
                                             <i class="dripicons-checklist text-muted" style="font-size: 24px;"></i>
@@ -29,7 +29,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 col-xl-3 animated">
+                                <div class="col-sm-4 animated">
                                     <div class="card shadow-none m-0 border-left">
                                         <div class="card-body text-center">
                                             <i class="dripicons-user-group text-muted" style="font-size: 24px;"></i>
@@ -39,7 +39,7 @@
                                     </div>
                                 </div>
 
-                              
+                                
 
                             </div> <!-- end row -->
                         </div>

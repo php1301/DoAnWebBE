@@ -29,6 +29,7 @@
             <span class="align-middle"><?php echo e(Str::upper($lang)); ?></span>
           </a>
         <?php endif; ?>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
      
     </div>
   </li>
