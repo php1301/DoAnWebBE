@@ -16,17 +16,17 @@ class CalenderController extends Controller
      */
     public function index($slug)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $tasks = Task::select('tasks.*')->join('projects','projects.id','=','tasks.project_id')->where('projects.workspace','=',$currantWorkspace->id)->where('tasks.assign_to','=',Auth::user()->id)->get();
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $tasks = Task::select('tasks.*')->join('projects', 'projects.id', '=', 'tasks.project_id')->where('projects.workspace', '=', $currentWorkspace->id)->where('tasks.assign_to', '=', Auth::user()->id)->get();
         $arrayJson = [];
-        foreach ($tasks as $task){
+        foreach ($tasks as $task) {
             $arrayJson[] = [
                 "title" => $task->title,
                 "start" => $task->due_date,
-                "url" => route('tasks.show',[$currantWorkspace->slug,$task->project_id,$task->id]),
-                "classNames" => (($task->priority=='Medium')?'bg-warning border-warning':(($task->priority=='High')?'bg-danger border-danger':''))
+                "url" => route('tasks.show', [$currentWorkspace->slug, $task->project_id, $task->id]),
+                "classNames" => (($task->priority == 'Medium') ? 'bg-warning border-warning' : (($task->priority == 'High') ? 'bg-danger border-danger' : ''))
             ];
         }
-        return view('calendar.index',compact('currantWorkspace','arrayJson'));
+        return view('calendar.index', compact('currentWorkspace', 'arrayJson'));
     }
 }

@@ -4,7 +4,7 @@
 
     <section class="section">
 
-    @if($currantWorkspace)
+    @if($currentWorkspace)
 
         <h2 class="section-title">{{ __('Calendar') }}</h2>
 
@@ -50,7 +50,7 @@
     </section>
 @endsection
 
-@if($currantWorkspace)
+@if($currentWorkspace)
 @push('style')
     <link rel="stylesheet" href="{{asset('assets/css/calender.main.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/calender.daygrid.min.css')}}">

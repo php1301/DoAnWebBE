@@ -4,7 +4,7 @@
 
     <section class="section">
 
-        @if($project && $currantWorkspace)
+        @if($project && $currentWorkspace)
         <div class="row mb-2">
             <div class="col-sm-4">
                 <h2 class="section-title">{{ __('Project Detail') }}</h2>
@@ -12,7 +12,7 @@
             <div class="col-sm-8">
                 <div class="text-sm-right">
                     <div class="btn-group mt-4">
-                        <a href="{{route('projects.task.board',[$currantWorkspace->slug,$project->id])}}" class="btn btn-primary">{{ __('Task Board')}}</a>
+                        <a href="{{route('projects.task.board',[$currentWorkspace->slug,$project->id])}}" class="btn btn-primary">{{ __('Task Board')}}</a>
                     </div>
                 </div>
             </div>
@@ -27,18 +27,18 @@
                             <div class="dropdown card-widgets">
                                 <a href="#" class="btn active dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="dripicons-gear"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    @if($currantWorkspace->permission == 'Owner')
-                                        <a href="#" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{ __('Edit Project') }}" data-url="{{route('projects.edit',[$currantWorkspace->slug,$project->id])}}"><i class="mdi mdi-pencil mr-1"></i>{{ __('Edit')}}</a>
+                                    @if($currentWorkspace->permission == 'Owner')
+                                        <a href="#" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{ __('Edit Project') }}" data-url="{{route('projects.edit',[$currentWorkspace->slug,$project->id])}}"><i class="mdi mdi-pencil mr-1"></i>{{ __('Edit')}}</a>
                                         <a href="#" onclick="(confirm('Are you sure ?')?document.getElementById('delete-form-{{$project->id}}').submit(): '');" class="dropdown-item"><i class="mdi mdi-delete mr-1"></i>{{ __('Delete')}}</a>
-                                        <form id="delete-form-{{$project->id}}" action="{{ route('projects.destroy',[$currantWorkspace->slug,$project->id]) }}" method="POST" style="display: none;">
+                                        <form id="delete-form-{{$project->id}}" action="{{ route('projects.destroy',[$currentWorkspace->slug,$project->id]) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
                                         </form>
-                                        <a href="#" class="dropdown-item" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{ __('Invite Users') }}" data-url="{{route('projects.invite.popup',[$currantWorkspace->slug,$project->id])}}"><i class="mdi mdi-email-outline mr-1"></i>{{ __('Invite')}}</a>
+                                        <a href="#" class="dropdown-item" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{ __('Invite Users') }}" data-url="{{route('projects.invite.popup',[$currentWorkspace->slug,$project->id])}}"><i class="mdi mdi-email-outline mr-1"></i>{{ __('Invite')}}</a>
                                    
                                     @else
                                         <a href="#" onclick="(confirm('Are you sure ?')?document.getElementById('leave-form-{{$project->id}}').submit(): '');" class="dropdown-item"><i class="mdi mdi-exit-to-app mr-1"></i>{{ __('Leave')}}</a>
-                                        <form id="leave-form-{{$project->id}}" action="{{ route('projects.leave',[$currantWorkspace->slug,$project->id]) }}" method="POST" style="display: none;">
+                                        <form id="leave-form-{{$project->id}}" action="{{ route('projects.leave',[$currentWorkspace->slug,$project->id]) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
                                         </form>
@@ -165,7 +165,7 @@
                     <div class="card-body">
                         <div class="card-header-action">
                             <div class="dropdown card-widgets">
-                                <a href="#" class="btn btn-sm btn-primary" data-ajax-popup="true" data-title="{{ __('Create Milestone') }}" data-url="{{route('projects.milestone',[$currantWorkspace->slug,$project->id])}}">{{__('Create Milestone')}}</a>
+                                <a href="#" class="btn btn-sm btn-primary" data-ajax-popup="true" data-title="{{ __('Create Milestone') }}" data-url="{{route('projects.milestone',[$currentWorkspace->slug,$project->id])}}">{{__('Create Milestone')}}</a>
                             </div>
                         </div>
                         <!-- project title-->
@@ -179,12 +179,12 @@
                                 <div class="ribbon ribbon-corner"><span class="milestone-count">#{{$key+1}}</span></div>
                                 <div class="ribbon-content">
                                     <h5 class="media-heading text-info font-light">
-                                        <a href="#" class="milestone-detail" data-ajax-popup="true" data-title="{{ __('Milestones Details') }}" data-url="{{route('projects.milestone.show',[$currantWorkspace->slug,$milestone->id])}}">{{$milestone->title}}</a>
+                                        <a href="#" class="milestone-detail" data-ajax-popup="true" data-title="{{ __('Milestones Details') }}" data-url="{{route('projects.milestone.show',[$currentWorkspace->slug,$milestone->id])}}">{{$milestone->title}}</a>
                                         <div class="float-right">
                                             <small>
-                                                <a href="#" class="btn btn-sm btn-outline-primary" data-ajax-popup="true" data-title="{{ __('Edit Milestone') }}" data-url="{{route('projects.milestone.edit',[$currantWorkspace->slug,$milestone->id])}}"><i class="mdi mdi-pencil"></i></a>
+                                                <a href="#" class="btn btn-sm btn-outline-primary" data-ajax-popup="true" data-title="{{ __('Edit Milestone') }}" data-url="{{route('projects.milestone.edit',[$currentWorkspace->slug,$milestone->id])}}"><i class="mdi mdi-pencil"></i></a>
                                                 <a href="#" class="btn btn-sm btn-outline-danger" onclick="(confirm('Are you sure ?')?document.getElementById('delete-form1-{{$milestone->id}}').submit(): '');"><i class="mdi mdi-delete"></i></a>
-                                                <form id="delete-form1-{{$milestone->id}}" action="{{ route('projects.milestone.destroy',[$currantWorkspace->slug,$milestone->id]) }}" method="POST" style="display: none;">
+                                                <form id="delete-form1-{{$milestone->id}}" action="{{ route('projects.milestone.destroy',[$currentWorkspace->slug,$milestone->id]) }}" method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
@@ -536,7 +536,7 @@ window.onload = function() {
             maxFilesize: 2,
             parallelUploads: 1,
             acceptedFiles: ".jpeg,.jpg,.png,.pdf,.doc,.txt",
-            url: "{{route('projects.file.upload',[$currantWorkspace->slug,$project->id])}}",
+            url: "{{route('projects.file.upload',[$currentWorkspace->slug,$project->id])}}",
             success: function(file, response){
                 if(response.is_success){
                     dropzoneBtn(file,response);
@@ -620,7 +620,7 @@ window.onload = function() {
         myDropzone.emit("thumbnail", mockFile, "{{asset('storage/project_files/'.$file->file_path)}}");
         myDropzone.emit("complete", mockFile);
 
-        dropzoneBtn(mockFile,{download:"{{route('projects.file.download',[$currantWorkspace->slug,$project->id,$file->id])}}",delete:"{{route('projects.file.delete',[$currantWorkspace->slug,$project->id,$file->id])}}"});
+        dropzoneBtn(mockFile,{download:"{{route('projects.file.download',[$currentWorkspace->slug,$project->id,$file->id])}}",delete:"{{route('projects.file.delete',[$currentWorkspace->slug,$project->id,$file->id])}}"});
 
         @endforeach
     </script>

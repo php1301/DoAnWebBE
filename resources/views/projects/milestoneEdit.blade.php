@@ -1,7 +1,7 @@
 
-@if($milestone && $currantWorkspace)
+@if($milestone && $currentWorkspace)
 
-    <form class="pl-3 pr-3" method="post" action="{{ route('projects.milestone.update',[$currantWorkspace->slug,$milestone->id]) }}">
+    <form class="pl-3 pr-3" method="post" action="{{ route('projects.milestone.update',[$currentWorkspace->slug,$milestone->id]) }}">
         @csrf
         @method('put')
         <div class="row">

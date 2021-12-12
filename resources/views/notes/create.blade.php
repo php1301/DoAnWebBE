@@ -1,4 +1,4 @@
-<form class="pl-3 pr-3" method="post" action="{{ route('notes.store',$currantWorkspace->slug) }}">
+<form class="pl-3 pr-3" method="post" action="{{ route('notes.store',$currentWorkspace->slug) }}">
     @csrf
     <div class="form-group">
         <label for="title">{{ __('Title') }}</label>

@@ -1,4 +1,4 @@
-<form class="pl-3 pr-3" method="post" action="{{ route('store_lang_workspace',$currantWorkspace->slug) }}">
+<form class="pl-3 pr-3" method="post" action="{{ route('store_lang_workspace',$currentWorkspace->slug) }}">
     @csrf
     <div class="form-group">
         <label for="code">{{ __('Language Code') }}</label>

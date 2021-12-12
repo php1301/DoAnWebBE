@@ -1,5 +1,5 @@
 <link href="{{ asset('assets/css/vendor/bootstrap-tagsinput.css') }}" rel="stylesheet">
-<form class="pl-3 pr-3" method="post" action="{{ route('users.invite.update',[$currantWorkspace->slug]) }}">
+<form class="pl-3 pr-3" method="post" action="{{ route('users.invite.update',[$currentWorkspace->slug]) }}">
     @csrf
     @method('PUT')
     <div class="form-group">
@@ -21,7 +21,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: {
-            url: '{{ route('user.email.json',$currantWorkspace->id) }}',
+            url: '{{ route('user.email.json',$currentWorkspace->id) }}',
             cache:false,
             filter: function(list) {
                 return $.map(list, function(UserName) {

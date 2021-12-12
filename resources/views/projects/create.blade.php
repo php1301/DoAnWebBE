@@ -1,4 +1,4 @@
-<form class="pl-3 pr-3" method="post" action="{{ route('projects.store',$currantWorkspace->slug) }}">
+<form class="pl-3 pr-3" method="post" action="{{ route('projects.store',$currentWorkspace->slug) }}">
     @csrf
     <div class="form-group">
         <label for="projectname">{{ __('Name') }}</label>
@@ -11,7 +11,7 @@
     <div class="form-group">
         <label for="users_list">{{ __('Users') }}</label>
         <select class="select2 form-control select2-multiple" id="users_list" name="users_list[]" data-toggle="select2" multiple="multiple" data-placeholder="{{ __('Select Users ...') }}">
-            @foreach($currantWorkspace->users($currantWorkspace->created_by) as $user)
+            @foreach($currentWorkspace->users($currentWorkspace->created_by) as $user)
                 <option value="{{$user->email}}">{{$user->name}} - {{$user->email}}</option>
             @endforeach
         </select>

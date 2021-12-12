@@ -14,12 +14,12 @@
                                             <i class="dripicons-gear"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                        @if($currantWorkspace->permission === 'Owner')
-                                                <a href="#" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{ __('Edit Task') }}" data-url="{{route('tasks.edit',[$currantWorkspace->slug,$taskDetail->project_id,$taskDetail->id])}}">
+                                        @if($currentWorkspace->permission === 'Owner')
+                                                <a href="#" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{ __('Edit Task') }}" data-url="{{route('tasks.edit',[$currentWorkspace->slug,$taskDetail->project_id,$taskDetail->id])}}">
                                                     <i class="mdi mdi-pencil mr-1"></i>{{__('Edit')}}</a>
                                                 <a href="#" class="dropdown-item" onclick="(confirm('Are you sure ?')?document.getElementById('delete-form-{{$taskDetail->id}}').submit(): '');">
                                                     <i class="mdi mdi-delete mr-1"></i>{{__('Delete')}}</a>
-                                                <form id="delete-form-{{$taskDetail->id}}" action="{{ route('tasks.destroy',[$currantWorkspace->slug,$taskDetail->project_id,$taskDetail->id]) }}" method="POST" style="display: none;">
+                                                <form id="delete-form-{{$taskDetail->id}}" action="{{ route('tasks.destroy',[$currentWorkspace->slug,$taskDetail->project_id,$taskDetail->id]) }}" method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
@@ -29,7 +29,7 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <a href="#" data-ajax-popup="true" data-size="lg" data-title="{{$taskDetail->title}} @if($taskDetail->priority=="High")<span class='badge badge-danger ml-2'>{{ __('High')}}</span>@elseif($taskDetail->priority=="Medium")<span class='badge badge-warning'>{{ __('Medium')}}</span>@else<span class='badge badge-info'>{{ __('Low')}}</span>@endif" data-url="{{route('tasks.show',[$currantWorkspace->slug,$taskDetail->project_id,$taskDetail->id])}}"
+                                        <a href="#" data-ajax-popup="true" data-size="lg" data-title="{{$taskDetail->title}} @if($taskDetail->priority=="High")<span class='badge badge-danger ml-2'>{{ __('High')}}</span>@elseif($taskDetail->priority=="Medium")<span class='badge badge-warning'>{{ __('Medium')}}</span>@else<span class='badge badge-info'>{{ __('Low')}}</span>@endif" data-url="{{route('tasks.show',[$currentWorkspace->slug,$taskDetail->project_id,$taskDetail->id])}}"
                                            class="text-body">{{$taskDetail->title}}</a>
                                     </div>
                                     @if($taskDetail->priority=="High")
@@ -48,7 +48,7 @@
                                     </p>
 
                                     <small class="float-right text-muted mt-2">{{date('d M Y',strtotime($taskDetail->created_at))}}</small>
-                                    @if($currantWorkspace->permission === 'Owner')
+                                    @if($currentWorkspace->permission === 'Owner')
                                         <figure class="avatar mr-2 avatar-sm animated" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$taskDetail->user->name}}">
                                             <img @if($taskDetail->user->avatar) src="{{asset('/storage/avatars/'.$taskDetail->user->avatar)}}" @else avatar="{{ $taskDetail->user->name }}"@endif class="rounded-circle">
                                         </figure>
@@ -97,7 +97,7 @@
                                     $("#"+source.id).parent().find('.count').text($("#"+source.id+" > div").length);
                                     $("#"+target.id).parent().find('.count').text($("#"+target.id+" > div").length);
                                     $.ajax({
-                                        url:'{{route('tasks.update.order',[$currantWorkspace->slug,$project->id])}}',
+                                        url:'{{route('tasks.update.order',[$currentWorkspace->slug,$project->id])}}',
                                         type:'PUT',
                                         data:{id:id,sort:sort,new_status:new_status,old_status:old_status,project_id:project_id,"_token":$('meta[name="csrf-token"]').attr('content')},
                                         success: function(data){

@@ -269,7 +269,7 @@
 [2021-11-26 09:31:27] local.ERROR: compact(): Undefined variable: totalClients {"userId":3,"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: totalClients at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php:70)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\Users\\\\BUIQUO...', 70, Array)
-#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(70): compact('currantWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
+#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(70): compact('currentWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
 #2 [internal function]: App\\Http\\Controllers\\HomeController->index('')
 #3 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
 #4 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('index', Array)
@@ -333,7 +333,7 @@
 [2021-11-26 09:32:32] local.ERROR: compact(): Undefined variable: totalClients {"userId":3,"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: totalClients at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php:70)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\Users\\\\BUIQUO...', 70, Array)
-#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(70): compact('currantWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
+#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(70): compact('currentWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
 #2 [internal function]: App\\Http\\Controllers\\HomeController->index('')
 #3 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
 #4 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('index', Array)
@@ -654,7 +654,7 @@
 [2021-11-26 10:09:33] local.ERROR: compact(): Undefined variable: totalClients {"userId":3,"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: totalClients at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php:71)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\Users\\\\BUIQUO...', 71, Array)
-#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(71): compact('currantWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
+#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(71): compact('currentWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
 #2 [internal function]: App\\Http\\Controllers\\HomeController->index('')
 #3 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
 #4 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('index', Array)
@@ -718,7 +718,7 @@
 [2021-11-26 10:09:37] local.ERROR: compact(): Undefined variable: totalClients {"userId":3,"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: totalClients at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php:71)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\Users\\\\BUIQUO...', 71, Array)
-#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(71): compact('currantWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
+#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(71): compact('currentWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
 #2 [internal function]: App\\Http\\Controllers\\HomeController->index('')
 #3 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
 #4 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('index', Array)
@@ -782,7 +782,7 @@
 [2021-11-26 10:09:43] local.ERROR: compact(): Undefined variable: totalClients {"userId":3,"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: totalClients at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php:71)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\Users\\\\BUIQUO...', 71, Array)
-#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(71): compact('currantWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
+#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(71): compact('currentWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
 #2 [internal function]: App\\Http\\Controllers\\HomeController->index('')
 #3 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
 #4 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('index', Array)
@@ -975,7 +975,7 @@
 [2021-11-26 10:13:41] local.ERROR: compact(): Undefined variable: totalClients {"userId":3,"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: totalClients at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php:71)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\Users\\\\BUIQUO...', 71, Array)
-#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(71): compact('currantWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
+#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(71): compact('currentWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
 #2 [internal function]: App\\Http\\Controllers\\HomeController->index('')
 #3 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
 #4 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('index', Array)
@@ -1039,7 +1039,7 @@
 [2021-11-26 10:14:36] local.ERROR: compact(): Undefined variable: totalClients {"userId":3,"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: totalClients at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php:70)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\Users\\\\BUIQUO...', 70, Array)
-#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(70): compact('currantWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
+#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(70): compact('currentWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
 #2 [internal function]: App\\Http\\Controllers\\HomeController->index('')
 #3 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
 #4 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('index', Array)
@@ -1103,7 +1103,7 @@
 [2021-11-26 10:14:43] local.ERROR: compact(): Undefined variable: totalClients {"userId":3,"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable: totalClients at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php:70)
 [stacktrace]
 #0 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'compact(): Unde...', 'C:\\\\Users\\\\BUIQUO...', 70, Array)
-#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(70): compact('currantWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
+#1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\app\\Http\\Controllers\\HomeController.php(70): compact('currentWorkspac...', 'totalProject', 'totalClients', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData')
 #2 [internal function]: App\\Http\\Controllers\\HomeController->index('')
 #3 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
 #4 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('index', Array)
@@ -1164,7 +1164,13 @@
 #59 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\server.php(21): require_once('C:\\\\Users\\\\BUIQUO...')
 #60 {main}
 "} 
-[2021-11-26 10:25:03] local.ERROR: syntax error, unexpected 'endif' (T_ENDIF) (View: C:\Users\BUIQUOCHUY\Desktop\DOANWEB\DoAnWebBE\resources\views\partials\topnav.blade.php) (View: C:\Users\BUIQUOCHUY\Desktop\DOANWEB\DoAnWebBE\resources\views\partials\topnav.blade.php) (View: C:\Users\BUIQUOCHUY\Desktop\DOANWEB\DoAnWebBE\resources\views\partials\topnav.blade.php) {"userId":3,"exception":"[object] (ErrorException(code: 0): syntax error, unexpected 'endif' (T_ENDIF) (View: C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\esources\\views\\partials\\topnav.blade.php) (View: C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\esources\\views\\partials\\topnav.blade.php) (View: C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\esources\\views\\partials\\topnav.blade.php) at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\storage\\framework\\views\\7db8e5418d7de38950ff931ffce7566aaab80642.php:35, ErrorException(code: 0): syntax error, unexpected 'endif' (T_ENDIF) (View: C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\esources\\views\\partials\\topnav.blade.php) (View: C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\esources\\views\\partials\\topnav.blade.php) at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\storage\\framework\\views\\7db8e5418d7de38950ff931ffce7566aaab80642.php:35, ErrorException(code: 0): syntax error, unexpected 'endif' (T_ENDIF) (View: C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\esources\\views\\partials\\topnav.blade.php) at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\storage\\framework\\views\\7db8e5418d7de38950ff931ffce7566aaab80642.php:35, Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): syntax error, unexpected 'endif' (T_ENDIF) at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\storage\\framework\\views\\7db8e5418d7de38950ff931ffce7566aaab80642.php:35)
+[2021-11-26 10:25:03] local.ERROR: syntax error, unexpected 'endif' (T_ENDIF) (View: C:\Users\BUIQUOCHUY\Desktop\DOANWEB\DoAnWebBE\resources\views\partials\topnav.blade.php) (View: C:\Users\BUIQUOCHUY\Desktop\DOANWEB\DoAnWebBE\resources\views\partials\topnav.blade.php) (View: C:\Users\BUIQUOCHUY\Desktop\DOANWEB\DoAnWebBE\resources\views\partials\topnav.blade.php) {"userId":3,"exception":"[object] (ErrorException(code: 0): syntax error, unexpected 'endif' (T_ENDIF) (View: C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\
+esources\\views\\partials\\topnav.blade.php) (View: C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\
+esources\\views\\partials\\topnav.blade.php) (View: C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\
+esources\\views\\partials\\topnav.blade.php) at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\storage\\framework\\views\\7db8e5418d7de38950ff931ffce7566aaab80642.php:35, ErrorException(code: 0): syntax error, unexpected 'endif' (T_ENDIF) (View: C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\
+esources\\views\\partials\\topnav.blade.php) (View: C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\
+esources\\views\\partials\\topnav.blade.php) at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\storage\\framework\\views\\7db8e5418d7de38950ff931ffce7566aaab80642.php:35, ErrorException(code: 0): syntax error, unexpected 'endif' (T_ENDIF) (View: C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\
+esources\\views\\partials\\topnav.blade.php) at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\storage\\framework\\views\\7db8e5418d7de38950ff931ffce7566aaab80642.php:35, Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): syntax error, unexpected 'endif' (T_ENDIF) at C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\storage\\framework\\views\\7db8e5418d7de38950ff931ffce7566aaab80642.php:35)
 [stacktrace]
 #0 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(45): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\\Users\\BUIQUOCHUY\\Desktop\\DOANWEB\\DoAnWebBE\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\CompilerEngine.php(59): Illuminate\\View\\Engines\\PhpEngine->evaluatePath('C:\\\\Users\\\\BUIQUO...', Array)

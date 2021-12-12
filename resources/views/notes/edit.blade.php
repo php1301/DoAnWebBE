@@ -1,4 +1,4 @@
-<form class="pl-3 pr-3" method="post" action="{{ route('notes.update',[$currantWorkspace->slug,$notes->id]) }}">
+<form class="pl-3 pr-3" method="post" action="{{ route('notes.update',[$currentWorkspace->slug,$notes->id]) }}">
     @csrf
     @method('PUT')
     <div class="form-group">

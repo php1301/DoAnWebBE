@@ -6,12 +6,12 @@
 
     <h2 class="section-title">{{ __('Projects') }}</h2>
 
-    @if($projects && $currantWorkspace)
+    @if($projects && $currentWorkspace)
 
     <div class="row mb-2">
-        @if($currantWorkspace->creater->id == Auth::user()->id)
+        @if($currentWorkspace->creater->id == Auth::user()->id)
         <div class="col-sm-4">
-            <button type="button" class="btn btn-primary btn-rounded mb-3" data-ajax-popup="true" data-size="lg" data-title="{{ __('Create New Project') }}" data-url="{{route('projects.create',$currantWorkspace->slug)}}">
+            <button type="button" class="btn btn-primary btn-rounded mb-3" data-ajax-popup="true" data-size="lg" data-title="{{ __('Create New Project') }}" data-url="{{route('projects.create',$currentWorkspace->slug)}}">
                 <i class="mdi mdi-plus"></i> {{ __('Create Project') }}
             </button>
         </div>
@@ -41,18 +41,18 @@
                         <div class="dropdown card-widgets">
                             <a href="#" class="btn active dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="dripicons-gear"></i></a>
                             <div class="dropdown-menu dropdown-menu-right">
-                            @if($currantWorkspace->permission == 'Owner')
-                                <a href="#" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{ __('Edit Project') }}" data-url="{{route('projects.edit',[$currantWorkspace->slug,$project->id])}}"><i class="mdi mdi-pencil mr-1"></i>{{ __('Edit')}}</a>
+                            @if($currentWorkspace->permission == 'Owner')
+                                <a href="#" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{ __('Edit Project') }}" data-url="{{route('projects.edit',[$currentWorkspace->slug,$project->id])}}"><i class="mdi mdi-pencil mr-1"></i>{{ __('Edit')}}</a>
                                 <a href="#" onclick="(confirm('Are you sure ?')?document.getElementById('delete-form-{{$project->id}}').submit(): '');" class="dropdown-item"><i class="mdi mdi-delete mr-1"></i>{{ __('Delete')}}</a>
-                                <form id="delete-form-{{$project->id}}" action="{{ route('projects.destroy',[$currantWorkspace->slug,$project->id]) }}" method="POST" style="display: none;">
+                                <form id="delete-form-{{$project->id}}" action="{{ route('projects.destroy',[$currentWorkspace->slug,$project->id]) }}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                <a href="#" class="dropdown-item" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{ __('Invite Users') }}" data-url="{{route('projects.invite.popup',[$currantWorkspace->slug,$project->id])}}"><i class="mdi mdi-email-outline mr-1"></i>{{ __('Invite')}}</a>
+                                <a href="#" class="dropdown-item" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{ __('Invite Users') }}" data-url="{{route('projects.invite.popup',[$currentWorkspace->slug,$project->id])}}"><i class="mdi mdi-email-outline mr-1"></i>{{ __('Invite')}}</a>
                              
                             @else
                                 <a href="#" onclick="(confirm('Are you sure ?')?document.getElementById('leave-form-{{$project->id}}').submit(): '');" class="dropdown-item"><i class="mdi mdi-exit-to-app mr-1"></i>{{ __('Leave')}}</a>
-                                <form id="leave-form-{{$project->id}}" action="{{ route('projects.leave',[$currantWorkspace->slug,$project->id]) }}" method="POST" style="display: none;">
+                                <form id="leave-form-{{$project->id}}" action="{{ route('projects.leave',[$currentWorkspace->slug,$project->id]) }}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>
@@ -63,7 +63,7 @@
 
                     <div class="author-box-name">
 
-                        <a href="{{route('projects.show',[$currantWorkspace->slug,$project->id])}}" title="{{ $project->name }}" class="text-title">{{ $project->name }}</a>
+                        <a href="{{route('projects.show',[$currentWorkspace->slug,$project->id])}}" title="{{ $project->name }}" class="text-title">{{ $project->name }}</a>
 
                     </div>
                     <div class="author-box-job">
@@ -101,7 +101,7 @@
                     @endforeach
 
                     <div class="float-right mt-sm-0 mt-3">
-                        <a href="{{route('projects.show',[$currantWorkspace->slug,$project->id])}}" class="btn btn-sm btn-primary">{{__('View More')}} <i class="dripicons-arrow-right"></i></a>
+                        <a href="{{route('projects.show',[$currentWorkspace->slug,$project->id])}}" class="btn btn-sm btn-primary">{{__('View More')}} <i class="dripicons-arrow-right"></i></a>
                     </div>
 
                 </div>

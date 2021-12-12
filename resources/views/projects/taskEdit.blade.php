@@ -1,7 +1,7 @@
 
-@if($project && $currantWorkspace && $task)
+@if($project && $currentWorkspace && $task)
 
-    <form class="pl-3 pr-3" method="post" action="{{ route('tasks.update',[$currantWorkspace->slug,$project->id,$task->id]) }}">
+    <form class="pl-3 pr-3" method="post" action="{{ route('tasks.update',[$currentWorkspace->slug,$project->id,$task->id]) }}">
         @csrf
         @method('PUT')
         <div class="row">

@@ -1,5 +1,5 @@
 
-@if($currantWorkspace && $milestone)
+@if($currentWorkspace && $milestone)
 
     <div class="p-2">
         <div class="row mb-4">

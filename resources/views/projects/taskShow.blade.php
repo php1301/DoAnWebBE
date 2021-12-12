@@ -1,5 +1,5 @@
 
-@if($currantWorkspace && $task)
+@if($currentWorkspace && $task)
 
     <div class="p-2">
         <div class="font-weight-bold">{{ __('Description')}}:</div>
@@ -60,7 +60,7 @@
 
         <div class="tab-content">
             <div class="tab-pane show active" id="home-b1">
-                <form method="post" id="form-comment" data-action="{{route('comment.store',[$currantWorkspace->slug,$task->project_id,$task->id,$clientID])}}">
+                <form method="post" id="form-comment" data-action="{{route('comment.store',[$currentWorkspace->slug,$task->project_id,$task->id,$clientID])}}">
                     <textarea class="form-control form-control-light mb-2" name="comment" placeholder="{{ __('Write message')}}" id="example-textarea" rows="3" required></textarea>
                     <div class="text-right">
                         <div class="btn-group mb-2 ml-2 d-none d-sm-inline-block">
@@ -86,7 +86,7 @@
                                     {{$comment->comment}}
                                     @if(empty($clientID))
                                     <div class="float-right">
-                                        <a href="#" class="text-danger text-muted delete-comment" data-url="{{route('comment.destroy',[$currantWorkspace->slug,$task->project_id,$task->id,$comment->id])}}">
+                                        <a href="#" class="text-danger text-muted delete-comment" data-url="{{route('comment.destroy',[$currentWorkspace->slug,$task->project_id,$task->id,$comment->id])}}">
                                             <i class="dripicons-trash"></i>
                                         </a>
                                     </div>
@@ -98,7 +98,7 @@
                 </div>
             </div>
             <div class="tab-pane" id="profile-b1">
-                <form method="post" id="form-file" enctype="multipart/form-data" data-action="{{ route('comment.store.file',[$currantWorkspace->slug,$task->project_id,$task->id,$clientID]) }}">
+                <form method="post" id="form-file" enctype="multipart/form-data" data-action="{{ route('comment.store.file',[$currentWorkspace->slug,$task->project_id,$task->id,$clientID]) }}">
                     @csrf
                     <input type="file" class="form-control mb-2" name="file" id="file">
                     <span class="invalid-feedback" id="file-error" role="alert">
@@ -132,7 +132,7 @@
                                         <i class="dripicons-download"></i>
                                     </a>
                                     @if(empty($clientID))
-                                        <a href="#" class="text-danger text-muted delete-comment-file" data-url="{{route('comment.destroy.file',[$currantWorkspace->slug,$task->project_id,$task->id,$file->id])}}">
+                                        <a href="#" class="text-danger text-muted delete-comment-file" data-url="{{route('comment.destroy.file',[$currentWorkspace->slug,$task->project_id,$task->id,$file->id])}}">
                                             <i class="dripicons-trash"></i>
                                         </a>
                                     @endif
@@ -148,7 +148,7 @@
                 <div class="text-right mb-1">
                     <a href="#" class="btn btn-sm btn-primary" data-toggle="collapse" data-target="#form-subtask">{{ __('Add Sub Task')}}</a>
                 </div>
-                <form method="post" id="form-subtask" class="collapse" data-action="{{route('subtask.store',[$currantWorkspace->slug,$task->project_id,$task->id,$clientID])}}">
+                <form method="post" id="form-subtask" class="collapse" data-action="{{route('subtask.store',[$currentWorkspace->slug,$task->project_id,$task->id,$clientID])}}">
                     @csrf
                     <div class="card-body">
                         <div class="row">
@@ -179,12 +179,12 @@
                         @foreach($task->sub_tasks as $subTask)
                             <li class="list-group-item pt-2 pb-0">
                                 <label class="custom-switch pl-0">
-                                    <input type="checkbox" name="option" value="{{$subTask->id}}" class="custom-switch-input" @if($subTask->status) checked @endif data-url="{{route('subtask.update',[$currantWorkspace->slug,$task->project_id,$subTask->id])}}">
+                                    <input type="checkbox" name="option" value="{{$subTask->id}}" class="custom-switch-input" @if($subTask->status) checked @endif data-url="{{route('subtask.update',[$currentWorkspace->slug,$task->project_id,$subTask->id])}}">
                                     <span class="custom-switch-indicator"></span>
                                     <span class="custom-switch-description">{{$subTask->name}} <small class="text-dark">{{__('Due Date')}} - {{date('d M Y',strtotime($subTask->due_date))}}</small></span>
                                 </label>
                                 <div class="float-right">
-                                    <a href="#" class="text-danger text-muted delete-subtask" data-url="{{route('subtask.destroy',[$currantWorkspace->slug,$task->project_id,$subTask->id])}}">
+                                    <a href="#" class="text-danger text-muted delete-subtask" data-url="{{route('subtask.destroy',[$currentWorkspace->slug,$task->project_id,$subTask->id])}}">
                                         <i class="dripicons-trash"></i>
                                     </a>
                                 </div>

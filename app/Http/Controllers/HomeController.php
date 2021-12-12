@@ -12,6 +12,7 @@ use App\UserWorkspace;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Storage;
+
 class HomeController extends Controller
 {
     /**
@@ -31,48 +32,46 @@ class HomeController extends Controller
      */
     public function index($slug = '')
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        if($currantWorkspace) {
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        if ($currentWorkspace) {
             $userObj = Auth::user();
-            $totalProject = UserProject::join("projects","projects.id","=","user_projects.project_id")->where("user_id","=",$userObj->id)->where('projects.workspace','=',$currantWorkspace->id)->count();
-           
-            if($currantWorkspace->permission == 'Owner') {
-                $totalTask = UserProject::join("tasks", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currantWorkspace->id)->count();
-                $completeTask = UserProject::join("tasks", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('tasks.status', '=', 'done')->count();
-                $tasks = Task::select('tasks.*')->join("user_projects", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currantWorkspace->id)->orderBy('tasks.id','desc')->limit(4)->get();
+            $totalProject = UserProject::join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currentWorkspace->id)->count();
+
+            if ($currentWorkspace->permission == 'Owner') {
+                $totalTask = UserProject::join("tasks", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currentWorkspace->id)->count();
+                $completeTask = UserProject::join("tasks", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('tasks.status', '=', 'done')->count();
+                $tasks = Task::select('tasks.*')->join("user_projects", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currentWorkspace->id)->orderBy('tasks.id', 'desc')->limit(4)->get();
+            } else {
+                $totalTask = UserProject::join("tasks", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('tasks.assign_to', '=', $userObj->id)->count();
+                $completeTask = UserProject::join("tasks", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('tasks.assign_to', '=', $userObj->id)->where('tasks.status', '=', 'done')->count();
+                $tasks = Task::select('tasks.*')->join("user_projects", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('tasks.assign_to', '=', $userObj->id)->orderBy('tasks.id', 'desc')->limit(4)->get();
             }
-            else{
-                $totalTask = UserProject::join("tasks", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('tasks.assign_to', '=', $userObj->id)->count();
-                $completeTask = UserProject::join("tasks", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('tasks.assign_to', '=', $userObj->id)->where('tasks.status', '=', 'done')->count();
-                $tasks = Task::select('tasks.*')->join("user_projects", "tasks.project_id", "=", "user_projects.project_id")->join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('tasks.assign_to', '=', $userObj->id)->orderBy('tasks.id','desc')->limit(4)->get();
-            }
 
 
-            $totalMembers = UserWorkspace::where('workspace_id','=',$currantWorkspace->id)->count();
+            $totalMembers = UserWorkspace::where('workspace_id', '=', $currentWorkspace->id)->count();
 
-            $projectProcess = UserProject::join("projects","projects.id","=","user_projects.project_id")->where("user_id","=",$userObj->id)->where('projects.workspace','=',$currantWorkspace->id)->groupBy('projects.status')->selectRaw('count(projects.id) as count, projects.status')->pluck('count','projects.status');
-            $arrProcessLable= [];
-            $arrProcessPer=[];
+            $projectProcess = UserProject::join("projects", "projects.id", "=", "user_projects.project_id")->where("user_id", "=", $userObj->id)->where('projects.workspace', '=', $currentWorkspace->id)->groupBy('projects.status')->selectRaw('count(projects.id) as count, projects.status')->pluck('count', 'projects.status');
             $arrProcessLable = [];
-            foreach ($projectProcess as $lable => $process){
-                $arrProcessLable[]=$lable;
-                $arrProcessPer[] = round(($process*100)/$totalProject,2);
+            $arrProcessPer = [];
+            $arrProcessLable = [];
+            foreach ($projectProcess as $lable => $process) {
+                $arrProcessLable[] = $lable;
+                $arrProcessPer[] = round(($process * 100) / $totalProject, 2);
             }
-            $arrProcessClass = ['text-success','text-primary','text-danger'];
+            $arrProcessClass = ['text-success', 'text-primary', 'text-danger'];
 
-            $todos = Todo::where("created_by", "=", $userObj->id)->where('workspace','=',$currantWorkspace->id)->orderBy('id','desc')->limit(5)->get();
+            $todos = Todo::where("created_by", "=", $userObj->id)->where('workspace', '=', $currentWorkspace->id)->orderBy('id', 'desc')->limit(5)->get();
 
 
             $startDate = date('Y-m-d 00:00:00');
-            $endDate = date('Y-m-d H:i:s',strtotime($startDate."+1 day"));
+            $endDate = date('Y-m-d H:i:s', strtotime($startDate . "+1 day"));
 
 
-            $chartData = app('App\Http\Controllers\ProjectController')->getProjectChart(['workspace_id'=>$currantWorkspace->id,'duration'=>'week']);
+            $chartData = app('App\Http\Controllers\ProjectController')->getProjectChart(['workspace_id' => $currentWorkspace->id, 'duration' => 'week']);
 
-            return view('home', compact('currantWorkspace','totalProject','totalTask','totalMembers','arrProcessLable','arrProcessPer','arrProcessClass','completeTask','tasks','todos','chartData'));
-        }
-        else{
-            return view('home', compact('currantWorkspace'));
+            return view('home', compact('currentWorkspace', 'totalProject', 'totalTask', 'totalMembers', 'arrProcessLable', 'arrProcessPer', 'arrProcessClass', 'completeTask', 'tasks', 'todos', 'chartData'));
+        } else {
+            return view('home', compact('currentWorkspace'));
         }
     }
 }

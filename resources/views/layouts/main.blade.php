@@ -101,12 +101,12 @@
 <script src="{{ asset('assets/js/scrollreveal.min.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 
-@if(isset($currantWorkspace) && $currantWorkspace)
+@if(isset($currentWorkspace) && $currentWorkspace)
 <script src="{{ asset('assets/js/jquery.easy-autocomplete.min.js') }}"></script>
 <script>
     var options = {
         url: function(phrase) {
-            return "{{route('search.json',$currantWorkspace->slug)}}/" + phrase ;
+            return "{{route('search.json',$currentWorkspace->slug)}}/" + phrase ;
         },
         categories: [
             {

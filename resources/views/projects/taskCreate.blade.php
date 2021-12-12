@@ -1,7 +1,7 @@
 
-@if($project && $currantWorkspace)
+@if($project && $currentWorkspace)
 
-    <form class="pl-3 pr-3" method="post" action="{{ route('tasks.store',[$currantWorkspace->slug,$project->id]) }}">
+    <form class="pl-3 pr-3" method="post" action="{{ route('tasks.store',[$currentWorkspace->slug,$project->id]) }}">
         @csrf
         <div class="row">
             <div class="col-md-8">

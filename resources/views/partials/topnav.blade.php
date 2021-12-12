@@ -12,20 +12,20 @@
   </div>
 </div>
 <ul class="navbar-nav navbar-right">
-  @if(isset($currantWorkspace) && $currantWorkspace && $currantWorkspace->permission == 'Owner')
+  @if(isset($currentWorkspace) && $currentWorkspace && $currentWorkspace->permission == 'Owner')
     @php
-      $currantLang = basename(App::getLocale());
+      $currentLang = basename(App::getLocale());
     @endphp
   <li class="dropdown dropdown-list-toggle">
     <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg">
-      <span class="align-middle">{{Str::upper($currantLang)}}</span>
+      <span class="align-middle">{{Str::upper($currentLang)}}</span>
       <i class="mdi mdi-chevron-down"></i>
     </a>
     <div class="dropdown-menu dropdown-list dropdown-menu-right">
-      @foreach($currantWorkspace->languages() as $lang)
-        @if($currantLang != $lang)
+      @foreach($currentWorkspace->languages() as $lang)
+        @if($currentLang != $lang)
         <!-- item-->
-          <a href="{{route('change_lang_workspace',[$currantWorkspace->id,$lang])}}" class="dropdown-item">
+          <a href="{{route('change_lang_workspace',[$currentWorkspace->id,$lang])}}" class="dropdown-item">
             <span class="align-middle">{{Str::upper($lang)}}</span>
           </a>
         @endif
@@ -40,8 +40,8 @@
     <div class="dropdown-menu dropdown-menu-right">
       @foreach(Auth::user()->workspace as $workspace)
 
-          <a href="@if($currantWorkspace->id == $workspace->id)#@else{{ route('change_workspace',$workspace->id) }}@endif" title="{{ $workspace->name }}" class="dropdown-item notify-item">
-            @if($currantWorkspace->id == $workspace->id)
+          <a href="@if($currentWorkspace->id == $workspace->id)#@else{{ route('change_workspace',$workspace->id) }}@endif" title="{{ $workspace->name }}" class="dropdown-item notify-item">
+            @if($currentWorkspace->id == $workspace->id)
               <i class="mdi mdi-check"></i>
             @endif
             <span>{{ $workspace->name }}</span>
@@ -55,7 +55,7 @@
           </a>
 
       @endforeach
-      @if(isset($currantWorkspace) && $currantWorkspace)
+      @if(isset($currentWorkspace) && $currentWorkspace)
         <div class="dropdown-divider"></div>
       @endif
 
@@ -63,13 +63,13 @@
           <i class="mdi mdi-plus"></i>
           <span>{{ __('Create New Workspace')}}</span>
         </a>
-      @if(isset($currantWorkspace) && $currantWorkspace)
-        @if(Auth::user()->id == $currantWorkspace->created_by)
+      @if(isset($currentWorkspace) && $currentWorkspace)
+        @if(Auth::user()->id == $currentWorkspace->created_by)
           <a href="#" class="dropdown-item notify-item" onclick="(confirm('Are you sure ?')?document.getElementById('remove-workspace-form').submit(): '');">
             <i class=" mdi mdi-delete-outline"></i>
             <span>{{ __('Remove Me From This Workspace')}}</span>
           </a>
-          <form id="remove-workspace-form" action="{{ route('delete_workspace', ['id' => $currantWorkspace->id]) }}" method="POST" style="display: none;">
+          <form id="remove-workspace-form" action="{{ route('delete_workspace', ['id' => $currentWorkspace->id]) }}" method="POST" style="display: none;">
             @csrf
             @method('DELETE')
           </form>
@@ -78,7 +78,7 @@
             <i class=" mdi mdi-delete-outline"></i>
             <span>{{ __('Leave Me From This Workspace')}}</span>
           </a>
-          <form id="remove-workspace-form" action="{{ route('leave_workspace', ['id' => $currantWorkspace->id]) }}" method="POST" style="display: none;">
+          <form id="remove-workspace-form" action="{{ route('leave_workspace', ['id' => $currentWorkspace->id]) }}" method="POST" style="display: none;">
             @csrf
             @method('DELETE')
           </form>

@@ -40,9 +40,9 @@ class ProjectController extends Controller
     public function index($slug)
     {
         $objUser = Auth::user();
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $projects = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currantWorkspace->id)->get();
-        return view('projects.index', compact('currantWorkspace', 'projects'));
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $projects = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->get();
+        return view('projects.index', compact('currentWorkspace', 'projects'));
     }
 
     /**
@@ -53,7 +53,7 @@ class ProjectController extends Controller
      */
     public function store($slug, Request $request)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $request->validate([
             'name' => 'required',
         ]);
@@ -62,7 +62,7 @@ class ProjectController extends Controller
 
         $post = $request->all();
 
-        $post['workspace'] = $currantWorkspace->id;
+        $post['workspace'] = $currentWorkspace->id;
         $post['created_by'] = $objUser->id;
         $userList = [];
         if (isset($post['users_list'])) {
@@ -86,7 +86,7 @@ class ProjectController extends Controller
                 $arrUser['email'] = $email;
                 $password = Str::random(8);
                 $arrUser['password'] = Hash::make($password);
-                $arrUser['currant_workspace'] = $objProject->workspace;
+                $arrUser['current_workspace'] = $objProject->workspace;
                 $registerUsers = User::create($arrUser);
                 $registerUsers->password = $password;
 
@@ -100,7 +100,7 @@ class ProjectController extends Controller
             }
         }
 
-        return redirect()->route('projects.index', $currantWorkspace->slug)
+        return redirect()->route('projects.index', $currentWorkspace->slug)
             ->with('success', __('Project Created Successfully!') . ((isset($smtp_error)) ? ' <br> <span class="text-danger">' . $smtp_error . '</span>' : ''));
     }
 
@@ -144,7 +144,7 @@ class ProjectController extends Controller
 
     public function invite($slug, $projectID, Request $request)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $post = $request->all();
         $userList = $post['users_list'];
 
@@ -161,7 +161,7 @@ class ProjectController extends Controller
                 $arrUser['email'] = $email;
                 $password = Str::random(8);
                 $arrUser['password'] = Hash::make($password);
-                $arrUser['currant_workspace'] = $objProject->workspace;
+                $arrUser['current_workspace'] = $objProject->workspace;
                 $registerUsers = User::create($arrUser);
                 $registerUsers->password = $password;
 
@@ -181,7 +181,7 @@ class ProjectController extends Controller
             ]);
         }
 
-        return redirect()->route('projects.index', $currantWorkspace->slug)
+        return redirect()->route('projects.index', $currentWorkspace->slug)
             ->with('success', __('Users Invited Successfully!') . ((isset($smtp_error)) ? ' <br> <span class="text-danger">' . $smtp_error . '</span>' : ''));
     }
 
@@ -193,10 +193,10 @@ class ProjectController extends Controller
      */
     public function show($slug, $projectID)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $projectID)->first();
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
         $chartData = $this->getProjectChart(['project_id' => $projectID, 'duration' => 'week']);
-        return view('projects.show', compact('currantWorkspace', 'project', 'chartData'));
+        return view('projects.show', compact('currentWorkspace', 'project', 'chartData'));
     }
 
     public function getProjectChart($arrParam)
@@ -270,15 +270,15 @@ class ProjectController extends Controller
     public function edit($slug, $projectID)
     {
         $objUser = Auth::user();
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $projectID)->first();
-        return view('projects.edit', compact('currantWorkspace', 'project'));
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
+        return view('projects.edit', compact('currentWorkspace', 'project'));
     }
 
     public function create($slug)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        return view('projects.create', compact('currantWorkspace'));
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        return view('projects.create', compact('currentWorkspace'));
     }
 
     /**
@@ -290,17 +290,17 @@ class ProjectController extends Controller
     public function popup($slug, $projectID)
     {
         $objUser = Auth::user();
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $projectID)->first();
-        return view('projects.invite', compact('currantWorkspace', 'project'));
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
+        return view('projects.invite', compact('currentWorkspace', 'project'));
     }
 
     public function sharePopup($slug, $projectID)
     {
         $objUser = Auth::user();
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $projectID)->first();
-        return view('projects.share', compact('currantWorkspace', 'project'));
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
+        return view('projects.share', compact('currentWorkspace', 'project'));
     }
 
     /**
@@ -316,8 +316,8 @@ class ProjectController extends Controller
             'name' => 'required',
         ]);
         $objUser = Auth::user();
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $projectID)->first();
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
         $project->update($request->all());
 
         return redirect()->back()
@@ -361,18 +361,18 @@ class ProjectController extends Controller
     public function taskBoard($slug, $projectID)
     {
         $clientID = "";
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
 
         if (!(int) $projectID) {
 
             if ($arrDec = \Illuminate\Support\Facades\Crypt::decrypt($projectID)) {
                 $projectID = $arrDec['project_id'];
                 $clientID = $arrDec['client_id'];
-                $project = Project::select('projects.*')->join('client_projects', 'projects.id', '=', 'client_projects.project_id')->where('client_projects.client_id', '=', $arrDec['client_id'])->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $projectID)->first();
+                $project = Project::select('projects.*')->join('client_projects', 'projects.id', '=', 'client_projects.project_id')->where('client_projects.client_id', '=', $arrDec['client_id'])->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
             }
         } else {
             $objUser = Auth::user();
-            $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $projectID)->first();
+            $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
         }
 
         $arrStatus = ['todo', 'in progress', 'review', 'done'];
@@ -386,24 +386,24 @@ class ProjectController extends Controller
             $tasks[$status] = $task->where('status', '=', $status)->get();
         }
         if (isset($objUser) && $objUser) {
-            return view('projects.taskboard', compact('currantWorkspace', 'project', 'tasks', 'statusClass'));
+            return view('projects.taskboard', compact('currentWorkspace', 'project', 'tasks', 'statusClass'));
         }
     }
     public function taskBoardUpdate($slug, $projectID)
     {
         $clientID = "";
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
 
         if (!(int) $projectID) {
 
             if ($arrDec = \Illuminate\Support\Facades\Crypt::decrypt($projectID)) {
                 $projectID = $arrDec['project_id'];
                 $clientID = $arrDec['client_id'];
-                $project = Project::select('projects.*')->join('client_projects', 'projects.id', '=', 'client_projects.project_id')->where('client_projects.client_id', '=', $arrDec['client_id'])->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $projectID)->first();
+                $project = Project::select('projects.*')->join('client_projects', 'projects.id', '=', 'client_projects.project_id')->where('client_projects.client_id', '=', $arrDec['client_id'])->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
             }
         } else {
             $objUser = Auth::user();
-            $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $projectID)->first();
+            $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
         }
 
         $arrStatus = ['todo', 'in progress', 'review', 'done'];
@@ -417,18 +417,18 @@ class ProjectController extends Controller
             $tasks[$status] = $task->where('status', '=', $status)->get();
         }
         if (isset($objUser) && $objUser) {
-            return view('projects.tasklist', compact('currantWorkspace', 'project', 'tasks', 'statusClass'));
+            return view('projects.tasklist', compact('currentWorkspace', 'project', 'tasks', 'statusClass'));
         }
     }
 
     public function taskCreate($slug, $projectID)
     {
         $objUser = Auth::user();
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $project = Project::where('created_by', '=', $objUser->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $projectID)->first();
-        $projects = Project::where('created_by', '=', $objUser->id)->where('projects.workspace', '=', $currantWorkspace->id)->get();
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $project = Project::where('created_by', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
+        $projects = Project::where('created_by', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->get();
         $users = User::select('users.*')->join('user_projects', 'user_projects.user_id', '=', 'users.id')->where('project_id', '=', $projectID)->get();
-        return view('projects.taskCreate', compact('currantWorkspace', 'project', 'projects', 'users'));
+        return view('projects.taskCreate', compact('currentWorkspace', 'project', 'projects', 'users'));
     }
     public function taskStore(Request $request, $slug, $projectID)
     {
@@ -440,8 +440,8 @@ class ProjectController extends Controller
             'due_date' => 'required',
         ]);
         $objUser = Auth::user();
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $project = Project::where('created_by', '=', $objUser->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $request->project_id)->first();
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $project = Project::where('created_by', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $request->project_id)->first();
 
         if ($project) {
             $post = $request->all();
@@ -453,10 +453,10 @@ class ProjectController extends Controller
                 'remark' => Auth::user()->name . ' ' . __('Create new Task') . " <b>" . $task->title . "</b>"
             ]);
             event(new FetchTaskBoard());
-            return redirect()->route('projects.task.board', [$currantWorkspace->slug, $request->project_id])->with('success', __('Task Create Successfully!'));
+            return redirect()->route('projects.task.board', [$currentWorkspace->slug, $request->project_id])->with('success', __('Task Create Successfully!'));
         } else {
             event(new FetchTaskBoard());
-            return redirect()->route('projects.task.board', [$currantWorkspace->slug, $request->project_id])->with('error', __('You can \'t Add Task!'));
+            return redirect()->route('projects.task.board', [$currentWorkspace->slug, $request->project_id])->with('error', __('You can \'t Add Task!'));
         }
     }
 
@@ -498,12 +498,12 @@ class ProjectController extends Controller
     public function taskEdit($slug, $projectID, $taskId)
     {
         $objUser = Auth::user();
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $project = Project::where('created_by', '=', $objUser->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $projectID)->first();
-        $projects = Project::where('created_by', '=', $objUser->id)->where('projects.workspace', '=', $currantWorkspace->id)->get();
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $project = Project::where('created_by', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
+        $projects = Project::where('created_by', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->get();
         $users = User::select('users.*')->join('user_projects', 'user_projects.user_id', '=', 'users.id')->where('project_id', '=', $projectID)->get();
         $task = Task::find($taskId);
-        return view('projects.taskEdit', compact('currantWorkspace', 'project', 'projects', 'users', 'task'))->render();
+        return view('projects.taskEdit', compact('currentWorkspace', 'project', 'projects', 'users', 'task'))->render();
     }
 
     /**
@@ -523,16 +523,16 @@ class ProjectController extends Controller
             'due_date' => 'required',
         ]);
         $objUser = Auth::user();
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $project = Project::where('created_by', '=', $objUser->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.id', '=', $request->project_id)->first();
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $project = Project::where('created_by', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $request->project_id)->first();
 
         if ($project) {
             $post = $request->all();
             $task = Task::find($taskID);
             $task->update($post);
-            return redirect()->route('projects.task.board', [$currantWorkspace->slug, $request->project_id])->with('success', __('Task Updated Successfully!'));
+            return redirect()->route('projects.task.board', [$currentWorkspace->slug, $request->project_id])->with('success', __('Task Updated Successfully!'));
         } else {
-            return redirect()->route('projects.task.board', [$currantWorkspace->slug, $request->project_id])->with('error', __('You can \'t Edit Task!'));
+            return redirect()->route('projects.task.board', [$currentWorkspace->slug, $request->project_id])->with('error', __('You can \'t Edit Task!'));
         }
     }
 
@@ -550,14 +550,14 @@ class ProjectController extends Controller
     }
     public function taskShow($slug, $projectID, $taskID, $clientID = '')
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $task = Task::find($taskID);
-        return view('projects.taskShow', compact('currantWorkspace', 'task', 'clientID'));
+        return view('projects.taskShow', compact('currentWorkspace', 'task', 'clientID'));
     }
 
     public function commentStore(Request $request, $slug, $projectID, $taskID, $clientID = '')
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $post = [];
         $post['task_id'] = $taskID;
         $post['comment'] = $request->comment;
@@ -575,7 +575,7 @@ class ProjectController extends Controller
             $user = $comment->user;
         }
         if (empty($clientID)) {
-            $comment->deleteUrl = route('comment.destroy', [$currantWorkspace->slug, $projectID, $taskID, $comment->id]);
+            $comment->deleteUrl = route('comment.destroy', [$currentWorkspace->slug, $projectID, $taskID, $comment->id]);
         }
         return $comment->toJson();
     }
@@ -588,7 +588,7 @@ class ProjectController extends Controller
 
     public function commentStoreFile(Request $request, $slug, $projectID, $taskID, $clientID = '')
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $request->validate(
             ['file' => 'required|mimes:jpeg,jpg,png,gif,svg,pdf,txt,doc,docx,zip,rar|max:2048']
         );
@@ -609,7 +609,7 @@ class ProjectController extends Controller
         $TaskFile = TaskFile::create($post);
         $user = $TaskFile->user;
         if (empty($clientID)) {
-            $TaskFile->deleteUrl = route('comment.destroy.file', [$currantWorkspace->slug, $projectID, $taskID, $TaskFile->id]);
+            $TaskFile->deleteUrl = route('comment.destroy.file', [$currentWorkspace->slug, $projectID, $taskID, $TaskFile->id]);
         }
         return $TaskFile->toJson();
     }
@@ -626,17 +626,17 @@ class ProjectController extends Controller
 
     public function getSearchJson($slug, $search)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $objProject = Project::select(['projects.id', 'projects.name'])->join('user_projects', 'user_projects.project_id', '=', 'projects.id')->where('user_projects.user_id', '=', Auth::user()->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('projects.name', 'LIKE', $search . "%")->get();
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $objProject = Project::select(['projects.id', 'projects.name'])->join('user_projects', 'user_projects.project_id', '=', 'projects.id')->where('user_projects.user_id', '=', Auth::user()->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.name', 'LIKE', $search . "%")->get();
         $arrProject = [];
         foreach ($objProject as $project) {
-            $arrProject[] = ['text' => $project->name, 'link' => route('projects.show', [$currantWorkspace->slug, $project->id])];
+            $arrProject[] = ['text' => $project->name, 'link' => route('projects.show', [$currentWorkspace->slug, $project->id])];
         }
 
-        $objTask = Task::select(['tasks.project_id', 'tasks.title'])->join('projects', 'tasks.project_id', '=', 'projects.id')->join('user_projects', 'user_projects.project_id', '=', 'projects.id')->where('user_projects.user_id', '=', Auth::user()->id)->where('projects.workspace', '=', $currantWorkspace->id)->where('tasks.title', 'LIKE', $search . "%")->get();
+        $objTask = Task::select(['tasks.project_id', 'tasks.title'])->join('projects', 'tasks.project_id', '=', 'projects.id')->join('user_projects', 'user_projects.project_id', '=', 'projects.id')->where('user_projects.user_id', '=', Auth::user()->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('tasks.title', 'LIKE', $search . "%")->get();
         $arrTask = [];
         foreach ($objTask as $task) {
-            $arrTask[] = ['text' => $task->title, 'link' => route('projects.task.board', [$currantWorkspace->slug, $task->project_id])];
+            $arrTask[] = ['text' => $task->title, 'link' => route('projects.task.board', [$currentWorkspace->slug, $task->project_id])];
         }
 
         return json_encode(['Projects' => $arrProject, 'Tasks' => $arrTask]);
@@ -644,14 +644,14 @@ class ProjectController extends Controller
 
     public function milestone($slug, $projectID)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $project = Project::find($projectID);
-        return view('projects.milestone', compact('currantWorkspace', 'project'));
+        return view('projects.milestone', compact('currentWorkspace', 'project'));
     }
 
     public function milestoneStore($slug, $projectID, Request $request)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $project = Project::find($projectID);
         $request->validate([
             'title' => 'required',
@@ -679,14 +679,14 @@ class ProjectController extends Controller
 
     public function milestoneEdit($slug, $milestoneID)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $milestone = Milestone::find($milestoneID);
-        return view('projects.milestoneEdit', compact('currantWorkspace', 'milestone'));
+        return view('projects.milestoneEdit', compact('currentWorkspace', 'milestone'));
     }
 
     public function milestoneUpdate($slug, $milestoneID, Request $request)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
 
         $request->validate([
             'title' => 'required',
@@ -704,7 +704,7 @@ class ProjectController extends Controller
     }
     public function milestoneDestroy($slug, $milestoneID)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $milestone = Milestone::find($milestoneID);
         $milestone->delete();
         return redirect()->back()->with('success', __('Milestone deleted Successfully!'));
@@ -712,9 +712,9 @@ class ProjectController extends Controller
 
     public function milestoneShow($slug, $milestoneID)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $milestone = Milestone::find($milestoneID);
-        return view('projects.milestoneShow', compact('currantWorkspace', 'milestone'));
+        return view('projects.milestoneShow', compact('currentWorkspace', 'milestone'));
     }
 
 

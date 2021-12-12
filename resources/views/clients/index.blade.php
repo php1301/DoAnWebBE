@@ -4,7 +4,7 @@
     <section class="section">
 
 
-    @if($currantWorkspace)
+    @if($currentWorkspace)
      
     @else
         <div class="container mt-5">

@@ -13,28 +13,28 @@
               <i class="dripicons-home"></i> <span> {{ __('Dashboard') }} </span>
           </a>
       </li>
-      @if(isset($currantWorkspace) && $currantWorkspace)
+      @if(isset($currentWorkspace) && $currentWorkspace)
           <li class="{{ (Request::route()->getName() == 'projects.index') ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('projects.index',$currantWorkspace->slug) }}">
+              <a class="nav-link" href="{{ route('projects.index',$currentWorkspace->slug) }}">
                   <i class="dripicons-briefcase"></i>
                   <span> {{ __('Projects') }} </span>
               </a>
           </li>
           <li class="{{ (Request::route()->getName() == 'users.index') ? ' active' : '' }}">
-              <a href="{{ route('users.index',$currantWorkspace->slug) }}">
+              <a href="{{ route('users.index',$currentWorkspace->slug) }}">
                   <i class="dripicons-network-3"></i>
                   <span> {{ __('Users') }} </span>
               </a>
           </li>
     
           <li class="{{ (Request::route()->getName() == 'calender.index') ? ' active' : '' }}">
-              <a href="{{route('calender.index',$currantWorkspace->slug)}}">
+              <a href="{{route('calender.index',$currentWorkspace->slug)}}">
                   <i class="dripicons-calendar"></i>
                   <span> {{ __('Calender') }} </span>
               </a>
           </li>
           <li class="{{ (Request::route()->getName() == 'notes.index') ? ' active' : '' }}">
-              <a href="{{route('notes.index',$currantWorkspace->slug)}}">
+              <a href="{{route('notes.index',$currentWorkspace->slug)}}">
                   <i class="dripicons-clipboard"></i>
                   <span> {{ __('Notes') }} </span>
               </a>

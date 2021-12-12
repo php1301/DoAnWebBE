@@ -4,16 +4,16 @@
 <!-- Start Content-->
 <section class="section">
 
-    @if($currantWorkspace || Auth::user()->type == 'admin')
+    @if($currentWorkspace || Auth::user()->type == 'admin')
 
         <div class="row mb-2">
             <div class="col-sm-4">
                 <h2 class="section-title">{{ __('Users') }}</h2>
             </div>
-            @if($currantWorkspace && $currantWorkspace->creater->id == Auth::user()->id)
+            @if($currentWorkspace && $currentWorkspace->creater->id == Auth::user()->id)
             <div class="col-sm-8">
                 <div class="text-sm-right">
-                    <button type="button" class="btn btn-primary btn-rounded mt-4" data-ajax-popup="true" data-size="lg" data-title="{{ __('Invite New User') }}" data-url="{{route('users.invite',$currantWorkspace->slug)}}">
+                    <button type="button" class="btn btn-primary btn-rounded mt-4" data-ajax-popup="true" data-size="lg" data-title="{{ __('Invite New User') }}" data-url="{{route('users.invite',$currentWorkspace->slug)}}">
                         <i class="mdi mdi-plus"></i> {{ __('Invite User') }}
                     </button>
                 </div>
@@ -37,18 +37,18 @@
                                 </div>
                                 <div class="profile-widget-item">
                                     <div class="profile-widget-item-label">{{ __('Number of Users')}}</div>
-                                    <div class="profile-widget-item-value">{{$user->countUsers(($currantWorkspace)?$currantWorkspace->id:'')}}</div>
+                                    <div class="profile-widget-item-value">{{$user->countUsers(($currentWorkspace)?$currentWorkspace->id:'')}}</div>
                                 </div>
                               
                             @endif
                             <div class="profile-widget-item">
                                 <div class="profile-widget-item-label">{{ __('Number of Projects')}}</div>
-                                <div class="profile-widget-item-value">{{$user->countProject(($currantWorkspace)?$currantWorkspace->id:'')}}</div>
+                                <div class="profile-widget-item-value">{{$user->countProject(($currentWorkspace)?$currentWorkspace->id:'')}}</div>
                             </div>
                             @if(Auth::user()->type != 'admin')
                                 <div class="profile-widget-item">
                                     <div class="profile-widget-item-label">{{ __('Number of Tasks')}}</div>
-                                    <div class="profile-widget-item-value">{{$user->countTask(($currantWorkspace)?$currantWorkspace->id:'')}}</div>
+                                    <div class="profile-widget-item-value">{{$user->countTask(($currentWorkspace)?$currentWorkspace->id:'')}}</div>
                                 </div>
                             @endif
                         </div>
@@ -57,15 +57,15 @@
                         <div class="card-body p-0">
                             <div class="card-header-action">
                                 <div class="dropdown card-widgets text-right">
-                                    @if($currantWorkspace->permission == 'Owner' && Auth::user()->id != $user->id)
+                                    @if($currentWorkspace->permission == 'Owner' && Auth::user()->id != $user->id)
                                         <div class="dropdown card-widgets float-right">
                                             <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
                                                 <i class="dripicons-gear"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{__('Edit User')}}" data-url="{{route('users.edit',[$currantWorkspace->slug,$user->id])}}"><i class="mdi mdi-pencil mr-1"></i>{{__('Edit')}}</a>
+                                                <a href="#" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{__('Edit User')}}" data-url="{{route('users.edit',[$currentWorkspace->slug,$user->id])}}"><i class="mdi mdi-pencil mr-1"></i>{{__('Edit')}}</a>
                                                 <a href="#" onclick="(confirm('Are you sure ?')?document.getElementById('delete-form-{{$user->id}}').submit(): '');" class="dropdown-item"><i class="mdi mdi-delete mr-1"></i>{{__('Remove User From Workspace')}}</a>
-                                                <form method="post" id="delete-form-{{$user->id}}" action="{{route('users.remove',[$currantWorkspace->slug,$user->id])}}">
+                                                <form method="post" id="delete-form-{{$user->id}}" action="{{route('users.remove',[$currentWorkspace->slug,$user->id])}}">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>

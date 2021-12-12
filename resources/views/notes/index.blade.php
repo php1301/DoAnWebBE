@@ -4,7 +4,7 @@
 
     <section class="section">
 
-        @if($currantWorkspace)
+        @if($currentWorkspace)
 
             <div class="row mb-2">
                 <div class="col-sm-4">
@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-sm-8">
                     <div class="text-sm-right">
-                        <button type="button" class="btn btn-primary btn-rounded mt-4" data-ajax-popup="true" data-size="lg" data-title="{{ __('Create New Note') }}" data-url="{{route('notes.create',$currantWorkspace->slug)}}">
+                        <button type="button" class="btn btn-primary btn-rounded mt-4" data-ajax-popup="true" data-size="lg" data-title="{{ __('Create New Note') }}" data-url="{{route('notes.create',$currentWorkspace->slug)}}">
                             <i class="mdi mdi-plus"></i> {{ __('Create Note') }}
                         </button>
                     </div>
@@ -28,9 +28,9 @@
                                     <div class="card mb-0 mt-3 text-white {{$note->color}}">
                                         <div class="card-body">
                                             <div class="card-widgets float-right">
-                                                <a href="#" data-ajax-popup="true" data-size="lg" data-title="{{ __('Edit Note') }}" data-url="{{route('notes.edit',[$currantWorkspace->slug,$note->id])}}"><i class="mdi mdi-pencil"></i></a>
+                                                <a href="#" data-ajax-popup="true" data-size="lg" data-title="{{ __('Edit Note') }}" data-url="{{route('notes.edit',[$currentWorkspace->slug,$note->id])}}"><i class="mdi mdi-pencil"></i></a>
                                                 <a href="#" onclick="(confirm('Are you sure ?')?document.getElementById('delete-form-{{$note->id}}').submit(): '');"><i class="mdi mdi-trash-can    "></i></a>
-                                                <form id="delete-form-{{$note->id}}" action="{{ route('notes.destroy',[$currantWorkspace->slug,$note->id]) }}" method="POST" style="display: none;">
+                                                <form id="delete-form-{{$note->id}}" action="{{ route('notes.destroy',[$currentWorkspace->slug,$note->id]) }}" method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>

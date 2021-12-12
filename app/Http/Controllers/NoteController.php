@@ -16,9 +16,9 @@ class NoteController extends Controller
      */
     public function index($slug)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $notes = Note::select(['id','title','text','color'])->where('workspace','=',$currantWorkspace->id)->get();
-        return view('notes.index',compact('currantWorkspace','notes'));
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $notes = Note::select(['id', 'title', 'text', 'color'])->where('workspace', '=', $currentWorkspace->id)->get();
+        return view('notes.index', compact('currentWorkspace', 'notes'));
     }
 
     /**
@@ -28,8 +28,8 @@ class NoteController extends Controller
      */
     public function create($slug)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        return view('notes.create',compact('currantWorkspace'));
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        return view('notes.create', compact('currentWorkspace'));
     }
 
     /**
@@ -38,21 +38,21 @@ class NoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($slug,Request $request)
+    public function store($slug, Request $request)
     {
         $request->validate([
             'title' => 'required',
             'text' => 'required',
             'color' => 'required',
         ]);
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $objUser = Auth::user();
         $post = $request->all();
-        $post['workspace'] = $currantWorkspace->id;
+        $post['workspace'] = $currentWorkspace->id;
         $post['created_by'] = $objUser->id;
         Note::create($post);
-        return redirect()->route('notes.index',$currantWorkspace->slug)
-            ->with('success','Note   created successfully.');
+        return redirect()->route('notes.index', $currentWorkspace->slug)
+            ->with('success', 'Note   created successfully.');
     }
 
     /**
@@ -72,11 +72,11 @@ class NoteController extends Controller
      * @param  \App\Note  $note
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug,$noteID)
+    public function edit($slug, $noteID)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $notes = Note::where('workspace','=',$currantWorkspace->id)->where('created_by','=',Auth::user()->id)->where('id','=',$noteID)->first();
-        return view('notes.edit',compact('currantWorkspace','notes'));
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $notes = Note::where('workspace', '=', $currentWorkspace->id)->where('created_by', '=', Auth::user()->id)->where('id', '=', $noteID)->first();
+        return view('notes.edit', compact('currentWorkspace', 'notes'));
     }
 
     /**
@@ -86,7 +86,7 @@ class NoteController extends Controller
      * @param  \App\Note  $note
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug,$noteID)
+    public function update(Request $request, $slug, $noteID)
     {
         $request->validate([
             'title' => 'required',
@@ -94,11 +94,11 @@ class NoteController extends Controller
             'color' => 'required',
         ]);
         $objUser = Auth::user();
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $notes = Note::where('workspace','=',$currantWorkspace->id)->where('created_by','=',Auth::user()->id)->where('id','=',$noteID)->first();
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $notes = Note::where('workspace', '=', $currentWorkspace->id)->where('created_by', '=', Auth::user()->id)->where('id', '=', $noteID)->first();
         $notes->update($request->all());
-        return redirect()->route('notes.index',$slug)
-            ->with('success',__('Note Updated Successfully!'));
+        return redirect()->route('notes.index', $slug)
+            ->with('success', __('Note Updated Successfully!'));
     }
 
     /**
@@ -107,16 +107,15 @@ class NoteController extends Controller
      * @param  \App\Note  $note
      * @return \Illuminate\Http\Response
      */
-    public function destroy($slug,$noteID)
+    public function destroy($slug, $noteID)
     {
         $objUser = Auth::user();
         $note = Note::find($noteID);
-        if($note->created_by == $objUser->id) {
+        if ($note->created_by == $objUser->id) {
             $note->delete();
-            return redirect()->route('notes.index',$slug)->with('success',__('Note Deleted Successfully!'));
-        }
-        else{
-            return redirect()->route('notes.index',$slug)->with('error',__('You can\'t delete Note!'));
+            return redirect()->route('notes.index', $slug)->with('success', __('Note Deleted Successfully!'));
+        } else {
+            return redirect()->route('notes.index', $slug)->with('error', __('You can\'t delete Note!'));
         }
     }
 }

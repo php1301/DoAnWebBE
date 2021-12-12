@@ -6,7 +6,7 @@
             {{ __('Task')}}
         </h2>
 
-        @if($project && $currantWorkspace)
+        @if($project && $currentWorkspace)
             <div class="row">
                 <div class="col-12">
 
@@ -20,7 +20,7 @@
                                         <div class="card mb-0" id="{{$taskDetail->id}}">
                                             <div class="card-body p-3">
                                                 <div>
-                                                    <a href="#" data-ajax-popup="true" data-size="lg" data-title="{{$taskDetail->title}} @if($taskDetail->priority=="High")<span class='badge badge-danger ml-2'>{{ __('High')}}</span>@elseif($taskDetail->priority=="Medium")<span class='badge badge-info'>{{ __('Medium')}}</span>@else<span class='badge badge-success'>{{ __('Low')}}</span>@endif" data-url="{{route('tasks.show',[$currantWorkspace->slug,$taskDetail->project_id,$taskDetail->id,$clientID])}}"
+                                                    <a href="#" data-ajax-popup="true" data-size="lg" data-title="{{$taskDetail->title}} @if($taskDetail->priority=="High")<span class='badge badge-danger ml-2'>{{ __('High')}}</span>@elseif($taskDetail->priority=="Medium")<span class='badge badge-info'>{{ __('Medium')}}</span>@else<span class='badge badge-success'>{{ __('Low')}}</span>@endif" data-url="{{route('tasks.show',[$currentWorkspace->slug,$taskDetail->project_id,$taskDetail->id,$clientID])}}"
                                                        class="text-body">{{$taskDetail->title}}</a>
                                                 </div>
                                                 @if($taskDetail->priority=="High")
@@ -39,7 +39,7 @@
                                                 </p>
 
                                                 <small class="float-right text-muted mt-2">{{date('d M Y',strtotime($taskDetail->created_at))}}</small>
-                                                @if($currantWorkspace->permission == 'Owner')
+                                                @if($currentWorkspace->permission == 'Owner')
                                                     <figure class="avatar mr-2 avatar-sm animated" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$taskDetail->user->name}}">
                                                         <img @if($taskDetail->user->avatar) src="{{asset('/storage/avatars/'.$taskDetail->user->avatar)}}" @else avatar="{{ $taskDetail->user->name }}"@endif class="rounded-circle">
                                                     </figure>
@@ -75,7 +75,7 @@
     </section>
 
 @endsection
-@if($project && $currantWorkspace)
+@if($project && $currentWorkspace)
 @push('scripts')
     <!-- third party js -->
     <script src="{{ asset('assets/js/vendor/dragula.min.js') }}"></script>
@@ -113,7 +113,7 @@
                         $("#"+source.id).parent().find('.count').text($("#"+source.id+" > div").length);
                         $("#"+target.id).parent().find('.count').text($("#"+target.id+" > div").length);
                         $.ajax({
-                            url:'{{route('tasks.update.order',[$currantWorkspace->slug,$project->id])}}',
+                            url:'{{route('tasks.update.order',[$currentWorkspace->slug,$project->id])}}',
                             type:'PUT',
                             data:{id:id,sort:sort,client_id:{{$clientID}},new_status:new_status,old_status:old_status,project_id:project_id,"_token":$('meta[name="csrf-token"]').attr('content')},
                             success: function(data){

@@ -4,7 +4,7 @@
     <section class="section">
 
 
-        @if($currantWorkspace)
+        @if($currentWorkspace)
             <h2 class="section-title">{{ __('Todo') }}</h2>
 
             <div class="row">
@@ -73,7 +73,7 @@
     <!-- container -->
 @endsection
 
-@if($currantWorkspace)
+@if($currentWorkspace)
     @push('scripts')
         <script>
             !function (t) {
@@ -83,7 +83,7 @@
                 };
                 o.prototype.markTodo = function (t, o) {
                     $.ajax({
-                        url: '{{route('todos.update',$currantWorkspace->slug)}}',
+                        url: '{{route('todos.update',$currentWorkspace->slug)}}',
                         type: 'PUT',
                         data: {"id":t,"done":o,"_token":$('meta[name="csrf-token"]').attr('content')},
                         success: function(data){}
@@ -91,7 +91,7 @@
                     for (var e = 0; e < window.$todoData.length; e++) window.$todoData[e].id == t && (window.$todoData[e].done = o)
                 }, o.prototype.addTodo = function (t) {
                     var todo;
-                    $.post('{{route('todos.store',$currantWorkspace->slug)}}',{"text":t,"done":0,"_token":$('meta[name="csrf-token"]').attr('content')},function(data){
+                    $.post('{{route('todos.store',$currentWorkspace->slug)}}',{"text":t,"done":0,"_token":$('meta[name="csrf-token"]').attr('content')},function(data){
                         todo = JSON.parse(data);
                         window.$todoData.push({id: todo.id, text: todo.text, done: todo.done}), o.prototype.generate()
                     });
@@ -102,7 +102,7 @@
                         1 == o.done ? this.$todoCompletedData.push(o) : this.$todoUnCompletedData.push(o)
                     }
                     $.ajax({
-                        url: '{{route('todos.destroy',$currantWorkspace->slug)}}',
+                        url: '{{route('todos.destroy',$currentWorkspace->slug)}}',
                         type: 'DELETE',
                         data: {"archives":this.$todoCompletedData,"_token":$('meta[name="csrf-token"]').attr('content')},
                         success: function(data){}

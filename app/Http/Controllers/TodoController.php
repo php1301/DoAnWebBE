@@ -16,9 +16,9 @@ class TodoController extends Controller
      */
     public function index($slug)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $todos = Todo::select(['id','text','done'])->where('workspace','=',$currantWorkspace->id)->where('created_by','=',Auth::user()->id)->get()->toJson();
-        return view('todos.index',compact('currantWorkspace','todos'));
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $todos = Todo::select(['id', 'text', 'done'])->where('workspace', '=', $currentWorkspace->id)->where('created_by', '=', Auth::user()->id)->get()->toJson();
+        return view('todos.index', compact('currentWorkspace', 'todos'));
     }
 
     /**
@@ -27,14 +27,14 @@ class TodoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($slug,Request $request)
+    public function store($slug, Request $request)
     {
-		$request->validate([
-           'text' => 'required',
-       ]);
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $request->validate([
+            'text' => 'required',
+        ]);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $post = $request->all();
-        $post['workspace'] = $currantWorkspace->id;
+        $post['workspace'] = $currentWorkspace->id;
         $post['created_by'] = Auth::user()->id;
         $todos = Todo::create($post);
         return $todos->toJson();
@@ -88,9 +88,9 @@ class TodoController extends Controller
     {
         $post = $request->all();
         $todoId = [];
-        foreach ($post['archives'] as $todo){
-            $todoId[]= $todo['id'];
+        foreach ($post['archives'] as $todo) {
+            $todoId[] = $todo['id'];
         }
-        return Todo::whereIn('id',$todoId)->delete();
+        return Todo::whereIn('id', $todoId)->delete();
     }
 }

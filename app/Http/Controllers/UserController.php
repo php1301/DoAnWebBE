@@ -34,16 +34,16 @@ class UserController extends Controller
      */
     public function index($slug)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $users = User::select('users.*', 'user_workspaces.permission')->join('user_workspaces', 'user_workspaces.user_id', '=', 'users.id')->where('user_workspaces.workspace_id', '=', $currantWorkspace->id)->get();
-        return view('users.index', compact('currantWorkspace', 'users'));
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $users = User::select('users.*', 'user_workspaces.permission')->join('user_workspaces', 'user_workspaces.user_id', '=', 'users.id')->where('user_workspaces.workspace_id', '=', $currentWorkspace->id)->get();
+        return view('users.index', compact('currentWorkspace', 'users'));
     }
 
     public function account()
     {
         $user = Auth::user();
-        $currantWorkspace = Utility::getWorkspaceBySlug('');
-        return view('users.account', compact('currantWorkspace', 'user'));
+        $currentWorkspace = Utility::getWorkspaceBySlug('');
+        return view('users.account', compact('currentWorkspace', 'user'));
     }
     public function deleteAvatar()
     {
@@ -128,12 +128,12 @@ class UserController extends Controller
 
     public function invite($slug)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        return view('users.invite', compact('currantWorkspace'));
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        return view('users.invite', compact('currentWorkspace'));
     }
     public function inviteUser($slug, Request $request)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $post = $request->all();
         $userList = explode(',', $post['users_list']);
         $userList = array_filter($userList);
@@ -145,7 +145,7 @@ class UserController extends Controller
                 $arrUser['email'] = $email;
                 $password = Str::random(8);
                 $arrUser['password'] = Hash::make($password);
-                $arrUser['currant_workspace'] = $currantWorkspace->id;
+                $arrUser['current_workspace'] = $currentWorkspace->id;
                 $registerUsers = User::create($arrUser);
                 $registerUsers->password = $password;
 
@@ -158,44 +158,44 @@ class UserController extends Controller
             // assign workspace first
             $is_assigned = false;
             foreach ($registerUsers->workspace as $workspace) {
-                if ($workspace->id == $currantWorkspace->id) {
+                if ($workspace->id == $currentWorkspace->id) {
                     $is_assigned = true;
                 }
             }
 
             if (!$is_assigned) {
-                UserWorkspace::create(['user_id' => $registerUsers->id, 'workspace_id' => $currantWorkspace->id, 'permission' => 'Member']);
+                UserWorkspace::create(['user_id' => $registerUsers->id, 'workspace_id' => $currentWorkspace->id, 'permission' => 'Member']);
 
                 try {
-                    Mail::to($registerUsers->email)->send(new SendWorkspaceInvitation($registerUsers, $currantWorkspace));
+                    Mail::to($registerUsers->email)->send(new SendWorkspaceInvitation($registerUsers, $currentWorkspace));
                 } catch (\Exception $e) {
                     echo $e;
                     $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
                 }
             }
         }
-        return redirect()->route('users.index', $currantWorkspace->slug)
+        return redirect()->route('users.index', $currentWorkspace->slug)
             ->with('success', __('Users Invited Successfully!') . ((isset($smtp_error)) ? ' <br> <span class="text-danger">' . $smtp_error . '</span>' : ''));
     }
     public function edit($slug, $id)
     {
         $user = User::find($id);
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        return view('users.edit', compact('currantWorkspace', 'user'));
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        return view('users.edit', compact('currentWorkspace', 'user'));
     }
     public function removeUser($slug, $id)
     {
-        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
-        $userWorkspace = UserWorkspace::where('user_id', '=', $id)->where('workspace_id', '=', $currantWorkspace->id)->first();
+        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
+        $userWorkspace = UserWorkspace::where('user_id', '=', $id)->where('workspace_id', '=', $currentWorkspace->id)->first();
         if ($userWorkspace) {
-            foreach ($currantWorkspace->projects as $project) {
+            foreach ($currentWorkspace->projects as $project) {
                 $userProject = UserProject::where('user_id', '=', $id)->where('project_id', '=', $project->id)->first();
                 if ($userProject) {
                     $userProject->delete();
                 }
             }
             $userWorkspace->delete();
-            return redirect()->route('users.index', $currantWorkspace->slug)->with('success',  __('User Removed Successfully!'));
+            return redirect()->route('users.index', $currentWorkspace->slug)->with('success',  __('User Removed Successfully!'));
         } else {
             return redirect()->back()->with('error', __('Something is wrong.'));
         }

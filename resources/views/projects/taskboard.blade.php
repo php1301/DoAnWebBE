@@ -13,17 +13,17 @@
             <div class="col-sm-8">
                 <div class="text-sm-right">
                     <div class="btn-group mt-4">
-                        @if($currantWorkspace && $currantWorkspace->permission == 'Owner')
+                        @if($currentWorkspace && $currentWorkspace->permission == 'Owner')
                             <a href="#" class="btn btn-primary ml-3" data-ajax-popup="true" data-size="lg"
                                data-title="{{ __('Create New Task') }}"
-                               data-url="{{route('tasks.create',[$currantWorkspace->slug,$project->id])}}"><i class="mdi mdi-plus"></i> {{ __('Add New')}}</a>
+                               data-url="{{route('tasks.create',[$currentWorkspace->slug,$project->id])}}"><i class="mdi mdi-plus"></i> {{ __('Add New')}}</a>
                         @endif
                     </div>
                 </div>
             </div>
         </div>
 
-        @if($project && $currantWorkspace)
+        @if($project && $currentWorkspace)
         <div class="row">
             <div class="col-12">
         <div class="board" data-plugin="dragula" data-containers='{{json_encode($statusClass)}}'>
@@ -55,7 +55,7 @@
     </section>
 
 @endsection
-@if($project && $currantWorkspace)
+@if($project && $currentWorkspace)
 @push('scripts')
     <!-- third party js -->
     <script src="{{ asset('assets/js/vendor/dragula.min.js') }}"></script>
@@ -93,7 +93,7 @@
                         $("#"+source.id).parent().find('.count').text($("#"+source.id+" > div").length);
                         $("#"+target.id).parent().find('.count').text($("#"+target.id+" > div").length);
                         $.ajax({
-                            url:'{{route('tasks.update.order',[$currantWorkspace->slug,$project->id])}}',
+                            url:'{{route('tasks.update.order',[$currentWorkspace->slug,$project->id])}}',
                             type:'PUT',
                             data:{id:id,sort:sort,new_status:new_status,old_status:old_status,project_id:project_id,"_token":$('meta[name="csrf-token"]').attr('content')},
                             success: function(data){

@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
 
-        @if($currantWorkspace && $currantWorkspace->permission == 'Owner')
+        @if($currentWorkspace && $currentWorkspace->permission == 'Owner')
 
             <div class="row mb-2">
                 <div class="col-sm-4">
@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-sm-8">
                     <div class="text-sm-right">
-                        <button type="button" class="btn btn-primary btn-rounded mt-4" data-ajax-popup="true" data-size="lg" data-title="{{ __('Create new')}}" data-url="{{route('create_lang_workspace',$currantWorkspace->slug)}}">
+                        <button type="button" class="btn btn-primary btn-rounded mt-4" data-ajax-popup="true" data-size="lg" data-title="{{ __('Create new')}}" data-url="{{route('create_lang_workspace',$currentWorkspace->slug)}}">
                             <i class="mdi mdi-plus"></i> {{ __('Create new')}}
                         </button>
                     </div>
@@ -24,8 +24,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                @foreach($currantWorkspace->languages() as $lang)
-                                    <a href="{{route('lang_workspace',[$currantWorkspace->slug,$lang])}}" class="nav-link @if($currantLang == $lang) active @endif">
+                                @foreach($currentWorkspace->languages() as $lang)
+                                    <a href="{{route('lang_workspace',[$currentWorkspace->slug,$lang])}}" class="nav-link @if($currentLang == $lang) active @endif">
                                         <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
                                         <span class="d-none d-lg-block">{{Str::upper($lang)}}</span>
                                     </a>
@@ -52,7 +52,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            <form method="post" action="{{route('store_lang_data_workspace',[$currantWorkspace->slug,$currantLang])}}">
+                            <form method="post" action="{{route('store_lang_data_workspace',[$currentWorkspace->slug,$currentLang])}}">
                                 @csrf
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="labels">

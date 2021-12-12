@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="section">
-    @if($currantWorkspace)
+    @if($currentWorkspace)
             <h2 class="section-title">{{ __('Projects') }}</h2>
 
             <div class="row">
@@ -117,7 +117,7 @@
                                     @foreach($tasks as $task)
                                         <tr>
                                             <td>
-                                                <div class="font-14 my-1"><a href="{{route('projects.task.board',[$currantWorkspace->slug,$task->project_id])}}" class="text-body">{{$task->title}}</a></div>
+                                                <div class="font-14 my-1"><a href="{{route('projects.task.board',[$currentWorkspace->slug,$task->project_id])}}" class="text-body">{{$task->title}}</a></div>
                                                 <span class="text-muted font-13">{{ __('Due in') }} {{\App\Utility::get_timeago(strtotime($task->due_date))}}</span>
                                             </td>
                                             <td>
@@ -136,7 +136,7 @@
                                                 <span class="text-muted font-13">{{ __('Project') }}</span>
                                                 <div class="font-14 mt-1 font-weight-normal">{{$task->project->name}}</div>
                                             </td>
-                                            @if($currantWorkspace->permission == 'Owner')
+                                            @if($currentWorkspace->permission == 'Owner')
                                                 <td>
                                                     <span class="text-muted font-13">{{ __('Assigned to') }}</span>
                                                     <div class="font-14 mt-1 font-weight-normal">{{$task->user->name}}</div>
@@ -158,7 +158,7 @@
     </section>
 
 @endsection
-@if($currantWorkspace)
+@if($currentWorkspace)
 @push('scripts')
     <!-- third party js -->
     <script src="{{ asset('assets/js/vendor/Chart.bundle.min.js') }}"></script>

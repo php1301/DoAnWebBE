@@ -72,10 +72,10 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $objWorkspace = Workspace::create(['created_by'=>$objUser->id,'name'=>$data['workspace']]);
-        $objUser->currant_workspace = $objWorkspace->id;
+        $objWorkspace = Workspace::create(['created_by' => $objUser->id, 'name' => $data['workspace']]);
+        $objUser->current_workspace = $objWorkspace->id;
         $objUser->save();
-        UserWorkspace::create(['user_id'=>$objUser->id,'workspace_id'=>$objWorkspace->id,'permission'=>'Owner']);
+        UserWorkspace::create(['user_id' => $objUser->id, 'workspace_id' => $objWorkspace->id, 'permission' => 'Owner']);
 
         return $objUser;
     }
