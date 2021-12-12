@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendInvication extends Mailable
+class SendInvitation extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -21,7 +21,7 @@ class SendInvication extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user,Project $project)
+    public function __construct(User $user, Project $project)
     {
         $this->user = $user;
         $this->project = $project;
@@ -34,6 +34,6 @@ class SendInvication extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.invitation')->subject('New Project Invitation - '.env('APP_NAME'));
+        return $this->markdown('email.invitation')->subject('New Project Invitation - ' . env('APP_NAME'));
     }
 }

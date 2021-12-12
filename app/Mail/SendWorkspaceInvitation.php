@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendWorkspaceInvication extends Mailable
+class SendWorkspaceInvitation extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -20,7 +20,7 @@ class SendWorkspaceInvication extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user,Workspace $workspace)
+    public function __construct(User $user, Workspace $workspace)
     {
         $this->user = $user;
         $this->workspace = $workspace;
@@ -33,6 +33,6 @@ class SendWorkspaceInvication extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.workspace_invitation')->subject('New Workspace Invitation - '.env('APP_NAME'));
+        return $this->markdown('email.workspace_invitation')->subject('New Workspace Invitation - ' . env('APP_NAME'));
     }
 }
