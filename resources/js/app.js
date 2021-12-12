@@ -7,14 +7,15 @@
 
 require('./bootstrap');
 
-function refetchTaskBoard() {
-    const currentTaskBoard = window.location.pathname
+async function refetchTaskBoard() {
+    const currentTaskBoard = window.location.pathname + '/update'
     console.log(currentTaskBoard)
     const options = {
-        method: "post",
+        method: "get",
         url: currentTaskBoard
     }
-    axios(options)
+   const data = await axios(options)
+    $(".board").html(data?.data)
 }
 
 window.Echo.channel('refetchTaskBoard').listen('.refetchTaskBoard', (e) => {

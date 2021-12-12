@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class ProjectController extends Controller
 {
@@ -119,7 +120,8 @@ class ProjectController extends Controller
             try {
                 Mail::to($user->email)->send(new SendWorkspaceInvication($user, $project->workspaceData));
             }catch (\Exception $e){
-                $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
+                echo $e;
+                $smtp_error = __('E-Mail has been not sent due to SMTP configuration', $e);
             }
         }
 
@@ -357,12 +359,6 @@ class ProjectController extends Controller
         return redirect()->route('projects.index',$slug)->with('success',__('Project Leave Successfully!'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Int  $projectID
-     * @return \Illuminate\Http\Response
-     */
     public function taskBoard($slug,$projectID)
     {
         $clientID = "";
@@ -394,10 +390,39 @@ class ProjectController extends Controller
         if(isset($objUser) && $objUser){
             return view('projects.taskboard',compact('currantWorkspace','project','tasks','statusClass'));
         }
+
+    }
+    public function taskBoardUpdate($slug,$projectID)
+    {
+        $clientID = "";
+        $currantWorkspace = Utility::getWorkspaceBySlug($slug);
+
+        if(! (int) $projectID){
+
+            if($arrDec = \Illuminate\Support\Facades\Crypt::decrypt($projectID)){
+                $projectID = $arrDec['project_id'];
+                $clientID = $arrDec['client_id'];
+                $project = Project::select('projects.*')->join('client_projects','projects.id','=','client_projects.project_id')->where('client_projects.client_id','=',$arrDec['client_id'])->where('projects.workspace','=',$currantWorkspace->id)->where('projects.id','=',$projectID)->first();
+            }
+        }
         else{
-            return view('projects.client_taskboard',compact('currantWorkspace','project','tasks','statusClass','clientID'));
+            $objUser = Auth::user();
+            $project = Project::select('projects.*')->join('user_projects','projects.id','=','user_projects.project_id')->where('projects.workspace','=',$currantWorkspace->id)->where('projects.id','=',$projectID)->first();
         }
 
+        $arrStatus = ['todo','in progress','review','done'];
+        $tasks = [];
+        $statusClass = [];
+        foreach ($arrStatus as $status){
+            $statusClass[] = 'task-list-'.str_replace(' ','_',$status);
+            $task = Task::where('project_id','=',$projectID);
+            $task->orderBy('order');
+
+            $tasks[$status] = $task->where('status','=',$status)->get();
+        }
+        if(isset($objUser) && $objUser){
+            return view('projects.tasklist',compact('currantWorkspace','project','tasks','statusClass'));
+        }
     }
 
     public function taskCreate($slug,$projectID)
@@ -482,7 +507,7 @@ class ProjectController extends Controller
         $projects = Project::where('created_by','=',$objUser->id)->where('projects.workspace','=',$currantWorkspace->id)->get();
         $users = User::select('users.*')->join('user_projects','user_projects.user_id','=','users.id')->where('project_id','=',$projectID)->get();
         $task = Task::find($taskId);
-        return view('projects.taskEdit',compact('currantWorkspace','project','projects','users','task'));
+        return view('projects.taskEdit',compact('currantWorkspace','project','projects','users','task'))->render();
     }
 
     /**

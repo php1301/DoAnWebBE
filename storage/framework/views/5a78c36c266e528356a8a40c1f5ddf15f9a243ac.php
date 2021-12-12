@@ -23,74 +23,14 @@
         </div>
 
         <?php if($project && $currantWorkspace): ?>
-            <div class="row">
-                <div class="col-12">
-
-                    <div class="board" data-plugin="dragula" data-containers='<?php echo e(json_encode($statusClass)); ?>'>
-
-                        <?php $__currentLoopData = $tasks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $status => $task): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="tasks animated">
-                                <div class="mt-0 task-header text-uppercase"><?php echo e(__(ucwords($status))); ?> (<span class="count"><?php echo e(count($task)); ?></span>)</div>
-                                <div id="<?php echo e('task-list-'.str_replace(' ','_',$status)); ?>" data-status="<?php echo e($status); ?>" class="task-list-items">
-                                <?php $__currentLoopData = $task; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $taskDetail): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
-                                        <div class="card mb-0" id="<?php echo e($taskDetail->id); ?>">
-                                            <div class="card-body p-3">
-                                                <div class="dropdown float-right">
-                                                    <a href="#" class="dropdown-toggle text-muted" data-toggle="dropdown" aria-expanded="false">
-                                                        <i class="dripicons-gear"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                    <?php if($currantWorkspace->permission == 'Owner'): ?>
-                                                            <a href="#" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="<?php echo e(__('Edit Task')); ?>" data-url="<?php echo e(route('tasks.edit',[$currantWorkspace->slug,$taskDetail->project_id,$taskDetail->id])); ?>">
-                                                                <i class="mdi mdi-pencil mr-1"></i><?php echo e(__('Edit')); ?></a>
-                                                            <a href="#" class="dropdown-item" onclick="(confirm('Are you sure ?')?document.getElementById('delete-form-<?php echo e($taskDetail->id); ?>').submit(): '');">
-                                                                <i class="mdi mdi-delete mr-1"></i><?php echo e(__('Delete')); ?></a>
-                                                            <form id="delete-form-<?php echo e($taskDetail->id); ?>" action="<?php echo e(route('tasks.destroy',[$currantWorkspace->slug,$taskDetail->project_id,$taskDetail->id])); ?>" method="POST" style="display: none;">
-                                                                <?php echo csrf_field(); ?>
-                                                                <?php echo method_field('DELETE'); ?>
-                                                            </form>
-                                                    <?php else: ?>
-                                                            <a href="#" class="dropdown-item"><i class="mdi mdi-exit-to-app mr-1"></i><?php echo e(__('Leave')); ?></a>
-                                                        <?php endif; ?>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <a href="#" data-ajax-popup="true" data-size="lg" data-title="<?php echo e($taskDetail->title); ?> <?php if($taskDetail->priority=="High"): ?><span class='badge badge-danger ml-2'><?php echo e(__('High')); ?></span><?php elseif($taskDetail->priority=="Medium"): ?><span class='badge badge-warning'><?php echo e(__('Medium')); ?></span><?php else: ?><span class='badge badge-info'><?php echo e(__('Low')); ?></span><?php endif; ?>" data-url="<?php echo e(route('tasks.show',[$currantWorkspace->slug,$taskDetail->project_id,$taskDetail->id])); ?>"
-                                                       class="text-body"><?php echo e($taskDetail->title); ?></a>
-                                                </div>
-                                                <?php if($taskDetail->priority=="High"): ?>
-                                                    <span class="badge badge-danger"><?php echo e(__('High')); ?></span>
-                                                <?php elseif($taskDetail->priority=="Medium"): ?>
-                                                    <span class="badge badge-info"><?php echo e(__('Medium')); ?></span>
-                                                <?php else: ?>
-                                                    <span class="badge badge-success"><?php echo e(__('Low')); ?></span>
-                                                <?php endif; ?>
-
-                                                <p class="mt-2 mb-2">
-                                                    <span class="text-nowrap d-inline-block">
-                                                        <i class="mdi mdi-comment-multiple-outline text-muted"></i>
-                                                        <b><?php echo e(count($taskDetail->comments)); ?></b> <?php echo e(__('Comments')); ?>
-
-                                                    </span>
-                                                </p>
-
-                                                <small class="float-right text-muted mt-2"><?php echo e(date('d M Y',strtotime($taskDetail->created_at))); ?></small>
-                                                <?php if($currantWorkspace->permission == 'Owner'): ?>
-                                                    <figure class="avatar mr-2 avatar-sm animated" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo e($taskDetail->user->name); ?>">
-                                                        <img <?php if($taskDetail->user->avatar): ?> src="<?php echo e(asset('/storage/avatars/'.$taskDetail->user->avatar)); ?>" <?php else: ?> avatar="<?php echo e($taskDetail->user->name); ?>"<?php endif; ?> class="rounded-circle">
-                                                    </figure>
-                                                    <span class="align-middle"><?php echo e($taskDetail->user->name); ?></span>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </div>
-                            </div>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </div> <!-- end .board-->
-                </div> <!-- end col -->
-            </div>
+        <div class="row">
+            <div class="col-12">
+        <div class="board" data-plugin="dragula" data-containers='<?php echo e(json_encode($statusClass)); ?>'>
+            <?php echo $__env->make('projects.tasklist', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        </div>
+        </div>
+    </div>    
+        </div>
         <?php else: ?>
             <div class="container mt-5">
                 <div class="page-error">
@@ -186,16 +126,7 @@
                     success:function (data) {
                         data = JSON.parse(data);
 
-                        if(data.user_type == 'Client'){
-                            var avatar = "avatar='"+data.client.name+"'";
-                            var html = "<li class='media'>" +
-                                "                    <img class='mr-3 avatar-sm rounded-circle img-thumbnail' width='60' "+avatar+" alt='"+data.client.name+"'>" +
-                                "                    <div class='media-body'>" +
-                                "                        <h5 class='mt-0'>"+data.client.name+"</h5>" +
-                                "                        "+data.comment +
-                                "                    </div>" +
-                                "                </li>";
-                        }else{
+                   
                             var avatar = (data.user.avatar)?"src='<?php echo e(asset('/storage/avatars/')); ?>/"+data.user.avatar+"'":"avatar='"+data.user.name+"'";
                             var html = "<li class='media'>" +
                                 "                    <img class='mr-3 avatar-sm rounded-circle img-thumbnail' width='60' "+avatar+" alt='"+data.user.name+"'>" +
@@ -209,7 +140,6 @@
                                 "                           </div>"+
                                 "                    </div>" +
                                 "                </li>";
-                        }
 
 
 

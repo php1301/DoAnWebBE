@@ -154,7 +154,7 @@ class UserController extends Controller
                 try {
                     Mail::to($email)->send(new SendLoginDetail($registerUsers));
                 }catch (\Exception $e){
-                    $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
+                    $smtp_error = $e;
                 }
 
             }
@@ -172,6 +172,7 @@ class UserController extends Controller
                 try {
                     Mail::to($registerUsers->email)->send(new SendWorkspaceInvication($registerUsers, $currantWorkspace));
                 }catch (\Exception $e){
+                    echo $e;
                     $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
                 }
 

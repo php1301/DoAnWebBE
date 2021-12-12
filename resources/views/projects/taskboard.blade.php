@@ -24,73 +24,14 @@
         </div>
 
         @if($project && $currantWorkspace)
-            <div class="row">
-                <div class="col-12">
-
-                    <div class="board" data-plugin="dragula" data-containers='{{json_encode($statusClass)}}'>
-
-                        @foreach($tasks as $status => $task)
-                            <div class="tasks animated">
-                                <div class="mt-0 task-header text-uppercase">{{__(ucwords($status))}} (<span class="count">{{count($task)}}</span>)</div>
-                                <div id="{{'task-list-'.str_replace(' ','_',$status)}}" data-status="{{$status}}" class="task-list-items">
-                                @foreach($task as $taskDetail)
-
-                                        <div class="card mb-0" id="{{$taskDetail->id}}">
-                                            <div class="card-body p-3">
-                                                <div class="dropdown float-right">
-                                                    <a href="#" class="dropdown-toggle text-muted" data-toggle="dropdown" aria-expanded="false">
-                                                        <i class="dripicons-gear"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                    @if($currantWorkspace->permission == 'Owner')
-                                                            <a href="#" class="dropdown-item" data-ajax-popup="true" data-size="lg" data-title="{{ __('Edit Task') }}" data-url="{{route('tasks.edit',[$currantWorkspace->slug,$taskDetail->project_id,$taskDetail->id])}}">
-                                                                <i class="mdi mdi-pencil mr-1"></i>{{__('Edit')}}</a>
-                                                            <a href="#" class="dropdown-item" onclick="(confirm('Are you sure ?')?document.getElementById('delete-form-{{$taskDetail->id}}').submit(): '');">
-                                                                <i class="mdi mdi-delete mr-1"></i>{{__('Delete')}}</a>
-                                                            <form id="delete-form-{{$taskDetail->id}}" action="{{ route('tasks.destroy',[$currantWorkspace->slug,$taskDetail->project_id,$taskDetail->id]) }}" method="POST" style="display: none;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                            </form>
-                                                    @else
-                                                            <a href="#" class="dropdown-item"><i class="mdi mdi-exit-to-app mr-1"></i>{{ __('Leave')}}</a>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <a href="#" data-ajax-popup="true" data-size="lg" data-title="{{$taskDetail->title}} @if($taskDetail->priority=="High")<span class='badge badge-danger ml-2'>{{ __('High')}}</span>@elseif($taskDetail->priority=="Medium")<span class='badge badge-warning'>{{ __('Medium')}}</span>@else<span class='badge badge-info'>{{ __('Low')}}</span>@endif" data-url="{{route('tasks.show',[$currantWorkspace->slug,$taskDetail->project_id,$taskDetail->id])}}"
-                                                       class="text-body">{{$taskDetail->title}}</a>
-                                                </div>
-                                                @if($taskDetail->priority=="High")
-                                                    <span class="badge badge-danger">{{ __('High')}}</span>
-                                                @elseif($taskDetail->priority=="Medium")
-                                                    <span class="badge badge-info">{{ __('Medium')}}</span>
-                                                @else
-                                                    <span class="badge badge-success">{{ __('Low')}}</span>
-                                                @endif
-
-                                                <p class="mt-2 mb-2">
-                                                    <span class="text-nowrap d-inline-block">
-                                                        <i class="mdi mdi-comment-multiple-outline text-muted"></i>
-                                                        <b>{{count($taskDetail->comments)}}</b> {{ __('Comments')}}
-                                                    </span>
-                                                </p>
-
-                                                <small class="float-right text-muted mt-2">{{date('d M Y',strtotime($taskDetail->created_at))}}</small>
-                                                @if($currantWorkspace->permission == 'Owner')
-                                                    <figure class="avatar mr-2 avatar-sm animated" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$taskDetail->user->name}}">
-                                                        <img @if($taskDetail->user->avatar) src="{{asset('/storage/avatars/'.$taskDetail->user->avatar)}}" @else avatar="{{ $taskDetail->user->name }}"@endif class="rounded-circle">
-                                                    </figure>
-                                                    <span class="align-middle">{{$taskDetail->user->name}}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                @endforeach
-                                </div>
-                            </div>
-                        @endforeach
-                    </div> <!-- end .board-->
-                </div> <!-- end col -->
-            </div>
+        <div class="row">
+            <div class="col-12">
+        <div class="board" data-plugin="dragula" data-containers='{{json_encode($statusClass)}}'>
+            @include('projects.tasklist')
+        </div>
+        </div>
+    </div>    
+        </div>
         @else
             <div class="container mt-5">
                 <div class="page-error">
@@ -185,16 +126,7 @@
                     success:function (data) {
                         data = JSON.parse(data);
 
-                        if(data.user_type == 'Client'){
-                            var avatar = "avatar='"+data.client.name+"'";
-                            var html = "<li class='media'>" +
-                                "                    <img class='mr-3 avatar-sm rounded-circle img-thumbnail' width='60' "+avatar+" alt='"+data.client.name+"'>" +
-                                "                    <div class='media-body'>" +
-                                "                        <h5 class='mt-0'>"+data.client.name+"</h5>" +
-                                "                        "+data.comment +
-                                "                    </div>" +
-                                "                </li>";
-                        }else{
+                   
                             var avatar = (data.user.avatar)?"src='{{asset('/storage/avatars/')}}/"+data.user.avatar+"'":"avatar='"+data.user.name+"'";
                             var html = "<li class='media'>" +
                                 "                    <img class='mr-3 avatar-sm rounded-circle img-thumbnail' width='60' "+avatar+" alt='"+data.user.name+"'>" +
@@ -208,7 +140,6 @@
                                 "                           </div>"+
                                 "                    </div>" +
                                 "                </li>";
-                        }
 
 
 
