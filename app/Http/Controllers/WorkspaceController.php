@@ -20,6 +20,7 @@ class WorkspaceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // thêm vào kho lưu trữ workspace
     public function store(Request $request)
     {
         $request->validate([
@@ -42,6 +43,7 @@ class WorkspaceController extends Controller
      * @param  Int  $workspaceID
      * @return \Illuminate\Http\Response
      */
+      // xóa  workspace by id
     public function destroy($workspaceID)
     {
         $objUser = Auth::user();
@@ -61,6 +63,7 @@ class WorkspaceController extends Controller
      * @param  Int  $workspaceID
      * @return \Illuminate\Http\Response
      */
+          // rời khỏi  workspace by id
     public function leave($workspaceID)
     {
         $objUser = Auth::user();
@@ -79,6 +82,8 @@ class WorkspaceController extends Controller
      * @param  Int  $workspaceID
      * @return \Illuminate\Http\Response
      */
+    */
+    // đổi lại  workspace này sang workspace by id
     public function changeCurrentWorkspace($workspaceID)
     {
         $objUser = Auth::user();
@@ -87,7 +92,7 @@ class WorkspaceController extends Controller
         $objWorkspace = Workspace::find($workspaceID);
         return redirect()->route('home', $objWorkspace->slug)->with('success', __('Workspace Change Successfully!'));
     }
-
+   // đổi lại  ngôn ngữ workspace by id
     public function changeLangWorkspace($workspaceID, $lang)
     {
         $workspace = Workspace::find($workspaceID);
@@ -95,7 +100,7 @@ class WorkspaceController extends Controller
         $workspace->save();
         return redirect()->route('home', $workspace->slug)->with('success', __('Workspace Language Change Successfully!'));
     }
-
+  // thực hiện đổi ngôn ngữ workspace theo router
     public function langWorkspace($slug, $currentLang)
     {
 
@@ -120,7 +125,7 @@ class WorkspaceController extends Controller
         }
         return view('lang.index', compact('currentWorkspace', 'currentLang', 'arrLabel', 'arrMessage'));
     }
-
+  //đôi dữ liệu trong kho lưu trữ ngôn ngữ 
     public function storeLangDataWorkspace($slug, $currentLang, Request $request)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -160,6 +165,7 @@ class WorkspaceController extends Controller
 
         return redirect()->route('lang_workspace', [$currentWorkspace->slug, $currentLang])->with('success', __('Language Save Successfully!'));
     }
+      // tạo file data thành đạng array
     public function buildArray($fileData)
     {
         $content = "";
@@ -172,6 +178,7 @@ class WorkspaceController extends Controller
         }
         return $content;
     }
+          // tạo ngôn ngữ cho workspace
     public function createLangWorkspace($slug)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);

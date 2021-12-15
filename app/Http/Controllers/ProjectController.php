@@ -37,6 +37,7 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // view project index
     public function index($slug)
     {
         $objUser = Auth::user();
@@ -51,6 +52,7 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    
     public function store($slug, Request $request)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -58,7 +60,7 @@ class ProjectController extends Controller
             'name' => 'required',
         ]);
 
-        $objUser = Auth::user();
+        $objUser = Auth::user();// lấy dữ liệu của user đăng ký project
 
         $post = $request->all();
 
@@ -81,6 +83,7 @@ class ProjectController extends Controller
                 }
                 $this->inviteUser($registerUsers, $objProject, $permission);
             } else {
+                // tạo use khi không tồn tại name mà chỉ có email được mời từ owner 
                 $arrUser = [];
                 $arrUser['name'] = 'No Name';
                 $arrUser['email'] = $email;
@@ -103,7 +106,7 @@ class ProjectController extends Controller
         return redirect()->route('projects.index', $currentWorkspace->slug)
             ->with('success', __('Project Created Successfully!') . ((isset($smtp_error)) ? ' <br> <span class="text-danger">' . $smtp_error . '</span>' : ''));
     }
-
+  /// mới và đặt quyền user và tạo workspace,project cho user Member cho project 
     public function inviteUser(User $user, Project $project, $permission)
     {
 
@@ -141,7 +144,7 @@ class ProjectController extends Controller
             }
         }
     }
-
+    // mời thêm user vào project(đúng vời workspace) theo projectid 
     public function invite($slug, $projectID, Request $request)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -191,6 +194,7 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
+    // view project theo project id
     public function show($slug, $projectID)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -198,7 +202,7 @@ class ProjectController extends Controller
         $chartData = $this->getProjectChart(['project_id' => $projectID, 'duration' => 'week']);
         return view('projects.show', compact('currentWorkspace', 'project', 'chartData'));
     }
-
+// get dữ liệu chart của project theo task ra UI
     public function getProjectChart($arrParam)
     {
         $arrDuration = [];
@@ -267,6 +271,7 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
+    // chỉnh sửa project by id
     public function edit($slug, $projectID)
     {
         $objUser = Auth::user();
@@ -274,7 +279,7 @@ class ProjectController extends Controller
         $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
         return view('projects.edit', compact('currentWorkspace', 'project'));
     }
-
+    // view tạo project
     public function create($slug)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -287,6 +292,7 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
+    // bật của số thông báo mời vào project
     public function popup($slug, $projectID)
     {
         $objUser = Auth::user();
@@ -294,7 +300,7 @@ class ProjectController extends Controller
         $project = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace->id)->where('projects.id', '=', $projectID)->first();
         return view('projects.invite', compact('currentWorkspace', 'project'));
     }
-
+   // bật của số chia sẻ mời vào project
     public function sharePopup($slug, $projectID)
     {
         $objUser = Auth::user();
@@ -310,6 +316,7 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
+    // update lại project by id
     public function update(Request $request, $slug, $projectID)
     {
         $request->validate([
@@ -330,6 +337,8 @@ class ProjectController extends Controller
      * @param  Int  $projectID
      * @return \Illuminate\Http\Response
      */
+
+     // xóa project by id
     public function destroy($slug, $projectID)
     {
         $objUser = Auth::user();
@@ -350,6 +359,7 @@ class ProjectController extends Controller
      * @param  Int  $projectID
      * @return \Illuminate\Http\Response
      */
+    // thoát project
     public function leave($slug, $projectID)
     {
         $objUser = Auth::user();
@@ -357,7 +367,7 @@ class ProjectController extends Controller
         UserProject::where('project_id', '=', $userProject->id)->where('user_id', '=', $objUser->id)->delete();
         return redirect()->route('projects.index', $slug)->with('success', __('Project Leave Successfully!'));
     }
-
+    // view  các task trong project
     public function taskBoard($slug, $projectID)
     {
         $clientID = "";
@@ -420,7 +430,7 @@ class ProjectController extends Controller
             return view('projects.tasklist', compact('currentWorkspace', 'project', 'tasks', 'statusClass'));
         }
     }
-
+// view tạo task theo project id
     public function taskCreate($slug, $projectID)
     {
         $objUser = Auth::user();
@@ -430,6 +440,7 @@ class ProjectController extends Controller
         $users = User::select('users.*')->join('user_projects', 'user_projects.user_id', '=', 'users.id')->where('project_id', '=', $projectID)->get();
         return view('projects.taskCreate', compact('currentWorkspace', 'project', 'projects', 'users'));
     }
+    // kho task theo project id
     public function taskStore(Request $request, $slug, $projectID)
     {
         $request->validate([
@@ -459,7 +470,7 @@ class ProjectController extends Controller
             return redirect()->route('projects.task.board', [$currentWorkspace->slug, $request->project_id])->with('error', __('You can \'t Add Task!'));
         }
     }
-
+    // update tiến trình của task theo project id
     public function taskOrderUpdate(Request $request, $slug, $projectID)
     {
 
@@ -495,6 +506,7 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
+     // view cập nhật nội dung của task theo project id
     public function taskEdit($slug, $projectID, $taskId)
     {
         $objUser = Auth::user();
@@ -513,6 +525,7 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
+         // thực hiện cập nhật nội dung của task theo project id
     public function taskUpdate(Request $request, $slug, $projectID, $taskID)
     {
         $request->validate([
@@ -535,7 +548,7 @@ class ProjectController extends Controller
             return redirect()->route('projects.task.board', [$currentWorkspace->slug, $request->project_id])->with('error', __('You can \'t Edit Task!'));
         }
     }
-
+     // xóa task theo project id
     public function taskDestroy($slug, $projectID, $taskID)
     {
         $objUser = Auth::user();
@@ -548,71 +561,18 @@ class ProjectController extends Controller
             return redirect()->route('projects.task.board', [$slug, $projectID])->with('error', __('You can\'t Delete Task!'));
         }
     }
-    public function taskShow($slug, $projectID, $taskID, $clientID = '')
-    {
-        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
-        $task = Task::find($taskID);
-        return view('projects.taskShow', compact('currentWorkspace', 'task', 'clientID'));
-    }
-
-    public function commentStore(Request $request, $slug, $projectID, $taskID, $clientID = '')
-    {
-        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
-        $post = [];
-        $post['task_id'] = $taskID;
-        $post['comment'] = $request->comment;
-        if ($clientID) {
-            $post['created_by'] = $clientID;
-            $post['user_type'] = 'Client';
-        } else {
-            $post['created_by'] = Auth::user()->id;
-            $post['user_type'] = 'User';
-        }
-        $comment = Comment::create($post);
-        if ($comment->user_type == 'Client') {
-            $user = $comment->client;
-        } else {
-            $user = $comment->user;
-        }
-        if (empty($clientID)) {
-            $comment->deleteUrl = route('comment.destroy', [$currentWorkspace->slug, $projectID, $taskID, $comment->id]);
-        }
-        return $comment->toJson();
-    }
+       // hiện task theo project id theo các idUser
+  
+ 
+     //xóa lưu trữ commnet theo project id theo các idUser
     public function commentDestroy(Request $request, $slug, $projectID, $taskID, $commentID)
     {
         $comment = Comment::find($commentID);
         $comment->delete();
         return "true";
     }
-
-    public function commentStoreFile(Request $request, $slug, $projectID, $taskID, $clientID = '')
-    {
-        $currentWorkspace = Utility::getWorkspaceBySlug($slug);
-        $request->validate(
-            ['file' => 'required|mimes:jpeg,jpg,png,gif,svg,pdf,txt,doc,docx,zip,rar|max:2048']
-        );
-        $fileName = $taskID . time() . "_" . $request->file->getClientOriginalName();
-        $request->file->storeAs('tasks', $fileName);
-        $post['task_id'] = $taskID;
-        $post['file'] = $fileName;
-        $post['name'] = $request->file->getClientOriginalName();
-        $post['extension'] = "." . $request->file->getClientOriginalExtension();
-        $post['file_size'] = round(($request->file->getSize() / 1024) / 1024, 2) . ' MB';
-        if ($clientID) {
-            $post['created_by'] = $clientID;
-            $post['user_type'] = 'Client';
-        } else {
-            $post['created_by'] = Auth::user()->id;
-            $post['user_type'] = 'User';
-        }
-        $TaskFile = TaskFile::create($post);
-        $user = $TaskFile->user;
-        if (empty($clientID)) {
-            $TaskFile->deleteUrl = route('comment.destroy.file', [$currentWorkspace->slug, $projectID, $taskID, $TaskFile->id]);
-        }
-        return $TaskFile->toJson();
-    }
+    
+     //xóa lưu trữ commnet dưới dạng file theo project id theo các idUser
     public function commentDestroyFile(Request $request, $slug, $projectID, $taskID, $fileID)
     {
         $commentFile = TaskFile::find($fileID);
@@ -623,7 +583,7 @@ class ProjectController extends Controller
         $commentFile->delete();
         return "true";
     }
-
+     // search project và task theo đúng workspace của User
     public function getSearchJson($slug, $search)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -641,14 +601,14 @@ class ProjectController extends Controller
 
         return json_encode(['Projects' => $arrProject, 'Tasks' => $arrTask]);
     }
-
+ //view các cột mốc của projectID
     public function milestone($slug, $projectID)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $project = Project::find($projectID);
         return view('projects.milestone', compact('currentWorkspace', 'project'));
     }
-
+ //kho lưu trữ dữ liệu các cột mốc của projectID
     public function milestoneStore($slug, $projectID, Request $request)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -676,14 +636,14 @@ class ProjectController extends Controller
 
         return redirect()->back()->with('success', __('Milestone Created Successfully!'));
     }
-
+//view chỉnh sửa dữ liệu các cột mốc theo milestoneID
     public function milestoneEdit($slug, $milestoneID)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $milestone = Milestone::find($milestoneID);
         return view('projects.milestoneEdit', compact('currentWorkspace', 'milestone'));
     }
-
+//thực hiện chỉnh sửa dữ liệu các cột mốc theo milestoneID
     public function milestoneUpdate($slug, $milestoneID, Request $request)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -702,6 +662,7 @@ class ProjectController extends Controller
         $milestone->save();
         return redirect()->back()->with('success', __('Milestone Updated Successfully!'));
     }
+    //xóa dữ liệu các cột mốc theo milestoneID
     public function milestoneDestroy($slug, $milestoneID)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -709,55 +670,12 @@ class ProjectController extends Controller
         $milestone->delete();
         return redirect()->back()->with('success', __('Milestone deleted Successfully!'));
     }
-
+ //view cột mốc theo milestoneID
     public function milestoneShow($slug, $milestoneID)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $milestone = Milestone::find($milestoneID);
         return view('projects.milestoneShow', compact('currentWorkspace', 'milestone'));
-    }
-
-
-    public function subTaskStore(Request $request, $slug, $projectID, $taskID, $clientID = '')
-    {
-        $post = [];
-        $post['task_id'] = $taskID;
-        $post['name'] = $request->name;
-        $post['due_date'] = $request->due_date;
-        $post['status'] = 0;
-        if ($clientID) {
-            $post['created_by'] = $clientID;
-            $post['user_type'] = 'Client';
-        } else {
-            $post['created_by'] = Auth::user()->id;
-            $post['user_type'] = 'User';
-        }
-        $subtask = SubTask::create($post);
-        if ($subtask->user_type == 'Client') {
-            $user = $subtask->client;
-        } else {
-            $user = $subtask->user;
-        }
-        $subtask->updateUrl = route('subtask.update', [$slug, $projectID, $subtask->id]);
-        $subtask->deleteUrl = route('subtask.destroy', [$slug, $projectID, $subtask->id]);
-        return $subtask->toJson();
-    }
-    public function subTaskUpdate($slug, $projectID, $subtaskID)
-    {
-        $subtask = SubTask::find($subtaskID);
-        if ($subtask->status == 0) {
-            $subtask->status = 1;
-        } else {
-            $subtask->status = 0;
-        }
-        $subtask->save();
-        return $subtask->toJson();
-    }
-    public function subTaskDestroy($slug, $projectID, $subtaskID)
-    {
-        $subtask = SubTask::find($subtaskID);
-        $subtask->delete();
-        return "true";
     }
 
     public function fileUpload($slug, $id, Request $request)
@@ -787,7 +705,7 @@ class ProjectController extends Controller
 
         return response()->json($return);
     }
-
+// dowloadfle
     public function fileDownload($slug, $id, $file_id)
     {
 
