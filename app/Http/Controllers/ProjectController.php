@@ -158,23 +158,6 @@ class ProjectController extends Controller
             $registerUsers =  User::where('email', $email)->first();
             if ($registerUsers) {
                 $this->inviteUser($registerUsers, $objProject, $permission);
-            } else {
-                $arrUser = [];
-                $arrUser['name'] = 'No Name';
-                $arrUser['email'] = $email;
-                $password = Str::random(8);
-                $arrUser['password'] = Hash::make($password);
-                $arrUser['current_workspace'] = $objProject->workspace;
-                $registerUsers = User::create($arrUser);
-                $registerUsers->password = $password;
-
-                try {
-                    Mail::to($email)->send(new SendLoginDetail($registerUsers));
-                } catch (\Exception $e) {
-                    $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
-                }
-
-                $this->inviteUser($registerUsers, $objProject, $permission);
             }
             ActivityLog::create([
                 'user_id' => Auth::user()->id,
