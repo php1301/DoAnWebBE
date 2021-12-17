@@ -82,7 +82,6 @@ class WorkspaceController extends Controller
      * @param  Int  $workspaceID
      * @return \Illuminate\Http\Response
      */
-    */
     // đổi lại  workspace này sang workspace by id
     public function changeCurrentWorkspace($workspaceID)
     {
