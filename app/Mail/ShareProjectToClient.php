@@ -12,16 +12,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class ShareProjectToClient extends Mailable
 {
     use Queueable, SerializesModels;
-    public $client;
     public $project;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Client $client,Project $project)
+    public function __construct(Project $project)
     {
-        $this->client = $client;
+
         $this->project = $project;
     }
 

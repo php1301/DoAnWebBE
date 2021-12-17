@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
 use App\ActivityLog;
-use App\ClientProject;
 use App\Mail\SendWorkspaceInvitation;
-use App\Mail\ShareProjectToClient;
 use App\Milestone;
-use App\SubTask;
 use App\UserWorkspace;
 use Illuminate\Support\Facades\Auth;
 use App\Project;

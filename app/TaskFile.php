@@ -12,7 +12,5 @@ class TaskFile extends Model
     public function user(){
         return $this->hasOne('App\User','id','created_by');
     }
-    public function client(){
-        return $this->hasOne('App\Client','id','created_by');
-    }
+ 
 }
