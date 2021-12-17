@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Config;
+use SebastianBergmann\Environment\Console;
 
 class UserController extends Controller
 {
@@ -32,6 +33,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    //Lấy workspace của user hiện tại
     public function index($slug)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -111,7 +113,7 @@ class UserController extends Controller
         }
     }
 
-
+    // lấy dữ liệu email User thành viên dạng JSON
     public function getUserJson()
     {
         $return = [];
@@ -121,68 +123,64 @@ class UserController extends Controller
         }
         return response()->json($return);
     }
+    //Lấy các user by Project id
     public function getProjectUserJson($projectID)
     {
         return User::select('users.*')->join('user_projects', 'user_projects.user_id', '=', 'users.id')->where('project_id', '=', $projectID)->where('users.id', '!=', auth()->id())->get()->toJSON();
     }
-
+    // view invite
     public function invite($slug)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         return view('users.invite', compact('currentWorkspace'));
     }
+    // Mời và gửi mail cho những user(chưa có trong workspace) cần tham gia 
     public function inviteUser($slug, Request $request)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         $post = $request->all();
         $userList = explode(',', $post['users_list']);
         $userList = array_filter($userList);
+
         foreach ($userList as $email) {
+             
             $registerUsers =  User::where('email', $email)->first();
             if (!$registerUsers) {
-                $arrUser = [];
-                $arrUser['name'] = __('No Name');
-                $arrUser['email'] = $email;
-                $password = Str::random(8);
-                $arrUser['password'] = Hash::make($password);
-                $arrUser['current_workspace'] = $currentWorkspace->id;
-                $registerUsers = User::create($arrUser);
-                $registerUsers->password = $password;
-
-                try {
-                    Mail::to($email)->send(new SendLoginDetail($registerUsers));
-                } catch (\Exception $e) {
-                    $smtp_error = $e;
-                }
+                $smtp_error = "Email does not exist";
             }
             // assign workspace first
-            $is_assigned = false;
-            foreach ($registerUsers->workspace as $workspace) {
-                if ($workspace->id == $currentWorkspace->id) {
-                    $is_assigned = true;
+            else {
+                $is_assigned = false;
+                foreach ($registerUsers->workspace as $workspace) {
+                    if ($workspace->id == $currentWorkspace->id) {
+                        $is_assigned = true;
+                    }
                 }
-            }
+                // nếu chưa tạo workspace sẽ tạo và gửi mail xác nhận tạo.
+                if (!$is_assigned) {
+                    UserWorkspace::create(['user_id' => $registerUsers->id, 'workspace_id' => $currentWorkspace->id, 'permission' => 'Member']);
 
-            if (!$is_assigned) {
-                UserWorkspace::create(['user_id' => $registerUsers->id, 'workspace_id' => $currentWorkspace->id, 'permission' => 'Member']);
-
-                try {
-                    Mail::to($registerUsers->email)->send(new SendWorkspaceInvitation($registerUsers, $currentWorkspace));
-                } catch (\Exception $e) {
-                    echo $e;
-                    $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
+                    try {
+                        Mail::to($registerUsers->email)->send(new SendWorkspaceInvitation($registerUsers, $currentWorkspace));
+                    } catch (\Exception $e) {
+                        echo $e;
+                        $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
+                    }
                 }
             }
         }
+
         return redirect()->route('users.index', $currentWorkspace->slug)
             ->with('success', __('Users Invited Successfully!') . ((isset($smtp_error)) ? ' <br> <span class="text-danger">' . $smtp_error . '</span>' : ''));
     }
+    // view chỉnh sửa workspace theo UserId
     public function edit($slug, $id)
     {
         $user = User::find($id);
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
         return view('users.edit', compact('currentWorkspace', 'user'));
     }
+    // xóa workspace theo id manager workspace
     public function removeUser($slug, $id)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);

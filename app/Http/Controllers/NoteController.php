@@ -14,6 +14,7 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+// view note index
     public function index($slug)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -26,6 +27,7 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // view tạo note
     public function create($slug)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -38,6 +40,7 @@ class NoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // tạo kho note của workspace 
     public function store($slug, Request $request)
     {
         $request->validate([
@@ -72,6 +75,7 @@ class NoteController extends Controller
      * @param  \App\Note  $note
      * @return \Illuminate\Http\Response
      */
+    // view note edit
     public function edit($slug, $noteID)
     {
         $currentWorkspace = Utility::getWorkspaceBySlug($slug);
@@ -86,6 +90,7 @@ class NoteController extends Controller
      * @param  \App\Note  $note
      * @return \Illuminate\Http\Response
      */
+    // edit note by idnote
     public function update(Request $request, $slug, $noteID)
     {
         $request->validate([
@@ -107,6 +112,7 @@ class NoteController extends Controller
      * @param  \App\Note  $note
      * @return \Illuminate\Http\Response
      */
+    // xóa note by idnode
     public function destroy($slug, $noteID)
     {
         $objUser = Auth::user();

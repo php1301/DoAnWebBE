@@ -34,11 +34,12 @@ class Utility
             ->where('id', '<>', $id)
             ->get();
     }
-
+    // lấy workspace theo truong hop và cài đặt lại ngôn ngữ cho workspace đó
     public static function getWorkspaceBySlug($slug)
     {
 
         $objUser = Auth::user();
+        // lấy workspace có current_workspace
         if ($objUser && $objUser->current_workspace) {
             $rs  = Workspace::select(['workspaces.id', 'workspaces.lang', 'workspaces.name', 'workspaces.slug', 'user_workspaces.permission', 'workspaces.created_by'])->join('user_workspaces', 'workspaces.id', '=', 'user_workspaces.workspace_id')->where('workspaces.id', '=', $objUser->current_workspace)->where('user_id', '=', $objUser->id)->first();
             if ($rs) {
@@ -46,6 +47,7 @@ class Utility
                 return $rs;
             }
         }
+             // lấy workspace theo slug
         if ($objUser && !empty($slug)) {
             $rs = Workspace::select(['workspaces.id', 'workspaces.lang', 'workspaces.name', 'workspaces.slug', 'user_workspaces.permission', 'workspaces.created_by'])->join('user_workspaces', 'workspaces.id', '=', 'user_workspaces.workspace_id')->where('slug', '=', $slug)->where('user_id', '=', $objUser->id)->first();
             if ($rs) {
@@ -53,6 +55,7 @@ class Utility
                 return $rs;
             }
         }
+    // lấy workspace đầu tiên khi không có slug va current_workspace
         if ($objUser) {
             $rs = Workspace::select(['workspaces.id', 'workspaces.lang', 'workspaces.name', 'workspaces.slug', 'user_workspaces.permission', 'workspaces.created_by'])->join('user_workspaces', 'workspaces.id', '=', 'user_workspaces.workspace_id')->where('user_id', '=', $objUser->id)->orderBy('workspaces.id', 'desc')->limit(1)->first();
             if ($rs) {
@@ -67,6 +70,7 @@ class Utility
             }
         }
     }
+    // cài đặt ngôn ngữ đúng theo workspace của ng dùng
     public static function setLang($Workspace)
     {
 
