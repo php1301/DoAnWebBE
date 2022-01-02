@@ -28,13 +28,10 @@ jobs:
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
         with:
-          # relative path to the place where source code with Dockerfile is located
-          context: ./src/samples/simple
-          # Note: tags has to be all lower-case
+          context: .
           tags: |
             phucpham1301/doanweb:v1 
             ghcr.io/php1301/doanwebbe:v1
-          # build on feature branches, push only on main branch
           push: true
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
