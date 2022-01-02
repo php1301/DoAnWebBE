@@ -31,8 +31,8 @@ jobs:
           repository: php1301/doanwebbe
           context: .
           tags: |
-            phucpham1301/doanweb:v1 
-            ghcr.io/php1301/doanwebbe:v1
+            phucpham1301/doanweb:v2
+            ghcr.io/php1301/doanwebbe:v2
           push: true
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
