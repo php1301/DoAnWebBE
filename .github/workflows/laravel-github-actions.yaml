@@ -18,7 +18,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_PAT }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
@@ -32,7 +32,7 @@ jobs:
           context: .
           tags: |
             phucpham1301/doanweb:v1 
-            ghcr.io/php1301/doanwebbe/release:v1
+            php1301/doanwebbe/release:v1
           push: true
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
