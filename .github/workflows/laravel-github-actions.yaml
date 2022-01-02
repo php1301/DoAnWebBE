@@ -1,0 +1,32 @@
+name: Push Docker Image To DockerHub and Github Package
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          repository: php1301/DoAnWebBE
+          tags: v1
+      - name: Build and push Docker images To DockerHub
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: phucpham1301/doanweb
+          tags: v1
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}S

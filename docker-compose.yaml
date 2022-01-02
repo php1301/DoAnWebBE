@@ -1,0 +1,25 @@
+version: '3.8'
+services: 
+    web:
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        command: >
+             sh -c "php artisan cache:clear &&
+             php artisan config:clear &&
+             php artisan serve --host=0.0.0.0 --port=8000"
+        env_file:
+          - .env
+        # volumes:
+        #     - .:/app
+        ports:
+            - 8000:8000
+    npm:
+        image: node:14-alpine
+        container_name: my-app-npm
+        volumes:
+            - .:/var/www/html
+        working_dir: /var/www/html
+        entrypoint: [ 'npm' ]
+
+    
