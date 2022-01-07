@@ -20,6 +20,7 @@ class Workspace extends Model
     public function creater(){
         return $this->hasOne('App\User','id','created_by');
     }
+    
     public function users($created_by = false){
         if($created_by) {
             return $this->belongsToMany('App\User', 'user_workspaces', 'workspace_id', 'user_id')->where('users.id', "!=", $created_by)->get();

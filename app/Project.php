@@ -25,9 +25,11 @@ class Project extends Model
     public function countTask(){
         return Task::where('project_id','=',$this->id)->count();
     }
+
     public function countTaskComments(){
         return Task::join('comments','comments.task_id','=','tasks.id')->where('project_id','=',$this->id)->count();
     }
+    
     public function getProgress(){
 
         $total = Task::where('project_id','=',$this->id)->count();
