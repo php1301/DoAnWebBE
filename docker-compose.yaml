@@ -9,6 +9,7 @@ services:
              sh -c "mkdir storage/framework/views &&
              php artisan cache:clear &&
              php artisan config:clear &&
+             rm -rf public/storage
              php artisan storage:link &&
              php artisan serve --host=0.0.0.0 --port=8000"
              
