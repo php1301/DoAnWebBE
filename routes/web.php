@@ -19,8 +19,6 @@ Auth::routes();
 
 Route::get('/{slug}/calender', ['as' => 'calender.index', 'uses' => 'CalenderController@index'])->middleware(['auth', 'XSS']);
 
-//Client
-
 // User
 Route::get('/usersJson', ['as' => 'user.email.json', 'uses' => 'UserController@getUserJson'])->middleware(['auth', 'XSS']);
 Route::get('/{slug}/searchJson/{search?}', ['as' => 'search.json', 'uses' => 'ProjectController@getSearchJson'])->middleware(['auth', 'XSS']);
